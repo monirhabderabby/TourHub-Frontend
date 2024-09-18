@@ -65,4 +65,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  .shadow_tourHub_card {
+    @apply shadow-[1px_2px_12px_1px_#00000025];
+  }
 }
