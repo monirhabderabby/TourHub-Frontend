@@ -18,6 +18,8 @@ module.exports = {
       colors: {
         tourHub: {
           title: "#3D3E48",
+          title2: "#05073C",
+          gray: "#717171",
           white: "#FFFFFF",
           black: "#000000",
           green: {
@@ -90,6 +92,7 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "12px": "12px",
         "5px": "5px",
         "8px": "8px",
         "10px": "10px",
@@ -98,6 +101,7 @@ module.exports = {
       },
       fontFamily: {
         poppins: ["var(--font-poppins)"],
+        inter: ["var(--font-inter)"],
       },
     },
   },
