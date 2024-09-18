@@ -42,7 +42,7 @@ const images = [
     src: "https://utfs.io/f/0H3br7tpgSGKxl8LN7cGl9AxRWepUys3dKL8QaOVMHSnXZ1G",
     width: 332,
     height: 200,
-    className: "rounded-95px border-[10px] border-white relative -left-7",
+    className: "rounded-95px border-[10px] border-white relative -left-12",
     alt: "Bali",
   },
   {
@@ -51,7 +51,7 @@ const images = [
     width: 311,
     height: 180,
     className:
-      "rounded-95px border-[10px] border-white relative hidden lg:block lg:-top-[150px] -left-[80px] object-cover",
+      "rounded-95px border-[10px] border-white relative hidden lg:block lg:-top-[120px] -left-[100px] object-cover",
   },
 ];
 
@@ -77,6 +77,7 @@ const TravelersPoint = () => {
                 },
                 y: 0,
               }}
+              key={item.id}
             >
               <Image
                 src={item.src}
