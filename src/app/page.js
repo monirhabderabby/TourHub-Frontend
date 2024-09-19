@@ -1,4 +1,10 @@
+// Components
+import HeroPage from "@/components/homePage/hero";
+
 export default function Home() {
-    // Test pull request.
-    return <main></main>;
+    return (
+        <main>
+            <HeroPage />
+        </main>
+    );
 }
