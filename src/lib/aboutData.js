@@ -33,4 +33,27 @@ export const teams=[
         "peson": "Doctor Assistant"
         
     }
+];
+
+export const tours=[
+    {
+        "id": 1,
+        "img": "https://utfs.io/f/cagsdt8RzebYLfPWe8YaArp9OMWT8Gkxd2bUVXl7tDFue1hS",
+        "title": "TRAVEL"
+    },
+    {
+        "id": 2,
+        "img": "https://utfs.io/f/cagsdt8RzebYmmOtqG6TqVhnpmYU4HfskB3ty2PvKFrXjedJ",
+        "title": "CITY TOUR"
+    },
+    {
+        "id": 3,
+        "img": "https://utfs.io/f/cagsdt8RzebYd0RLsufwQOYGkh6xfNWAKUiTsVaF2j3MLcmZ",
+        "title": "EXPLORE WORLD"
+    },
+    {
+        "id": 4,
+        "img": "https://utfs.io/f/cagsdt8RzebYIQCtGT1a4pdEw5PmLUjAoe3RXGhJKzbDYNCs",
+        "title": "ISLAND TOUR"
+    }
 ]

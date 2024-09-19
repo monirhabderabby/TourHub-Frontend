@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const OurTeam = () => {
     return (
         <div className='my-20'>
-            <div className='container font-poppins'>
+            <div className='container overflow-hidden font-poppins'>
                 {/* our team title */}
                 <motion.h3
                     initial={{ opacity: 0, x: 100 }}
@@ -30,7 +30,7 @@ const OurTeam = () => {
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 </motion.p>
                 {/* our team member card */}
-                <div className='pt-8 grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-y-5 gap-x-5'>
+                <div className='pt-8 grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-y-5 gap-x-5'>
                     {
                         teams.map((item) => <motion.div
                             initial={{ opacity: 0, x: 100 }}
