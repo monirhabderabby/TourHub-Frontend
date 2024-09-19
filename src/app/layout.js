@@ -1,5 +1,5 @@
 // Packages
-import { Poppins } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 
 // Components
 import { cn } from "@/lib/utils";
@@ -14,6 +14,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
+});
+
 export const metadata = {
   title: "TourHub",
   description:
@@ -23,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={cn(poppins.className)}>{children}</body>
+      <body className={cn(poppins.className, inter.className)}>{children}</body>
     </html>
   );
 }
