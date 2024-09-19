@@ -7,10 +7,10 @@ const Package = ({ params }) => {
   const packageId = params.id;
 
   return (
-    <div className="container mt-[200px]">
+    <div className="container mt-[80px] pb-[150px]">
       <PackageHeader />
       <div className="flex flex-col lg:flex-row justify-between gap-8 relative">
-        <div className="flex-1  ">
+        <div className="md:flex-1">
           <PackageDetails />
         </div>
         <div>
