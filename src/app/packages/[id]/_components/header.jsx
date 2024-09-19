@@ -1,4 +1,8 @@
-import BannerImages from "./bannerImages";
+// Packages
+import dynamic from "next/dynamic";
+
+// Components
+const BannerImages = dynamic(() => import("./bannerImages"), { ssr: false });
 
 const PackageHeader = () => {
   return (

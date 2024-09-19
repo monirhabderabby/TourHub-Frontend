@@ -1,12 +1,13 @@
 import { Separator } from "@/components/ui/separator";
 import { CalendarDays, Check, GroupIcon, Languages, X } from "lucide-react";
+import Faq from "./faq";
 import Itinerary from "./itinerary";
 import PackageDescription from "./package_description";
 import TourMap from "./tour_map";
 
 const PackageDetails = () => {
   return (
-    <div className="w-full pb-[500px]">
+    <div className="w-full ">
       <Specs />
       <PackageDescription />
       <Separator className="my-14" />
@@ -15,6 +16,7 @@ const PackageDetails = () => {
       <Itinerary />
       <TourMap />
       <Separator className="my-14" />
+      <Faq />
     </div>
   );
 };
