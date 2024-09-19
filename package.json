@@ -11,7 +11,9 @@
   "dependencies": {
     "@clerk/nextjs": "^5.5.5",
     "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@tabler/icons-react": "^3.17.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.5.4",
@@ -24,6 +26,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/node": "22.5.5",
+    "@types/react": "18.3.7",
     "eslint": "^8",
     "eslint-config-next": "14.2.12",
     "postcss": "^8",
