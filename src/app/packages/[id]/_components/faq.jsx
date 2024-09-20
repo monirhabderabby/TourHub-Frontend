@@ -6,6 +6,7 @@ import {
   AccordionPanel,
   AccordionWrapper,
 } from "@/components/ui/accordion";
+import PackageSectionTitle from "./package_section_title";
 
 // demo data
 const data = [
@@ -41,10 +42,8 @@ const Icon = () => {
 const Faq = () => {
   return (
     <div>
-      <h3 className="text-[20px] text-tourHub-green-dark font-bold font-inter leading-[45px] my-6">
-        Faq
-      </h3>
-      <AccordionContainer className="grid grid-cols-1">
+      <PackageSectionTitle title="Faq" />
+      <AccordionContainer className="grid grid-cols-1 mt-5">
         <AccordionWrapper>
           <Accordion defaultValue={"item-1"} multiple={true}>
             {data.map(({ desc, id, title }) => (

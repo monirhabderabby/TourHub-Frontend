@@ -11,9 +11,9 @@
   "dependencies": {
     "@clerk/nextjs": "^5.5.5",
     "@radix-ui/react-icons": "^1.3.0",
-    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tabler/icons-react": "^3.17.0",
     "class-variance-authority": "^0.7.0",
@@ -21,6 +21,7 @@
     "date-fns": "^3.6.0",
     "framer-motion": "^11.5.4",
     "lucide-react": "^0.441.0",
+    "moment": "^2.30.1",
     "next": "14.2.12",
     "react": "^18",
     "react-day-picker": "^8.10.1",
