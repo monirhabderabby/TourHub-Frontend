@@ -25,3 +25,47 @@ export const commentSchema = z.object({
     .min(20, { message: "Comment must be at least 20 characters long" })
     .max(500, { message: "Comment cannot exceed 500 characters" }),
 });
+
+export const ratingSchema = z.object({
+  location: z
+    .number({
+      message: "Please rate us on your location experience.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+
+  amenities: z
+    .number({
+      message: "Please rate the amenities provided.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+
+  food: z
+    .number({
+      message: "Please rate the food quality.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+
+  price: z
+    .number({
+      message: "Please rate the value for money.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+
+  rooms: z
+    .number({
+      message: "Please rate the comfort and cleanliness of the rooms.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+
+  tourOperator: z
+    .number({
+      message: "Please rate your tour operator experience.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." }),
+});

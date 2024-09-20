@@ -14,3 +14,7 @@ export function transformRatings(ratings) {
     title: title,
   }));
 }
+
+export function addSpaceBeforeUppercase(text) {
+  return text.replace(/([a-z])([A-Z])/g, "$1 $2");
+}
