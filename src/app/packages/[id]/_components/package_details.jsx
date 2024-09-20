@@ -3,12 +3,16 @@ import { CalendarDays, Check, GroupIcon, Languages, X } from "lucide-react";
 
 // Components
 import { Separator } from "@/components/ui/separator";
+import dynamic from "next/dynamic";
 import Faq from "./faq";
 import Itinerary from "./itinerary";
 import PackageDescription from "./package_description";
 import PackageReviews from "./package_reviews";
 import PackageSectionTitle from "./package_section_title";
 import TourMap from "./tour_map";
+const PackageCommentBox = dynamic(() => import("./package_comment_box"), {
+  ssr: false,
+});
 
 const PackageDetails = () => {
   return (
@@ -24,6 +28,7 @@ const PackageDetails = () => {
       <Faq />
       <Separator className="my-14" />
       <PackageReviews />
+      <PackageCommentBox />
     </div>
   );
 };
