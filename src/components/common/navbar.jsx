@@ -39,13 +39,15 @@ const Navbar = () => {
 
     return (
         <div
-            className={`py-3 px-3 xl:px-0 fixed top-0 z-50 text-white w-full h-[60px] ${
-                scrolling && "bg-green-500"
+            className={`py-3 fixed top-0 z-50 text-white w-full h-[60px] ${
+                scrolling && "bg-tourHub-green-light"
             } ${
-                pathname === "/" ? !scrolling && "md:mt-7" : "bg-green-500 mt-0"
+                pathname === "/"
+                    ? !scrolling && "md:mt-7"
+                    : "bg-tourHub-green-light mt-0"
             } transition duration-300`}
         >
-            <div className="w-full max-w-[1200px] mx-auto">
+            <div className="container">
                 <div className="flex justify-between items-center">
                     <div>
                         <Link href={"/"} className="font-bold text-xl">
@@ -75,10 +77,10 @@ const Navbar = () => {
                     </div>
 
                     {/* Mobile Responsive */}
-                    <div className="block md:hidden">
+                    <div className="md:hidden">
                         <Sheet>
                             <SheetTrigger asChild>
-                                <Button variant="ghost">
+                                <Button variant="ghost" className="p-1">
                                     <Menu />
                                 </Button>
                             </SheetTrigger>
