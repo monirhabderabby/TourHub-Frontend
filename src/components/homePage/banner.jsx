@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown, Search } from "lucide-react";
+import { ChevronsUpDown, MapPin, Search } from "lucide-react";
 import { useState } from "react";
 import bgImg from "../../assets/bg.png";
 import { Button } from "../ui/button";
@@ -104,11 +104,15 @@ const Banner = () => {
                                         aria-expanded={open}
                                         className="w-full justify-between"
                                     >
-                                        {value
-                                            ? cities.find(
-                                                  (city) => city.value === value
-                                              )?.label
-                                            : "City or Destination"}
+                                        {value ? (
+                                            cities.find(
+                                                (city) => city.value === value
+                                            )?.label
+                                        ) : (
+                                            <span className="text-muted-foreground font-normal">
+                                                City or Destination
+                                            </span>
+                                        )}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                     </Button>
                                 </PopoverTrigger>
@@ -136,7 +140,7 @@ const Banner = () => {
                                                             setOpen(false);
                                                         }}
                                                     >
-                                                        <Check
+                                                        <MapPin
                                                             className={cn(
                                                                 "mr-2 h-4 w-4",
                                                                 value ===
