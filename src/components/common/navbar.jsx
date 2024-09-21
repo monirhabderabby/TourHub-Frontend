@@ -1,113 +1,125 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-const NavPage = () => {
-    const [isOpen, setIsOpen] = useState(false);
+
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
+
+const Navbar = () => {
+    const [scrolling, setScrolling] = useState(false);
+
+    const pathname = usePathname();
+
+    const menus = [
+        { id: 1, href: "/", linkText: "Home" },
+        { id: 2, href: "/packages", linkText: "Discover" },
+        { id: 3, href: "/services", linkText: "Services" },
+        { id: 4, href: "/news", linkText: "News" },
+        { id: 5, href: "/about", linkText: "About Us" },
+        { id: 6, href: "/Contact", linkText: "Contact" },
+    ];
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setScrolling(true);
+            } else {
+                setScrolling(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     return (
-        <nav className="z-50 text-primary-foreground w-full sticky top-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex justify-between items-center w-full">
-                        <div className="flex-shrink-0">
-                            <span className="font-bold text-xl">TourHub</span>
-                        </div>
-                        <div className="hidden md:block">
-                            <div className="flex items-baseline space-x-4">
-                                <a
-                                    href="#"
-                                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                                >
-                                    Home
-                                </a>
-                                <a
-                                    href="#"
-                                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                                >
-                                    About
-                                </a>
-                                <a
-                                    href="#"
-                                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                                >
-                                    Services
-                                </a>
-                                <a
-                                    href="#"
-                                    className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                                >
-                                    Contact
-                                </a>
-                            </div>
-                        </div>
-                        <div className="hidden md:block ">
-                            <Button className="  bg-tourHub-green-light  text-white rounded-md  ">
-                                <p className=" ml-2">Login</p>
-                            </Button>
-                        </div>
+        <div
+            className={`py-3 fixed top-0 z-50 text-white w-full h-[60px] ${
+                scrolling && "bg-tourHub-green-light"
+            } ${
+                pathname === "/"
+                    ? !scrolling && "md:mt-7"
+                    : "bg-tourHub-green-light mt-0"
+            } transition duration-300`}
+        >
+            <div className="container">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <Link href={"/"} className="font-bold text-xl">
+                            TourHub
+                        </Link>
                     </div>
-                    <div className="-mr-2 flex md:hidden">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            type="button"
-                            className="inline-flex items-center justify-center p-2 rounded-md hover:bg-primary-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white"
-                            aria-controls="mobile-menu"
-                            aria-expanded="false"
-                        >
-                            <span className="sr-only">Open main menu</span>
-                            {isOpen ? (
-                                <X
-                                    className="block h-6 w-6"
-                                    aria-hidden="true"
-                                />
-                            ) : (
-                                <Menu
-                                    className="block h-6 w-6"
-                                    aria-hidden="true"
-                                />
-                            )}
-                        </button>
+                    <div className="hidden md:flex items-center md:gap-x-5 lg:gap-x-10">
+                        {menus.map((menu) => (
+                            <Link
+                                key={menu.id}
+                                href={menu.href}
+                                className={`${
+                                    pathname === menu.href
+                                        ? "font-semibold"
+                                        : "font-light"
+                                }`}
+                            >
+                                {menu.linkText}
+                            </Link>
+                        ))}
+                    </div>
+                    {/* Login button */}
+                    <div className="hidden md:block">
+                        <Button className="bg-tourHub-green-light text-white rounded-md">
+                            Login
+                        </Button>
+                    </div>
+
+                    {/* Mobile Responsive */}
+                    <div className="md:hidden">
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" className="p-1">
+                                    <Menu />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent
+                                side="top"
+                                className="bg-[#047857] text-white"
+                            >
+                                <div className="flex flex-col items-center gap-y-8 mt-6">
+                                    <div className="flex flex-col items-center gap-y-5">
+                                        {menus.map((menu) => (
+                                            <Link
+                                                key={menu.id}
+                                                href={menu.href}
+                                                className={`${
+                                                    pathname === menu.href
+                                                        ? "font-semibold"
+                                                        : "font-light"
+                                                }`}
+                                            >
+                                                <SheetClose>
+                                                    {menu.linkText}
+                                                </SheetClose>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    {/* Login button */}
+                                    <Link href={"/login"}>
+                                        <Button className="bg-tourHub-green-light text-white rounded-md">
+                                            <SheetClose>Login</SheetClose>
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
                     </div>
                 </div>
             </div>
-
-            {isOpen && (
-                <div
-                    className="md:hidden bg-black z-10 absolute w-full flex flex-col justify-center items-center py-4 space-y-3"
-                    id="mobile-menu"
-                >
-                    <a
-                        href="#"
-                        className="block rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-                    >
-                        Home
-                    </a>
-                    <a
-                        href="#"
-                        className="block rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-                    >
-                        About
-                    </a>
-                    <a
-                        href="#"
-                        className="block rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-                    >
-                        Services
-                    </a>
-                    <a
-                        href="#"
-                        className="block rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-                    >
-                        Contact
-                    </a>
-                    <Button className="bg-tourHub-green-light  text-white rounded-md">
-                        <p className="px-1">Login</p>
-                    </Button>
-                </div>
-            )}
-        </nav>
+        </div>
     );
 };
 
-export default NavPage;
+export default Navbar;
