@@ -43,8 +43,10 @@ const WizardForm = () => {
 
     return (
         <div>
-            <div className="w-[850px] p-5 rounded-xl shadow-[1px_2px_12px_1px_#00000025]">
-                <h3 className="mb-10">Please provide following information</h3>
+            <div className="lg:w-[850px] p-5 rounded-xl shadow-[1px_2px_12px_1px_#00000025]">
+                <h3 className="mb-5 md:mb-10">
+                    Please provide following information
+                </h3>
 
                 {/* Form fields */}
                 <div className="w-full">
@@ -53,7 +55,7 @@ const WizardForm = () => {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="w-full space-y-6"
                         >
-                            <div className="w-full grid grid-cols-2 gap-x-10">
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
                                 <FormField
                                     control={form.control}
                                     name="name"
