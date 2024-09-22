@@ -5,7 +5,8 @@ import React from 'react';
 const AllPageBanner = ({img, title}) => {
     return (
         <div className='overflow-hidden relative'>
-            <Image src={img} alt='About-Img'  className='h-[200px] md:h-[270px] bg-cover bg-no-repeat'
+            <Image src={img} alt='About-Img'  width={100}
+                height={200}  className='h-[200px] md:h-[270px] bg-cover bg-no-repeat'
                 sizes="(min-height: 808px) 50vw, 100vw"
                 style={{
                     width: '100%'
