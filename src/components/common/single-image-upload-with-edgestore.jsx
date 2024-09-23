@@ -8,12 +8,24 @@ import { useDropzone } from "react-dropzone";
 
 // Components
 import { useEdgeStore } from "@/lib/edgestore";
+import { useUser } from "@clerk/nextjs";
 
-const SingleImageUpload = ({ onChange, value }) => {
+const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [uploadedImg, setUploadedImg] = useState(value || ""); // Set initial image state if any
 
   const { edgestore } = useEdgeStore();
+  const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
+
+  // Check if user authentication data has loaded
+  if (!isLoaded) {
+    return null; // Return nothing while loading
+  }
+
+  // Redirect to sign-in page if the user is not signed in
+  if (!isSignedIn) {
+    redirect("/sign-in");
+  }
 
   // Handle file drop and image upload
   const onDrop = useCallback(
@@ -22,6 +34,7 @@ const SingleImageUpload = ({ onChange, value }) => {
       setLoading(true); // Start loading
 
       if (acceptedFiles) {
+        // Edge Store
         const res = await edgestore.publicFiles.upload({
           file: acceptedFiles[0],
         });

@@ -3,8 +3,8 @@
 // Packages
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -25,15 +25,6 @@ import SingleImageUpload from "../common/single-image-upload-with-edgestore";
 import { TextEffect } from "../ui/text-effect";
 
 const WizardForm = () => {
-  const form = useForm({
-    resolver: zodResolver(WizerdSchema),
-    defaultValues: {
-      name: "Abdul Hamid",
-      email: "hamid@gmail.com",
-      image: "",
-    },
-  });
-
   const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
 
   // Check if user authentication data has loaded
@@ -45,6 +36,15 @@ const WizardForm = () => {
   if (!isSignedIn) {
     redirect("/sign-in");
   }
+
+  const form = useForm({
+    resolver: zodResolver(WizerdSchema),
+    defaultValues: {
+      name: user.fullName || "",
+      email: user.emailAddresses[0].emailAddress || "",
+      image: user.imageUrl.toString() || "",
+    },
+  });
 
   function onSubmit(data) {
     console.log(data);
@@ -133,6 +133,7 @@ const WizardForm = () => {
                         <SingleImageUpload
                           onChange={field.onChange}
                           value={field.value}
+                          isForClerk={true}
                         />
                       </FormControl>
                       <FormMessage />
@@ -141,10 +142,19 @@ const WizardForm = () => {
                 ></FormField>
               </div>
               <div className="w-full flex justify-end">
-                <Button type="submit" className="bg-tourHub-green-dark group ">
-                  <span className="mr-2">Continue</span>
-                  <ArrowRight className="h-5" />
-                </Button>
+                <AnimatePresence>
+                  <Button
+                    type="submit"
+                    className="bg-tourHub-green-dark hover:bg-[#3a6f54] group "
+                  >
+                    <span className="mr-2">Continue</span>
+                    {false ? (
+                      <Loader2 className="animate-spin h-4 w-4" />
+                    ) : (
+                      <ArrowRight className="h-5" />
+                    )}
+                  </Button>
+                </AnimatePresence>
               </div>
             </form>
           </Form>
