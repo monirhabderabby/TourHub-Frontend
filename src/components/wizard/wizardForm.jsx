@@ -1,12 +1,14 @@
 "use client";
 
 // Packages
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 // Components
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +34,18 @@ const WizardForm = () => {
     },
   });
 
+  const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
+
+  // Check if user authentication data has loaded
+  if (!isLoaded) {
+    return null; // Return nothing while loading
+  }
+
+  // Redirect to sign-in page if the user is not signed in
+  if (!isSignedIn) {
+    redirect("/sign-in");
+  }
+
   function onSubmit(data) {
     console.log(data);
   }
@@ -54,7 +68,7 @@ const WizardForm = () => {
             }}
             className="font-bold text-tourHub-green-dark"
           >
-            Monir Hossain
+            {user.firstName || "Dear"}
           </motion.span>{" "}
           🤚
         </h1>
