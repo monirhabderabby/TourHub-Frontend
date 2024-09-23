@@ -1,4 +1,10 @@
-import WizardForm from "@/components/wizard/wizardForm";
+// Packages
+import dynamic from "next/dynamic";
+
+// Components
+const WizardForm = dynamic(() => import("./_components/wizerd-form"), {
+  ssr: false,
+});
 
 const WizardPage = () => {
   return (

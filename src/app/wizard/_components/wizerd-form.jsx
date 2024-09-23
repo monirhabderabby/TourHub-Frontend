@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 
 // Components
 
+import SingleImageUpload from "@/components/common/single-image-upload-with-edgestore";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,9 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { TextEffect } from "@/components/ui/text-effect";
 import { WizerdSchema } from "@/schema/wizerd.schema";
-import SingleImageUpload from "../common/single-image-upload-with-edgestore";
-import { TextEffect } from "../ui/text-effect";
 
 const WizardForm = () => {
   const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
