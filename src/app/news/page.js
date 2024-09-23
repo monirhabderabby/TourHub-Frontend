@@ -15,6 +15,8 @@ const NewsPage = async() => {
       );
     
       const data = await res.json();
+    //   console.log(data);
+      
     
       if (!res.ok) {
         throw new Error('Failed to fetch data');
