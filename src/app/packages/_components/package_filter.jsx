@@ -43,7 +43,7 @@ export default PackageFilter;
 
 // Tour type Components
 const TourType = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const demoData = [
     {
       id: 1,
@@ -114,7 +114,7 @@ const TourType = () => {
 };
 
 const FilterPrice = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [value, setValue] = useState([5000, 15000]);
   return (
     <div className=" py-8 px-6 border-b-[1px] border-[#E7E6E6]">
@@ -184,7 +184,7 @@ const FilterRatings = () => {
       value: "5",
     },
   ];
-  const [open, setOpen] = useState();
+  const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(demoData[0].value);
 
   return (
