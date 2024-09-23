@@ -5,6 +5,8 @@ import { Inter, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 // CSS
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/navbar";
 import "./globals.css";
 
 // Fonts
@@ -29,7 +31,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={cn(poppins.className, inter.className)}>{children}</body>
+      <body className={cn(poppins.className, inter.className)}>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
