@@ -69,3 +69,26 @@
     @apply shadow-[1px_2px_12px_1px_#00000025];
   }
 }
+
+/* Green Range Slider for filter */
+#range-slider-green {
+  background: #333;
+}
+
+#range-slider-green .range-slider__range {
+  background: #295943;
+  transition: height 0.3s;
+}
+
+#range-slider-green .range-slider__thumb {
+  background: #295943;
+  transition: transform 0.3s;
+}
+
+#range-slider-green .range-slider__thumb[data-active] {
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+#range-slider-green .range-slider__range[data-active] {
+  height: 12px;
+}

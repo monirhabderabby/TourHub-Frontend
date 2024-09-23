@@ -8,8 +8,8 @@ const Packages = () => {
         Explore all packages
       </h1>
 
-      <div className="flex items-start justify-start mt-6 gap-x-6 w-full">
-        <div className="w-[300px]  rounded-12px  min-h-[500px] sticky top-[80px]">
+      <div className="flex  items-start justify-start mt-6 gap-x-6 w-full">
+        <div className=" hidden lg:block w-[300px]  rounded-12px  min-h-[500px] sticky top-[80px]">
           <PackageFilter />
         </div>
         <div className="flex-1">

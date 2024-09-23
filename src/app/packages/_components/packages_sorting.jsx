@@ -41,7 +41,7 @@ const PackagesSorting = () => {
     <div>
       <Select onValueChange={(value) => console.log(value)}>
         <SelectTrigger className="w-[180px] focus-visible:ring-0">
-          Sort By
+          <span className="py-2">Sort By</span>
         </SelectTrigger>
         <SelectContent>
           {sortingData.map((item) => (
