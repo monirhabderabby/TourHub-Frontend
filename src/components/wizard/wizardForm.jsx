@@ -4,7 +4,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 // Components
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,22 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import SingleImageUpload from "../common/file-upload-with-edgestore";
+import { WizerdSchema } from "@/schema/wizerd.schema";
+import SingleImageUpload from "../common/single-image-upload-with-edgestore";
 import { TextEffect } from "../ui/text-effect";
-
-const FormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().min(2, {
-    message: "Please provide a valid email.",
-  }),
-  image: z.string().min(1, { message: "Please upload a profile image" }),
-});
 
 const WizardForm = () => {
   const form = useForm({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(WizerdSchema),
     defaultValues: {
       name: "Abdul Hamid",
       email: "hamid@gmail.com",
