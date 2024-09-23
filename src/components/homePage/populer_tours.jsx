@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PackageCard from "../common/package_card";
 
-const data = [
+export const demoPackageData = [
   {
     id: 1,
     bannerImage:
@@ -75,7 +75,7 @@ const PopulerTours = () => {
       </div>
 
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10  mt-[30px] lg:mt-[50px]">
-        {data.map((item) => (
+        {demoPackageData.map((item) => (
           <PackageCard
             key={item.id}
             bannerImage={item.bannerImage}

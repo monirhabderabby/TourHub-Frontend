@@ -24,6 +24,7 @@ export const commentSchema = z.object({
     })
     .min(20, { message: "Comment must be at least 20 characters long" })
     .max(500, { message: "Comment cannot exceed 500 characters" }),
+  images: z.array(z.string()).optional(),
 });
 
 export const ratingSchema = z.object({
