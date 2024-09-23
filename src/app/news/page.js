@@ -5,7 +5,7 @@ const NewsPage = () => {
     return (
         <div className='mt-8 font-poppins'>
             {/* News banner section */}
-            <AllPageBanner title='Our News' img={'https://utfs.io/f/cagsdt8RzebYOLh9iUk0KGkEqzs9p8OBxtwNVmaMuPI63nj4'} />
+            <AllPageBanner title='Our News' img={'https://utfs.io/f/cagsdt8RzebYqTZw1r0hGyIJApn8CWOxUd0cNQbSPtw35XLV'} />
             {/*  news titile or filler and cardsection */}
             <div className='container mt-24'>
                 {/* title news */}

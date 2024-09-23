@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 // CSS
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/navbar";
+import AppProvider from "@/provider/app-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 // Fonts
@@ -30,12 +32,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={cn(poppins.className, inter.className)}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={cn(poppins.className, inter.className)}>
+          <AppProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </AppProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

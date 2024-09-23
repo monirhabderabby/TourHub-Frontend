@@ -7,9 +7,9 @@ import React from 'react';
 
 const AboutPage = () => {
     return (
-        <div>
+        <div className='mt-12'>
             {/*-- About Banner section  --*/}
-            <AllPageBanner title='About us' img={'https://utfs.io/f/cagsdt8RzebYGx8EtfHeLUDGd35RurE6hV9fvjSxCJlPAi8N'}/>
+            <AllPageBanner title='About us' img={'https://utfs.io/f/cagsdt8RzebYgzpzYWByDGqOIRk62QLnd3tT4sAgSBrFucm7'}/>
             {/*---about  why choice section-- */}
             <WhyChoiceSection/>
             {/*--- about our details section--- */}
