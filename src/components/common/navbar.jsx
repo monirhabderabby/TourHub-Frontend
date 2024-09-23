@@ -19,7 +19,7 @@ const Navbar = () => {
         { id: 4, href: "/news", linkText: "News" },
         { id: 5, href: "/about", linkText: "About Us" },
         { id: 6, href: "/Contact", linkText: "Contact" },
-        { id: 7, href: "/wizard", linkText: "Wizard" },
+        { id: 7, href: "/dashboard", linkText: "Dashboard" },
     ];
 
     useEffect(() => {
