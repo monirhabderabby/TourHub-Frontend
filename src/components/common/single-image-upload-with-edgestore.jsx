@@ -10,7 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { useEdgeStore } from "@/lib/edgestore";
 import { useUser } from "@clerk/nextjs";
 
-const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
+const SingleImageUpload = ({ onChange, value, disabled }) => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [uploadedImg, setUploadedImg] = useState(value || ""); // Set initial image state if any
 
@@ -112,9 +112,10 @@ const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
             }}
             {...getRootProps()}
             className="w-full bg-muted/50 border-dashed border-[1px] rounded-12px min-h-[100px] p-4 flex justify-center items-center"
+            disabled={disabled}
           >
             <>
-              <input {...getInputProps()} disabled={loading} />
+              <input {...getInputProps()} disabled={loading || disabled} />
               {isDragActive ? (
                 <div className="text-tourHub-gray flex flex-col justify-center items-center py-8 space-x-2">
                   <CloudUpload className="w-7 h-7" />
