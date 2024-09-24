@@ -17,8 +17,9 @@ export default function DateRangePicker({
   className,
   onDateRangeChange,
   placeholder = "Select date range",
+  defaultValue,
 }) {
-  const [date, setDate] = React.useState(undefined);
+  const [date, setDate] = React.useState(defaultValue);
   const today = startOfToday();
 
   const handleDateChange = (newDate) => {

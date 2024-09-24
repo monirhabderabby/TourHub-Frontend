@@ -10,7 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { useEdgeStore } from "@/lib/edgestore";
 import { useUser } from "@clerk/nextjs";
 
-const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
+const SingleImageUpload = ({ onChange, value, disabled }) => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [uploadedImg, setUploadedImg] = useState(value || ""); // Set initial image state if any
 
@@ -33,7 +33,7 @@ const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
       setUploadedImg(""); // Clear current image
       setLoading(true); // Start loading
 
-      if (acceptedFiles) {
+      if (acceptedFiles && acceptedFiles.length > 0) {
         // Edge Store
         const res = await edgestore.publicFiles.upload({
           file: acceptedFiles[0],
@@ -42,9 +42,11 @@ const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
         setLoading(false); // Stop loading after upload completes
         setUploadedImg(res?.url); // Update uploaded image URL
         onChange(res?.url); // Pass URL back to parent component
+      } else {
+        setLoading(false); // Stop loading in case no files were accepted
       }
     },
-    [edgestore, onChange]
+    [edgestore, onChange, setUploadedImg, setLoading]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -112,9 +114,10 @@ const SingleImageUpload = ({ onChange, value, isForClerk = false }) => {
             }}
             {...getRootProps()}
             className="w-full bg-muted/50 border-dashed border-[1px] rounded-12px min-h-[100px] p-4 flex justify-center items-center"
+            disabled={disabled}
           >
             <>
-              <input {...getInputProps()} disabled={loading} />
+              <input {...getInputProps()} disabled={loading || disabled} />
               {isDragActive ? (
                 <div className="text-tourHub-gray flex flex-col justify-center items-center py-8 space-x-2">
                   <CloudUpload className="w-7 h-7" />

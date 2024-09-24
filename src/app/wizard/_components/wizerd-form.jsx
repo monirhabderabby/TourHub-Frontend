@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 // Components
@@ -23,8 +23,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
 import { WizerdSchema } from "@/schema/wizerd.schema";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const WizardForm = () => {
+  const router = useRouter();
   const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
 
   // Check if user authentication data has loaded
@@ -37,6 +41,18 @@ const WizardForm = () => {
     redirect("/sign-in");
   }
 
+  const { mutate, isPending, error, isSuccess, data } = useMutation({
+    mutationKey: ["user"],
+    mutationFn: (data) =>
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/users`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((res) => res.json()),
+  });
+
   const form = useForm({
     resolver: zodResolver(WizerdSchema),
     defaultValues: {
@@ -46,8 +62,27 @@ const WizardForm = () => {
     },
   });
 
-  function onSubmit(data) {
-    console.log(data);
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message, {
+        className: "text-red-600",
+      });
+    }
+
+    if (isSuccess) {
+      // Prefetch the next page before navigating
+      router.prefetch("/");
+
+      // Navigate to the next page after prefetching
+      router.push("/");
+    }
+  }, [error, isSuccess, router, toast]);
+
+  async function onSubmit(data) {
+    // update user metadata
+    data.clerkId = user.id;
+
+    mutate(data);
   }
 
   return (
@@ -97,6 +132,7 @@ const WizardForm = () => {
                           className="w-full"
                           placeholder="Your name"
                           {...field}
+                          disabled={isPending}
                         />
                       </FormControl>
                       <FormMessage />
@@ -114,6 +150,7 @@ const WizardForm = () => {
                           type="email"
                           placeholder="Your email"
                           {...field}
+                          disabled={true}
                         />
                       </FormControl>
                       <FormMessage />
@@ -134,6 +171,7 @@ const WizardForm = () => {
                           onChange={field.onChange}
                           value={field.value}
                           isForClerk={true}
+                          disabled={isPending}
                         />
                       </FormControl>
                       <FormMessage />
@@ -146,9 +184,10 @@ const WizardForm = () => {
                   <Button
                     type="submit"
                     className="bg-tourHub-green-dark hover:bg-[#3a6f54] group "
+                    disabled={isPending}
                   >
                     <span className="mr-2">Continue</span>
-                    {false ? (
+                    {isPending ? (
                       <Loader2 className="animate-spin h-4 w-4" />
                     ) : (
                       <ArrowRight className="h-5" />

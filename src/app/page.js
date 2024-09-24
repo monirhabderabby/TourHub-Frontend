@@ -10,10 +10,10 @@ import WhyChooseTour from "@/components/homePage/whyChoose_tour";
 
 export default function Home() {
   return (
-    <main className="space-y-[200px]">
+    <main className="space-y-[80px] md:space-y-[100px] lg:space-y-[200px]">
       <Banner />
-      <WhyChooseTour/>
-      <TrendingDestinations/>
+      <WhyChooseTour />
+      <TrendingDestinations />
       <TravelersPoint />
       <PopulerTours />
       <TopDestination />
