@@ -236,13 +236,27 @@ const FilterRatings = () => {
       value: "4",
     },
     {
-      id: 4,
+      id: 5,
       label: "5★",
       value: "5",
     },
   ];
+  const { starRating, setRating } = useFilterStore();
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(demoData[0].value);
+  const [checked, setChecked] = useState(starRating.split(","));
+
+  console.log(starRating);
+
+  // Handle checkbox change events
+  const handleCheckboxChange = (value) => {
+    const isChecked = checked.includes(value); // Check if the value is already selected
+    const updatedChecked = isChecked
+      ? checked.filter((id) => id !== value) // Remove from checked if already selected
+      : [...checked, value]; // Add to checked if not selected
+
+    setChecked(updatedChecked); // Update local state
+    setRating(value); // Update Zustand store with comma-separated values
+  };
 
   return (
     <div className="py-8 px-6 border-b-[1px] border-[#E7E6E6]">
@@ -271,7 +285,7 @@ const FilterRatings = () => {
                   value={value}
                   checked={checked.includes(value)}
                   onCheckedChange={(isChecked) => {
-                    setChecked(value);
+                    handleCheckboxChange(value); // Update checked state on change
                   }}
                 />
                 <label
