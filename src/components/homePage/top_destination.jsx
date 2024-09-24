@@ -45,7 +45,7 @@ const data = [
   },
 ];
 
-const TopDestination = () => {
+const TopDestination = async () => {
   return (
     <section className="container">
       <div>
