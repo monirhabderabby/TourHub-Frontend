@@ -1,14 +1,13 @@
 import { create } from "zustand";
 
 export const useFilterStore = create((set) => ({
-  min: 600,
+  min: 100,
   max: 5000,
-  startDate: new Date().toISOString().split("T")[0],
-  endDate: new Date(new Date().setDate(new Date().getDate() + 15))
-    .toISOString()
-    .split("T")[0], // Date 15 days in the future, formatted as YYYY-MM-DD
+  startDate: undefined,
+  endDate: undefined,
   category: "",
   starRating: "",
+  submit: false,
   setMinMax: (newMin, newMax) => set((state) => ({ min: newMin, max: newMax })),
   setDateRange: (newStartDate, newEndDate) =>
     set((state) => ({ startDate: newStartDate, endDate: newEndDate })),
@@ -54,4 +53,5 @@ export const useFilterStore = create((set) => ({
         };
       }
     }),
+  setAction: (action) => set((state) => ({ submit: action })),
 }));

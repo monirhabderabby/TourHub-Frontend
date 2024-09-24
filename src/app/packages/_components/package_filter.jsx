@@ -1,7 +1,7 @@
 "use client";
 // Packages
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
 // Components
@@ -12,6 +12,7 @@ import DateRangePicker from "@/components/ui/date-range-picker";
 import { useFilterStore } from "@/store/packageFilter";
 // CSS
 import { useQuery } from "@tanstack/react-query";
+import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
 import "react-range-slider-input/dist/style.css";
 
@@ -22,7 +23,6 @@ const PackageFilter = () => {
       <TourType />
       <FilterPrice />
       <FilterRatings />
-      <ActionButton />
     </div>
   );
 };
@@ -170,6 +170,22 @@ const TourType = () => {
 const FilterPrice = () => {
   const [open, setOpen] = useState(true); // State to control whether the filter panel is open or closed
   const { min, max, setMinMax } = useFilterStore(); // Extract min, max, and setMinMax function from the store
+  const [value, setValue] = useState([min, max]);
+
+  // Create a debounced function to avoid rapid state updates
+  const debouncedSetMinMax = useCallback(
+    debounce((minValue, maxValue) => {
+      setMinMax(minValue, maxValue);
+    }, 300), // 300ms delay for debouncing
+    [setMinMax]
+  );
+
+  // Clean up the debounce function on unmount
+  useEffect(() => {
+    return () => {
+      debouncedSetMinMax.cancel();
+    };
+  }, [debouncedSetMinMax]);
 
   return (
     <div className="py-8 px-6 border-b-[1px] border-[#E7E6E6]">
@@ -198,11 +214,12 @@ const FilterPrice = () => {
             <div className="mt-5">
               <RangeSlider
                 id="range-slider-green"
-                value={[min, max]} // Pass current min and max as slider values
-                max={50000} // Maximum value of the slider
-                min={5000} // Minimum value of the slider
+                value={value} // Pass current min and max as slider values
+                max={5000} // Maximum value of the slider
+                min={100} // Minimum value of the slider
                 onInput={(value) => {
-                  setMinMax(value[0], value[1]); // Update min and max when the slider values change
+                  debouncedSetMinMax(value[0], value[1]); // Use the debounced function on input change
+                  setValue(value);
                 }}
               />
             </div>
@@ -244,8 +261,6 @@ const FilterRatings = () => {
   const { starRating, setRating } = useFilterStore();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(starRating.split(","));
-
-  console.log(starRating);
 
   // Handle checkbox change events
   const handleCheckboxChange = (value) => {
@@ -304,9 +319,15 @@ const FilterRatings = () => {
 };
 
 const ActionButton = () => {
+  const { setAction } = useFilterStore();
   return (
     <div className="py-6 px-6 flex justify-center items-center">
-      <Button className="bg-tourHub-green-dark w-full lg:py-6 ">Filter</Button>
+      <Button
+        onClick={() => setAction(true)}
+        className="bg-tourHub-green-dark w-full lg:py-6 hover:bg-[#3a6f54] "
+      >
+        Filter
+      </Button>
     </div>
   );
 };
