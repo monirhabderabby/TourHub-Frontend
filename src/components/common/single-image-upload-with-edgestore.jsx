@@ -33,7 +33,7 @@ const SingleImageUpload = ({ onChange, value, disabled }) => {
       setUploadedImg(""); // Clear current image
       setLoading(true); // Start loading
 
-      if (acceptedFiles) {
+      if (acceptedFiles && acceptedFiles.length > 0) {
         // Edge Store
         const res = await edgestore.publicFiles.upload({
           file: acceptedFiles[0],
@@ -42,9 +42,11 @@ const SingleImageUpload = ({ onChange, value, disabled }) => {
         setLoading(false); // Stop loading after upload completes
         setUploadedImg(res?.url); // Update uploaded image URL
         onChange(res?.url); // Pass URL back to parent component
+      } else {
+        setLoading(false); // Stop loading in case no files were accepted
       }
     },
-    [edgestore, onChange]
+    [edgestore, onChange, setUploadedImg, setLoading]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
