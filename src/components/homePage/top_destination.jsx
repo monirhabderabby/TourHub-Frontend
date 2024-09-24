@@ -52,7 +52,7 @@ const TopDestination = async () => {
         <h3 className="text-tourHub-green-dark text-16px font-bold leading-28px text-center">
           Top Desinations
         </h3>
-        <h1 className="text-tourHub-title text-27px leading-33px font-bold text-center">
+        <h1 className="text-tourHub-title2 text-23px md:text-[29.41px] font-bold font-inter leading-[45px] text-center ">
           Discover your love
         </h1>
       </div>
