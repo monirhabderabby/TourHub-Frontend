@@ -1,18 +1,31 @@
+'use client'
 import AllPageBanner from '@/components/common/AllPageBanner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewsCard from "@/components/card/newsCard"
 import { newsCategory } from '@/lib/newsCategory';
+import { useQuery } from '@tanstack/react-query';
+import { Loader2Icon } from "lucide-react";
 
-const NewsPage = async () => {
-    const res = await fetch(`http://localhost:5000/api/v1/news/find-all-news`, {
-
+const NewsPage = () => {
+   
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["news"],
+        queryFn: () =>
+            fetch(`https://tour-hub-backend.vercel.app/api/v1/news`).then(
+                (res) => res.json()
+            ),
     });
-    const data = await res.json();
-    const results = data.data;
 
-    if (!res.ok) {
-        throw new Error("Failed to fetch data");
-    }
+    if (isLoading)
+        return (
+            <div className="flex justify-center items-center h-[calc(100vh-280px)]">
+                <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
+            </div>
+        );
+    if (isError) return <div>Error</div>;
+
+    console.log(data?.data);
+
     return (
         <div className='mt-8 font-poppins'>
             {/* News banner section */}
@@ -41,42 +54,42 @@ const NewsPage = async () => {
                     </TabsList>
                     <TabsContent value="Adventure Travel"
                         className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Adventure Travel')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />
                             ))}
                     </TabsContent>
                     <TabsContent value="Beach" className="grid grid-cols-1 gap-8    md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Beach')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />
                             ))}
                     </TabsContent>
                     <TabsContent value="Explore World" className="grid grid-cols-1 gap-8    md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Explore World')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />
                             ))}
                     </TabsContent>
                     <TabsContent value="Family Holidays" className="grid grid-cols-1 gap-8    md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Family Holidays')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />
                             ))}
                     </TabsContent>
                     <TabsContent value="Art and culture" className="grid grid-cols-1 gap-8    md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Art and culture')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />
                             ))}
                     </TabsContent>
                     <TabsContent value="Hill Travel" className="grid grid-cols-1 gap-8    md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {results
+                        {data?.data
                             .filter(n => n.newsCategory === 'Hill Travel')
                             .map(news => (
                                 <NewsCard key={news._id} news={news} />

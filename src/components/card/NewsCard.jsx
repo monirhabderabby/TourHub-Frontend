@@ -5,7 +5,7 @@ const NewsCard = ({news}) => {
   return (
     <Card className="w-[300px] pt-5 cursor-pointer md:mt-10 mt-20">
     <CardContent className="mt-1">
-    <div className=" h-[300px]">
+    <div>
     <Image
         src={
          news.images
@@ -13,10 +13,10 @@ const NewsCard = ({news}) => {
         width={300}
         height={100}
         alt="news"
-        className=" rounded-lg"
+        className="rounded-lg"
       />
     </div>
-      <div className="space-y-1 mt-2 ">
+      <div className="">
         <h2 className="font-semibold">
           {(news.title).slice(0,50)}
         </h2>
