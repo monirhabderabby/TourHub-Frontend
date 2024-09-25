@@ -1,8 +1,13 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+// Packages
 import { ChevronsUpDown, MapPin, Search } from "lucide-react";
 import { useState } from "react";
+
+// Components
+
+import { cn } from "@/lib/utils";
+import { useFilterStore } from "@/store/packageFilter";
 import bgImg from "../../assets/bg.png";
 import { Button } from "../ui/button";
 import {
@@ -17,18 +22,18 @@ import DateRangePicker from "../ui/date-range-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const Banner = () => {
+  const { startDate, endDate, setDateRange } = useFilterStore();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [dateRange, setDateRange] = useState([null, null]);
 
   const handleDateRangeChange = (range) => {
-    setDateRange(range);
+    setDateRange(range[0], range[1]);
   };
 
   const handleSearch = () => {
     // TODO: handle all search functionality
     console.log("City: ", value);
-    console.log("Date Range: ", dateRange);
+    console.log("Date Range: ", { startDate, endDate });
   };
 
   const cities = [
@@ -93,74 +98,68 @@ const Banner = () => {
             </p>
           </div>
 
-                    <div className="w-full bg-white px-3 py-2 rounded-[8px] flex flex-col md:flex-row items-center justify-center md:justify-between gap-2">
-                        {/* city or destination field */}
-                        <div className="w-full">
-                            <Popover open={open} onOpenChange={setOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={open}
-                                        className="w-full justify-between"
-                                    >
-                                        {value ? (
-                                            cities.find(
-                                                (city) => city.value === value
-                                            )?.label
-                                        ) : (
-                                            <span className="text-muted-foreground font-normal">
-                                                City or Destination
-                                            </span>
-                                        )}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-full md:w-[200px] p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Search city..." />
-                                        <CommandList>
-                                            <CommandEmpty>
-                                                No city found.
-                                            </CommandEmpty>
-                                            <CommandGroup>
-                                                {cities.map((city) => (
-                                                    <CommandItem
-                                                        key={city.value}
-                                                        value={city.value}
-                                                        onSelect={(
-                                                            currentValue
-                                                        ) => {
-                                                            setValue(
-                                                                currentValue ===
-                                                                    value
-                                                                    ? ""
-                                                                    : currentValue
-                                                            );
-                                                            setOpen(false);
-                                                        }}
-                                                    >
-                                                        <MapPin
-                                                            className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                value ===
-                                                                    city.value
-                                                                    ? "opacity-100"
-                                                                    : "opacity-0"
-                                                            )}
-                                                        />
-                                                        {city.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                        </div>
+          <div className="w-full bg-white px-3 md:px-5 py-5 rounded-[8px] flex flex-col md:flex-row items-center justify-center md:justify-between gap-4">
+            {/* city or destination field */}
+            <div className="w-full">
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between"
+                  >
+                    {value ? (
+                      cities.find((city) => city.value === value)?.label
+                    ) : (
+                      <span className="text-muted-foreground font-normal">
+                        City or Destination
+                      </span>
+                    )}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full md:w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search city..." />
+                    <CommandList>
+                      <CommandEmpty>No city found.</CommandEmpty>
+                      <CommandGroup>
+                        {cities.map((city) => (
+                          <CommandItem
+                            key={city.value}
+                            value={city.value}
+                            onSelect={(currentValue) => {
+                              setValue(
+                                currentValue === value ? "" : currentValue
+                              );
+                              setOpen(false);
+                            }}
+                          >
+                            <MapPin
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value === city.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {city.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
 
             {/* date range picker */}
             <DateRangePicker
+              defaultValue={{
+                from: startDate,
+                to: endDate,
+              }}
               onDateRangeChange={handleDateRangeChange}
               placeholder="Choose your date range"
               className={"w-full"}
@@ -169,7 +168,7 @@ const Banner = () => {
             {/* Search button */}
             <Button
               onClick={() => handleSearch()}
-              className="text-sm bg-tourHub-green-light text-white rounded-md px-3 py-2"
+              className="text-sm bg-tourHub-green-light text-white rounded-md px-3 py-2 w-full hover:bg-tourHub-green-hover"
             >
               <p className="mr-2">Find Trip Now</p>
               <Search />
