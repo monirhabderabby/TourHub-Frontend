@@ -1,83 +1,48 @@
 "use client";
 
 // Packages
-import { ChevronsUpDown, MapPin, Search } from "lucide-react";
-import { useState } from "react";
+import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 // Components
-
-import { cn } from "@/lib/utils";
 import { useFilterStore } from "@/store/packageFilter";
 import bgImg from "../../assets/bg.png";
 import { Button } from "../ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "../ui/command";
 import DateRangePicker from "../ui/date-range-picker";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import LocationPicker from "../ui/location-picker";
 
 const Banner = () => {
-  const { startDate, endDate, setDateRange } = useFilterStore();
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  // Destructure necessary state and setter functions from the filter store
+  const {
+    startDate, // Selected start date
+    endDate, // Selected end date
+    setDateRange, // Function to set date range in the store
+    setCountry, // Function to set country in the store
+    setLocation, // Function to set location (city) in the store
+    location, // Current location (city) from the store
+    country, // Current country from the store
+  } = useFilterStore();
 
+  // Local state to manage the displayed location input (combining city and country)
+  const [value, setValue] = useState();
+
+  // Effect to update the local `value` state whenever `location` or `country` changes
+  useEffect(() => {
+    setValue(location && country ? `${location}, ${country}` : ""); // Concatenates location and country into one string for display
+  }, [location, country]);
+
+  const router = useRouter();
+
+  // Handler for date range selection, updates the store with the selected range
   const handleDateRangeChange = (range) => {
     setDateRange(range[0], range[1]);
   };
 
+  // Search button handler, triggers navigation to the packages page
   const handleSearch = () => {
-    // TODO: handle all search functionality
-    console.log("City: ", value);
-    console.log("Date Range: ", { startDate, endDate });
+    router.push("/packages");
   };
-
-  const cities = [
-    {
-      value: "machu_picchu",
-      label: "Machu Picchu, Peru",
-    },
-    {
-      value: "grand_canyon",
-      label: "Grand Canyon, USA",
-    },
-    {
-      value: "great_barrier",
-      label: "Great Barrier, Australia",
-    },
-    {
-      value: "santorini",
-      label: "Santorini, Greece",
-    },
-    {
-      value: "bora_bora",
-      label: "Bora Bora, French",
-    },
-    {
-      value: "banff",
-      label: "Banff Park, Canada",
-    },
-    {
-      value: "fiordland",
-      label: "Fiordland Park, New Zealand",
-    },
-    {
-      value: "amalfi_coast",
-      label: "Amalfi Coast, Italy",
-    },
-    {
-      value: "victoria_falls",
-      label: "Victoria Falls, Zambia",
-    },
-    {
-      value: "ha_long_bay",
-      label: "Ha Long Bay, Vietnam",
-    },
-  ];
 
   return (
     <div
@@ -87,6 +52,7 @@ const Banner = () => {
       <div className="container flex justify-center items-center h-full">
         <div className="max-w-3xl">
           <div>
+            {/* Title and description text */}
             <h1 className="text-3xl md:text-5xl text-white text-center mb-3">
               Explore the world with a smile
             </h1>
@@ -98,76 +64,36 @@ const Banner = () => {
             </p>
           </div>
 
+          {/* Form section for selecting location, date, and triggering search */}
           <div className="w-full bg-white px-3 md:px-5 py-5 rounded-[8px] flex flex-col md:flex-row items-center justify-center md:justify-between gap-4">
-            {/* city or destination field */}
+            {/* Location picker (City or Destination field) */}
             <div className="w-full">
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-full justify-between"
-                  >
-                    {value ? (
-                      cities.find((city) => city.value === value)?.label
-                    ) : (
-                      <span className="text-muted-foreground font-normal">
-                        City or Destination
-                      </span>
-                    )}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full md:w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search city..." />
-                    <CommandList>
-                      <CommandEmpty>No city found.</CommandEmpty>
-                      <CommandGroup>
-                        {cities.map((city) => (
-                          <CommandItem
-                            key={city.value}
-                            value={city.value}
-                            onSelect={(currentValue) => {
-                              setValue(
-                                currentValue === value ? "" : currentValue
-                              );
-                              setOpen(false);
-                            }}
-                          >
-                            <MapPin
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                value === city.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {city.label}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <LocationPicker
+                value={value} // Current value displayed in the location picker
+                setValue={(value) => {
+                  setValue(value); // Update local state
+                  const arr = value.split(", "); // Split the selected value into city and country
+                  const location = arr[0]; // Extract city
+                  const country = arr[1]; // Extract country
+                  setLocation(location); // Update city in the store
+                  setCountry(country); // Update country in the store
+                }}
+              />
             </div>
 
-            {/* date range picker */}
+            {/* Date range picker component for selecting trip dates */}
             <DateRangePicker
               defaultValue={{
-                from: startDate,
-                to: endDate,
+                from: startDate, // Start date from the store
+                to: endDate, // End date from the store
               }}
               onDateRangeChange={handleDateRangeChange}
               placeholder="Choose your date range"
               className={"w-full"}
             />
 
-            {/* Search button */}
             <Button
-              onClick={() => handleSearch()}
+              onClick={() => handleSearch()} // Trigger search on click
               className="text-sm bg-tourHub-green-light text-white rounded-md px-3 py-2 w-full hover:bg-tourHub-green-hover"
             >
               <p className="mr-2">Find Trip Now</p>
