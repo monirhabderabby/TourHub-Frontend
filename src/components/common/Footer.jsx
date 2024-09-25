@@ -1,8 +1,7 @@
-import React from 'react';
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { IoLogoYoutube } from "react-icons/io5";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import Link from "next/link";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { IoLogoYoutube } from "react-icons/io5";
 
 const Footer = () => {
     return (
@@ -57,7 +56,9 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Footer;

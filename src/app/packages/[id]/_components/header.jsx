@@ -4,7 +4,14 @@ import dynamic from "next/dynamic";
 // Components
 const BannerImages = dynamic(() => import("./bannerImages"), { ssr: false });
 
-const PackageHeader = () => {
+const PackageHeader = ({
+  packageName,
+  averageRating,
+  comments,
+  location,
+  country,
+  images,
+}) => {
   return (
     <div>
       <div className="space-y-4">
@@ -21,18 +28,17 @@ const PackageHeader = () => {
         {/* Title */}
         <div>
           <h1 className="max-w-[760px] text-[39.69px] font-inter font-bold leading-[56px]">
-            Phi Phi Islands Adventure Day Trip with Seaview Lunch by V. Marine
-            Tour
+            {packageName}
           </h1>
         </div>
 
         {/* Stats */}
         <div className="flex items-center gap-x-4">
           <p className="font-normal font-inter text-[14.53px] leading-28px">
-            4.8(269)
+            {averageRating.toFixed(1)}({comments.length})
           </p>
           <p className="font-normal font-inter text-[14.53px] leading-28px">
-            Paris, France
+            {location}, {country}
           </p>
           <p className="font-normal font-inter text-[14.53px] leading-28px">
             30k+ booked
@@ -40,7 +46,7 @@ const PackageHeader = () => {
         </div>
 
         {/* Images */}
-        <BannerImages />
+        <BannerImages images={images} />
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ const PopulerTours = () => {
   return (
     <div className="container">
       <div className="w-full flex justify-between items-center">
-        <h1 className="text-tourHub-title2 text-[29.41px] font-bold font-inter leading-[45px]">
+        <h1 className="text-tourHub-title2 text-23px md:text-[29.41px] font-bold font-inter leading-[45px]">
           Find Populer Tours
         </h1>
         <Link

@@ -17,8 +17,9 @@ export default function DateRangePicker({
   className,
   onDateRangeChange,
   placeholder = "Select date range",
+  defaultValue,
 }) {
-  const [date, setDate] = React.useState(undefined);
+  const [date, setDate] = React.useState(defaultValue);
   const today = startOfToday();
 
   const handleDateChange = (newDate) => {
@@ -45,7 +46,7 @@ export default function DateRangePicker({
     : placeholder;
 
   return (
-    <div className={cn("grid gap-2")}>
+    <div className={cn("grid gap-2 w-full")}>
       <Popover>
         <PopoverTrigger asChild>
           <Button

@@ -14,15 +14,17 @@ const PackageCommentBox = dynamic(() => import("./package_comment_box"), {
   ssr: false,
 });
 
-const PackageDetails = () => {
+const PackageDetails = ({ data }) => {
+  const { tourDuration, totalPeople, description, features, itinerary } =
+    data || {};
   return (
     <div className="w-full ">
-      <Specs />
-      <PackageDescription />
+      <Specs duration={tourDuration} groupSize={totalPeople} />
+      <PackageDescription description={description} />
       <Separator className="my-14" />
-      <WhatsInclude />
+      <WhatsInclude excludes={features?.exclude} includes={features?.include} />
       <Separator className="my-14" />
-      <Itinerary />
+      <Itinerary itineraryData={itinerary} />
       <TourMap />
       <Separator className="my-14" />
       <Faq />
@@ -36,18 +38,18 @@ const PackageDetails = () => {
 export default PackageDetails;
 
 // Specs
-const Specs = () => {
+const Specs = ({ duration, groupSize }) => {
   const data = [
     {
       id: 1,
       title: "Duration",
-      description: "3 Days",
+      description: duration,
       icon: <CalendarDays className="text-gray-500" />,
     },
     {
       id: 2,
       title: "Group Size",
-      description: "10 people",
+      description: `${groupSize} person`,
       icon: <GroupIcon className="text-gray-500" />,
     },
     {
@@ -79,13 +81,7 @@ const Specs = () => {
 };
 
 // Whats include
-const WhatsInclude = () => {
-  const includes = [
-    "Bevarages, drinking water, morning tea",
-    "Local taxes",
-    "Hotel pickup",
-  ];
-  const excludes = ["Towel", "Tips", "Alcoholic Bevarages"];
+const WhatsInclude = ({ includes = [], excludes = [] }) => {
   return (
     <div className="space-y-4">
       <PackageSectionTitle title="What's included" />
