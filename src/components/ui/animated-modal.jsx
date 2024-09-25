@@ -1,11 +1,13 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const ModalContext = createContext(undefined);
 
-export const ModalProvider = ({ children, open, setOpen }) => {
+export const ModalProvider = ({ children }) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <ModalContext.Provider value={{ open, setOpen }}>
       {children}
@@ -21,12 +23,8 @@ export const useModal = () => {
   return context;
 };
 
-export function Modal({ children, open, setOpen }) {
-  return (
-    <ModalProvider open={open} setOpen={setOpen}>
-      {children}
-    </ModalProvider>
-  );
+export function Modal({ children }) {
+  return <ModalProvider>{children}</ModalProvider>;
 }
 
 export const ModalTrigger = ({ children, className }) => {
@@ -81,7 +79,7 @@ export const ModalBody = ({ children, className }) => {
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[30%] max-h-[90%] md:max-w-[60%] lg:max-w-[50%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
+              "min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
               className
             )}
             initial={{

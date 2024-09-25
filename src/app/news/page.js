@@ -29,7 +29,7 @@ const NewsPage = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["news"],
     queryFn: () =>
-      fetch(`http://localhost:5000/api/v1/news`).then((res) =>
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) =>
         res.json()
       ),
   });
@@ -77,12 +77,12 @@ const NewsPage = () => {
         >
           <TabsList className="space-x-2 md:space-x-16 grid grid-cols-2 md:grid-cols-6 items-center justify-center mx-auto gap-y-2">
             {newsCategory.map((tab) => (
-              
               <TabsTrigger
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`${activeTab === tab.id ? "" : "hover:text-white/60"
-                  } relative rounded-full px-3 py-1.5 text-sm font-medium text-white outline-sky-400 transition focus-visible:outline-2`}
+                className={`${
+                  activeTab === tab.id ? "" : "hover:text-white/60"
+                } relative rounded-full px-3 py-1.5 text-sm font-medium text-white  transition focus-visible:outline-2`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
@@ -90,7 +90,7 @@ const NewsPage = () => {
                 {activeTab === tab.id && (
                   <motion.span
                     layoutId="bubble"
-                    className="absolute inset-0 z-10 bg-white mix-blend-difference"
+                    className="absolute inset-0 -z-20 bg-tourHub-green-light text-white"
                     style={{ borderRadius: 9999 }}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
