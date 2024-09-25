@@ -1,6 +1,9 @@
 "use client";
 // Packages
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
+import { debounce } from "lodash";
+import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
@@ -8,12 +11,9 @@ import RangeSlider from "react-range-slider-input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import DateRangePicker from "@/components/ui/date-range-picker";
-
 import { useFilterStore } from "@/store/packageFilter";
+
 // CSS
-import { useQuery } from "@tanstack/react-query";
-import { debounce } from "lodash";
-import { Loader2 } from "lucide-react";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {

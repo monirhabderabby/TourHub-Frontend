@@ -7,7 +7,8 @@ export const useFilterStore = create((set) => ({
   endDate: undefined,
   category: "",
   starRating: "",
-  submit: false,
+  location: "",
+  country: "",
   setMinMax: (newMin, newMax) => set((state) => ({ min: newMin, max: newMax })),
   setDateRange: (newStartDate, newEndDate) =>
     set((state) => ({ startDate: newStartDate, endDate: newEndDate })),
@@ -53,5 +54,7 @@ export const useFilterStore = create((set) => ({
         };
       }
     }),
-  setAction: (action) => set((state) => ({ submit: action })),
+
+  setLocation: (location) => set((state) => ({ location })),
+  setCountry: (country) => set((state) => ({ country })),
 }));
