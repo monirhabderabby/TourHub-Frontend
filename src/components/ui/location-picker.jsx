@@ -1,11 +1,13 @@
 "use client";
 // Packages
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import { ChevronsUpDown, MapPin } from "lucide-react";
 import { useState } from "react";
 
 // Location
 import { cn } from "@/lib/utils";
+import SkeletonWrapper from "../common/SkeletonWrapper";
 import { Button } from "./button";
 import {
   Command,
@@ -16,51 +18,75 @@ import {
   CommandList,
 } from "./command";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-
-const cities = [
-  {
-    value: "Machu Picchu, Peru",
-    label: "Machu Picchu, Peru",
-  },
-  {
-    value: "Grand Canyon, USA",
-    label: "Grand Canyon, USA",
-  },
-  {
-    value: "Great Barrier, Australia",
-    label: "Great Barrier, Australia",
-  },
-  {
-    value: "Santorini, Greece",
-    label: "Santorini, Greece",
-  },
-  {
-    value: "Bora Bora, French",
-    label: "Bora Bora, French",
-  },
-  {
-    value: "Banff Park, Canada",
-    label: "Banff Park, Canada",
-  },
-  {
-    value: "Fiordland Park, New Zealand",
-    label: "Fiordland Park, New Zealand",
-  },
-  {
-    value: "Amalfi Coast, Italy",
-    label: "Amalfi Coast, Italy",
-  },
-  {
-    value: "Victoria Falls, Zambia",
-    label: "Victoria Falls, Zambia",
-  },
-  {
-    value: "Ha Long Bay, Vietnam",
-    label: "Ha Long Bay, Vietnam",
-  },
-];
+import { TextEffect } from "./text-effect";
 
 const LocationPicker = ({ value, setValue }) => {
+  const {
+    isLoading,
+    isFetching,
+    isRefetching,
+    data: response,
+    isError,
+  } = useQuery({
+    queryKey: ["location-country"],
+    queryFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/location-country`
+      ).then((res) => res.json()),
+  });
+
+  const loading = isLoading || isFetching || isRefetching;
+
+  let content;
+
+  if (loading) {
+    content = (
+      <SkeletonWrapper isLoading={loading}>
+        <RenderLocation value={value} setValue={setValue} />
+      </SkeletonWrapper>
+    );
+  } else if (isError) {
+    content = (
+      <Popover>
+        <PopoverTrigger>
+          <Button
+            className="w-full min-w-[200px] font-inter"
+            variant="destructive"
+          >
+            <TextEffect per="char" preset="fade">
+              Error happened!
+            </TextEffect>
+          </Button>
+        </PopoverTrigger>
+      </Popover>
+    );
+  } else if (response?.data?.length === 0) {
+    content = (
+      <Popover>
+        <PopoverTrigger>
+          <Button variant="outline" className="w-full min-w-[200px] font-inter">
+            No location found!
+          </Button>
+        </PopoverTrigger>
+      </Popover>
+    );
+  } else if (response?.data?.length !== 0) {
+    const cities = response?.data?.map((item) => ({
+      label: item,
+      value: item,
+    }));
+
+    content = (
+      <RenderLocation value={value} setValue={setValue} data={cities} />
+    );
+  }
+
+  return content;
+};
+
+export default LocationPicker;
+
+const RenderLocation = ({ value, setValue, data }) => {
   const [open, setOpen] = useState();
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -74,7 +100,7 @@ const LocationPicker = ({ value, setValue }) => {
           <AnimatePresence>
             {value ? (
               <span className="flex items-center gap-x-1">
-                {cities.find((city) => city.value === value)?.label}
+                {data?.find((city) => city.value === value)?.label}
               </span>
             ) : (
               <span className="text-muted-foreground font-normal">
@@ -91,7 +117,7 @@ const LocationPicker = ({ value, setValue }) => {
           <CommandList>
             <CommandEmpty>No city found.</CommandEmpty>
             <CommandGroup>
-              {cities.map((city, index) => (
+              {data?.map((city, index) => (
                 <CommandItem
                   key={index}
                   value={city.value}
@@ -118,5 +144,3 @@ const LocationPicker = ({ value, setValue }) => {
     </Popover>
   );
 };
-
-export default LocationPicker;

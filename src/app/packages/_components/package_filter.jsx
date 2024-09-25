@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
@@ -11,9 +12,12 @@ import RangeSlider from "react-range-slider-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import DateRangePicker from "@/components/ui/date-range-picker";
 import { useFilterStore } from "@/store/packageFilter";
+const LocationPicker = dynamic(
+  () => import("@/components/ui/location-picker"),
+  { ssr: false }
+);
 
 // CSS
-import LocationPicker from "@/components/ui/location-picker";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
@@ -216,8 +220,8 @@ const FilterPrice = () => {
               <RangeSlider
                 id="range-slider-green"
                 value={value} // Pass current min and max as slider values
-                max={500000} // Maximum value of the slider
-                min={1000} // Minimum value of the slider
+                max={4000} // Maximum value of the slider
+                min={50} // Minimum value of the slider
                 onInput={(value) => {
                   debouncedSetMinMax(value[0], value[1]); // Use the debounced function on input change
                   setValue(value);
@@ -326,7 +330,7 @@ const FilterLocation = () => {
 
   // Update the location picker value when `location` or `country` changes
   useEffect(() => {
-    setValue(location && country ? `${location}, ${country}` : "");
+    setValue(location && country ? `${location},${country}` : "");
   }, [location, country]);
 
   return (
@@ -348,7 +352,7 @@ const FilterLocation = () => {
             <LocationPicker
               value={value} // Pass value to the location picker
               setValue={(value) => {
-                const arr = value.split(", "); // Split location and country
+                const arr = value.split(","); // Split location and country
                 const location = arr[0];
                 const country = arr[1];
                 setLocation(location); // Update store with location

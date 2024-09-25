@@ -15,19 +15,19 @@ import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-const images = [
-  "https://utfs.io/f/0H3br7tpgSGKSoojHlw3hwnPNegHjTXMQ0pG3uV2rFZDtEly",
-  "https://utfs.io/f/0H3br7tpgSGKXAZdaT4yepSa8gLVb9wNn1YyRhEiml62FzMk",
-  "https://utfs.io/f/0H3br7tpgSGKV52Jrw6lQMjC368YtNcwdpsn5KrxfUiv9oHB",
-  "https://utfs.io/f/0H3br7tpgSGKPi1B1Y2r58eAG92HmgYxOkVcsaDCdX4lSE6t",
-  "https://utfs.io/f/0H3br7tpgSGKq3S299MQ17cOQJCl5YR62TVaBGrp9UZNmwo8",
-  "https://utfs.io/f/0H3br7tpgSGKDtwA6zNOW8AST3ik5uqPHxO6wf0Gmd1LycXn",
-  "https://utfs.io/f/0H3br7tpgSGKPi1B1Y2r58eAG92HmgYxOkVcsaDCdX4lSE6t",
-  "https://utfs.io/f/0H3br7tpgSGKq3S299MQ17cOQJCl5YR62TVaBGrp9UZNmwo8",
-  "https://utfs.io/f/0H3br7tpgSGKDtwA6zNOW8AST3ik5uqPHxO6wf0Gmd1LycXn",
-];
+// const images = [
+//   "https://utfs.io/f/0H3br7tpgSGKSoojHlw3hwnPNegHjTXMQ0pG3uV2rFZDtEly",
+//   "https://utfs.io/f/0H3br7tpgSGKXAZdaT4yepSa8gLVb9wNn1YyRhEiml62FzMk",
+//   "https://utfs.io/f/0H3br7tpgSGKV52Jrw6lQMjC368YtNcwdpsn5KrxfUiv9oHB",
+//   "https://utfs.io/f/0H3br7tpgSGKPi1B1Y2r58eAG92HmgYxOkVcsaDCdX4lSE6t",
+//   "https://utfs.io/f/0H3br7tpgSGKq3S299MQ17cOQJCl5YR62TVaBGrp9UZNmwo8",
+//   "https://utfs.io/f/0H3br7tpgSGKDtwA6zNOW8AST3ik5uqPHxO6wf0Gmd1LycXn",
+//   "https://utfs.io/f/0H3br7tpgSGKPi1B1Y2r58eAG92HmgYxOkVcsaDCdX4lSE6t",
+//   "https://utfs.io/f/0H3br7tpgSGKq3S299MQ17cOQJCl5YR62TVaBGrp9UZNmwo8",
+//   "https://utfs.io/f/0H3br7tpgSGKDtwA6zNOW8AST3ik5uqPHxO6wf0Gmd1LycXn",
+// ];
 
-const BannerImages = () => {
+const BannerImages = ({ images = [] }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -64,6 +64,7 @@ const BannerImages = () => {
               alt="populer location"
               fill
               className="object-cover rounded-5px"
+              priority
             />
             <button
               className={cn(
@@ -77,7 +78,7 @@ const BannerImages = () => {
           </motion.div>
         ))}
       </div>
-      <ImagesModal setOpen={setOpen} open={open} />
+      <ImagesModal setOpen={setOpen} open={open} images={images} />
     </>
   );
 };
@@ -85,7 +86,7 @@ const BannerImages = () => {
 export default BannerImages;
 
 // Modal for display more images
-const ImagesModal = ({ open, setOpen }) => {
+const ImagesModal = ({ open, setOpen, images }) => {
   return (
     <Modal open={open} setOpen={setOpen}>
       <ModalTrigger></ModalTrigger>
