@@ -1,5 +1,6 @@
 "use client";
 
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import {
     HoverCard,
     HoverCardContent,
@@ -8,6 +9,7 @@ import {
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import Image from "next/image";
+import RowActions from "./rowActions";
 
 export const columns = [
     {
@@ -97,7 +99,9 @@ export const columns = [
     },
     {
         accessorKey: "price",
-        header: "Price",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Price" />
+        ),
         cell: ({ row }) => {
             const price = parseFloat(row.getValue("price"));
             const formattedPrice = new Intl.NumberFormat("en-US", {
@@ -110,7 +114,9 @@ export const columns = [
     },
     {
         accessorKey: "averageRating",
-        header: "Avg. Rating",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Avg. Rating" />
+        ),
         cell: ({ row }) => {
             const rating = row.getValue("averageRating");
 
@@ -120,6 +126,14 @@ export const columns = [
                     <StarFilledIcon className="h-4 text-yellow-500" />
                 </p>
             );
+        },
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            const pack = row.original;
+
+            return <RowActions pack={pack} />;
         },
     },
 ];
