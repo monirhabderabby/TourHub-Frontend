@@ -8,9 +8,8 @@ const ContentSection = () => {
                 <div className='space-y-4'>
                     <h3 className='text-27px leading-9 font-bold'>Get in touch</h3>
                     <p className='text-base font-normal leading-7'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla est ullamcorper eget nulla facilisi
-                        etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra
+                        At TourHub, we are here to assist you with all your travel needs. Whether you have a question about our destinations, need support with booking, or want to learn more about our services, our team is ready to help. Reach out to us via phone, email, or our online chat for a prompt response. Your journey is important to us, and we aim to provide exceptional service at every step. Connect with us today,
+                        and lets make your travel dreams a reality. We look forward to hearing from you!
                     </p>
                     {/* from contact */}
                     <div>
@@ -31,7 +30,7 @@ const ContentSection = () => {
                                 <textarea type='email' className='block text-[#A8A7AB] rounded-lg h-24 px-4 pt-2  w-full border-2 border-[#A8A7AB]' />
                             </div>
                             {/* btn */}
-                            <input type='submit' className='bg-green-500 px-6 py-2 text-[#FFFFFF] font-normal text-xl cursor-pointer rounded-lg' value='Send' />
+                            <input type='submit' className='bg-tourHub-green-dark hover:bg-[#48755e]  border-2 transition-all duration-200  border-tourHub-green-dark  px-6 py-2 text-tourHub-white font-normal text-xl cursor-pointer rounded' value='Send' />
                         </form>
                     </div>
                 </div>

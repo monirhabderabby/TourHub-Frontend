@@ -12,9 +12,7 @@ const Footer = () => {
                 <div className="space-y-5">
                     <h3 className="text-2xl font-bold">travelaja</h3>
                     <p className="font-normal">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus
-                        venenatis, lectus magna fringilla urna,
-                        porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel.
+                        The TourHub footer serves as a hub for essential information, featuring our mission statement, contact details, and social media links. It reinforces our commitment to exceptional travel experiences while ensuring easy access to support. Stay connected with us and discover your next adventure!
                     </p>
                     <h4 className="font-bold text-xl">Ikuti Kami</h4>
                     <ul className="flex items-center gap-6">
