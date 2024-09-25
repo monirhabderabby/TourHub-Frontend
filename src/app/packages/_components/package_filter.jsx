@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
@@ -11,9 +12,12 @@ import RangeSlider from "react-range-slider-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import DateRangePicker from "@/components/ui/date-range-picker";
 import { useFilterStore } from "@/store/packageFilter";
+const LocationPicker = dynamic(
+  () => import("@/components/ui/location-picker"),
+  { ssr: false }
+);
 
 // CSS
-import LocationPicker from "@/components/ui/location-picker";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
