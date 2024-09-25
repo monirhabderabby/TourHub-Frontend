@@ -22,8 +22,6 @@ const PackageTable = () => {
         );
     if (isError) return <div>Error</div>;
 
-    console.log(data);
-
     return (
         <div>
             <DataTable columns={columns} data={data?.data} />
