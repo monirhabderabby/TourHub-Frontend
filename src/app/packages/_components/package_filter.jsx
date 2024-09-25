@@ -8,12 +8,12 @@ import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
 // Components
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import DateRangePicker from "@/components/ui/date-range-picker";
 import { useFilterStore } from "@/store/packageFilter";
 
 // CSS
+import LocationPicker from "@/components/ui/location-picker";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
@@ -21,6 +21,7 @@ const PackageFilter = () => {
     <div className="w-full rounded-12px border-[1px] border-[#E7E6E6]">
       <DatePicker />
       <TourType />
+      <FilterLocation />
       <FilterPrice />
       <FilterRatings />
     </div>
@@ -318,16 +319,45 @@ const FilterRatings = () => {
   );
 };
 
-const ActionButton = () => {
-  const { setAction } = useFilterStore();
+const FilterLocation = () => {
+  const { setLocation, setCountry, location, country } = useFilterStore();
+  const [open, setOpen] = useState(true); // State to manage the dropdown visibility
+  const [value, setValue] = useState();
+
+  // Update the location picker value when `location` or `country` changes
+  useEffect(() => {
+    setValue(location && country ? `${location}, ${country}` : "");
+  }, [location, country]);
+
   return (
-    <div className="py-6 px-6 flex justify-center items-center">
-      <Button
-        onClick={() => setAction(true)}
-        className="bg-tourHub-green-dark w-full lg:py-6 hover:bg-[#3a6f54] "
+    <div className="py-8 px-6 border-b-[1px] border-[#E7E6E6]">
+      <button
+        onClick={() => setOpen((prev) => !prev)} // Toggle dropdown visibility
+        className="font-inter font-medium text-[18px] leading-27px text-tourHub-title2"
       >
-        Filter
-      </Button>
+        Location
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }} // Animations for dropdown opening
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="w-full mt-4"
+          >
+            <LocationPicker
+              value={value} // Pass value to the location picker
+              setValue={(value) => {
+                const arr = value.split(", "); // Split location and country
+                const location = arr[0];
+                const country = arr[1];
+                setLocation(location); // Update store with location
+                setCountry(country); // Update store with country
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
