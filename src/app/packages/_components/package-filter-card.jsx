@@ -1,3 +1,5 @@
+// Packages
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,10 +12,24 @@ const PackageFilterCard = ({ data }) => {
     location,
     averageRating,
     cardImage,
+    _id,
   } = data || {};
   return (
     <div className="border-[1px] font-inter border-[#E7E6E6] rounded-12px w-full min-h-[280px] h-full p-4 flex flex-col md:flex-row items-center gap-4">
-      <div className=" relative h-[263px] w-full md:w-[280px]">
+      <motion.div
+        initial={{
+          filter: "blur(2px)",
+          opacity: 0.8,
+        }}
+        animate={{
+          filter: "blur(0px)",
+          opacity: 1,
+          transition: {
+            duration: 0.5,
+          },
+        }}
+        className=" relative h-[263px] w-full md:w-[280px]"
+      >
         <Image
           src={cardImage}
           alt="imag"
@@ -21,7 +37,7 @@ const PackageFilterCard = ({ data }) => {
           className="object-cover rounded-12px"
           priority
         />
-      </div>
+      </motion.div>
       <div className="flex flex-1 flex-col gap-y-2 max-w-[473px]">
         <p className="text-14px leading-28px text-tourHub-title2 font-normal ">
           {location}, {country}
@@ -50,7 +66,7 @@ const PackageFilterCard = ({ data }) => {
             From <span className="font-medium">${price}</span>
           </p>
           <Link
-            href="/packages/dynamicId"
+            href={`/packages/${_id}`}
             className="border-[1px] border-tourHub-green-dark px-4 py-2 rounded-12px text-[15px] font-medium font-inter leading-28px text-tourHub-green-dark hover:bg-tourHub-green-dark hover:text-white transition-all duration-300"
           >
             View Details
