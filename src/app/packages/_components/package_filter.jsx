@@ -216,8 +216,8 @@ const FilterPrice = () => {
               <RangeSlider
                 id="range-slider-green"
                 value={value} // Pass current min and max as slider values
-                max={5000} // Maximum value of the slider
-                min={100} // Minimum value of the slider
+                max={500000} // Maximum value of the slider
+                min={1000} // Minimum value of the slider
                 onInput={(value) => {
                   debouncedSetMinMax(value[0], value[1]); // Use the debounced function on input change
                   setValue(value);

@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 export const useFilterStore = create((set) => ({
-  min: 100,
-  max: 5000,
-  startDate: undefined,
-  endDate: undefined,
+  min: 1000,
+  max: 50000,
+  startDate: "",
+  endDate: "",
   category: "",
   starRating: "",
   location: "",
