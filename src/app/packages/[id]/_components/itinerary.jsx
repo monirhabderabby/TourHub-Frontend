@@ -7,13 +7,13 @@ const Itinerary = () => {
       content: (
         <div>
           <h3 className="text-tourHub-title2 font-inter font-medium text-16px leading-[30px]">
-            Day 1: Airport Pick Up
+            Day 1: Dhaka to Cox's Bazar (AC Bus)
           </h3>
           <p className="text-tourHub-title2 font-normal text-14px leading-28px max-w-[580px]">
-            Welcome to the beautiful city of Dubai! Upon arrival, our
-            representative will meet you at the airport and transfer you to your
-            hotel. Check-in and relax after your journey. In the evening, enjoy
-            a traditional Arabic dinner at a local restaurant.
+            Begin your journey from Dhaka to Cox's Bazar in a comfortable
+            air-conditioned bus. Upon arrival, check in to your hotel and relax
+            by the beach. In the evening, take a peaceful stroll along the
+            longest sea beach in the world.
           </p>
         </div>
       ),
@@ -23,11 +23,13 @@ const Itinerary = () => {
       content: (
         <div>
           <h3 className="text-tourHub-title2 font-inter font-medium text-16px leading-[30px]">
-            Day 2: Temples & River Cruise
+            Day 2: Explore Cox's Bazar & Local Attractions
           </h3>
           <p className="text-tourHub-title2 font-normal text-14px leading-28px max-w-[580px]">
-            Visit the famous temples of Angkor Wat and Ta Prohm, and enjoy a
-            relaxing river cruise through the scenic Tonle Sap Lake.
+            Start your day with a visit to Himchari Waterfall and Inani Beach,
+            known for its clear waters and peaceful surroundings. Spend the
+            afternoon shopping at local markets or enjoying fresh seafood by the
+            sea.
           </p>
         </div>
       ),
@@ -37,13 +39,12 @@ const Itinerary = () => {
       content: (
         <div>
           <h3 className="text-tourHub-title2 font-inter font-medium text-16px leading-[30px]">
-            Day 3: Massage & Overnight Train
+            Day 3: Visit St. Martin's Island
           </h3>
           <p className="text-tourHub-title2 font-normal text-14px leading-28px max-w-[580px]">
-            Like on all of our trips, we can collect you from the airport when
-            you land and take you directly to your hotel. The first Day is just
-            a check-in Day so you have this freedom to explore the city and get
-            settled in.
+            Take a boat trip to St. Martin's Island, a small coral island famous
+            for its natural beauty and crystal-clear waters. Enjoy a day of
+            island exploration, snorkeling, and sunbathing.
           </p>
         </div>
       ),
@@ -53,32 +54,18 @@ const Itinerary = () => {
       content: (
         <div>
           <h3 className="text-tourHub-title2 font-inter font-medium text-16px leading-[30px]">
-            Day 4: Khao Sok National Park
+            Day 4: Relax & Return to Dhaka
           </h3>
           <p className="text-tourHub-title2 font-normal text-14px leading-28px max-w-[580px]">
-            Embark on a thrilling adventure in Khao Sok National Park, where
-            you'll explore the lush rainforest, trek through the jungle, and
-            even take a ride on a traditional longtail boat.
-          </p>
-        </div>
-      ),
-    },
-    {
-      title: "Day 5",
-      content: (
-        <div>
-          <h3 className="text-tourHub-title2 font-inter font-medium text-16px leading-[30px]">
-            Day 5: Travel to Koh Phangan
-          </h3>
-          <p className="text-tourHub-title2 font-normal text-14px leading-28px max-w-[580px]">
-            Embark on a thrilling adventure in Khao Sok National Park, where
-            you'll explore the lush rainforest, trek through the jungle, and
-            even take a ride on a traditional longtail boat.
+            Spend the morning at leisure, relaxing on the beach or enjoying a
+            last-minute shopping spree. In the afternoon, board the AC bus back
+            to Dhaka, concluding your memorable trip.
           </p>
         </div>
       ),
     },
   ];
+
   return (
     <div className="w-full max-w-[800px] pb-20">
       <Timeline data={data} />
