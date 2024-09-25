@@ -12,8 +12,17 @@ import PackageFilterCard from "./package-filter-card";
 import PackagesSorting from "./packages_sorting";
 
 const PackagesData = () => {
-  const { startDate, endDate, min, max, location, country, category } =
-    useFilterStore();
+  const {
+    startDate,
+    endDate,
+    min,
+    max,
+    location,
+    country,
+    category,
+    starRating,
+    sortBy,
+  } = useFilterStore();
   const {
     isLoading,
     data: response,
@@ -30,10 +39,12 @@ const PackagesData = () => {
       location,
       country,
       category,
+      starRating,
+      sortBy,
     ],
     queryFn: () =>
       fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package?min=${min}&max=${max}&startDate=${startDate}&endDate=${endDate}&location=${location}&country=${country}&category=${category}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package?min=${min}&max=${max}&startDate=${startDate}&endDate=${endDate}&location=${location}&country=${country}&category=${category}&starRating=${starRating}&sortBy=${sortBy}`
       ).then((res) => res.json()),
   });
 

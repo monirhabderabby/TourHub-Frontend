@@ -9,6 +9,7 @@ export const useFilterStore = create((set) => ({
   starRating: "",
   location: "",
   country: "",
+  sortBy: "",
   setMinMax: (newMin, newMax) => set((state) => ({ min: newMin, max: newMax })),
   setDateRange: (newStartDate, newEndDate) =>
     set((state) => ({ startDate: newStartDate, endDate: newEndDate })),
@@ -57,4 +58,5 @@ export const useFilterStore = create((set) => ({
 
   setLocation: (location) => set((state) => ({ location })),
   setCountry: (country) => set((state) => ({ country })),
+  setSortBy: (value) => set((state) => ({ sortBy: value })),
 }));
