@@ -73,7 +73,7 @@ const PackagesData = () => {
         setTotalPage(response?.meta?.totalPage);
       }
     }
-  }, [response]);
+  }, [response, setTotalPage, totalPage]);
 
   // Pagination logic for rendering page numbers
   const handlePageClick = (pageNum) => {

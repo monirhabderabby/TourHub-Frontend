@@ -41,7 +41,7 @@ const DatePicker = () => {
     (range) => {
       setDateRange(range[0], range[1]);
     },
-    [startDate, endDate]
+    [setDateRange]
   );
   return (
     <div className="bg-tourHub-green-dark rounded-t-12px py-8 px-6">
@@ -178,11 +178,12 @@ const FilterPrice = () => {
   const [value, setValue] = useState([min, max]);
 
   // Create a debounced function to avoid rapid state updates
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetMinMax = useCallback(
     debounce((minValue, maxValue) => {
       setMinMax(minValue, maxValue);
     }, 300), // 300ms delay for debouncing
-    [setMinMax]
+    []
   );
 
   // Clean up the debounce function on unmount

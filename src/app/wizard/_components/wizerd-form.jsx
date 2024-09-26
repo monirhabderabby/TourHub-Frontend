@@ -76,7 +76,7 @@ const WizardForm = () => {
       // Navigate to the next page after prefetching
       router.push("/");
     }
-  }, [error, isSuccess, router, toast]);
+  }, [error, isSuccess, router]);
 
   async function onSubmit(data) {
     // update user metadata
@@ -109,7 +109,7 @@ const WizardForm = () => {
         </h1>
         <div className="mb-5 md:mb-8">
           <TextEffect per="char" preset="fade">
-            Let's get started by setting up your profile
+            Let&apos;s get started by setting up your profile
           </TextEffect>
         </div>
 
