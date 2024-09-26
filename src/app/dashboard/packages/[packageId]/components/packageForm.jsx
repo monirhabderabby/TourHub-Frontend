@@ -24,7 +24,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
     Popover,
     PopoverContent,
@@ -63,10 +62,8 @@ const PackageSchema = z.object({
     country: z.string({
         required_error: "Please select a country.",
     }),
-    cardImage: z.string({
-        required_error: "Please upload a package image.",
-    }),
-    // bannerImage: z.ZodArray(),
+    cardImage: z.array(z.string().min(1)),
+    bannerImage: z.array(z.string().min(1)),
 });
 
 const PackageForm = () => {
@@ -81,7 +78,8 @@ const PackageForm = () => {
             totalPeople: "",
             description: "",
             country: "",
-            cardImage: "",
+            cardImage: [""],
+            bannerImage: [""],
         },
     });
 
@@ -133,29 +131,12 @@ const PackageForm = () => {
                             fieldName={"endDate"}
                             control={form.control}
                         />
-                        {/* <TextField
+                        <TextField
                             control={form.control}
                             fieldName={"price"}
-                            type={"number"}
+                            type={"text"}
                             label={"Price"}
                             placeholder={"Price"}
-                        /> */}
-                        <FormField
-                            control={form.control}
-                            name={"price"}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Price</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            // type="number"
-                                            placeholder={"Price"}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
                         />
                         <TextField
                             control={form.control}
