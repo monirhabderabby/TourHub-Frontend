@@ -23,7 +23,7 @@ const PackagesTab = () => {
                         Manage all packages
                     </p>
                 </div>
-                <Link href={"/dashboard/packages/createPackage"}>
+                <Link href={"/dashboard/packages/new"}>
                     <Button className="text-sm bg-tourHub-green-light text-white rounded-md px-3 py-2">
                         <Plus className="mr-2 h-4 w-4" />
                         Add New
