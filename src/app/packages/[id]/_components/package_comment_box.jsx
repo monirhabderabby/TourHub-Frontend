@@ -1,11 +1,14 @@
 "use client";
 
 // Packages
+import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 // Components
+import ImageUpload from "@/components/common/single-image-upload-with-edgestore";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,38 +19,64 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { commentSchema } from "@/schema/comment.schema";
-import dynamic from "next/dynamic";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { commentSchema } from "../../../../schema/comment.schema";
 import PackageSectionTitle from "./package_section_title";
 const FeedbackModalForm = dynamic(() => import("./package_ratings_modal"), {
   ssr: false,
 });
 
-const PackageCommentBox = () => {
+const PackageCommentBox = ({ packageId }) => {
   const [isOpen, setOpen] = useState(false); // State to control modal visibility
+
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return;
+  }
+
+  // Optimized mutation to handle form submission
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["comment"],
+    mutationFn: async (data) => {
+      // Use async/await to handle promise instead of .then()
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/comment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (!res.ok) {
+        toast.error("Failed to submit comment");
+      }
+      return res.json();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Something went wrong");
+    },
+    onSuccess: () => {
+      setOpen(true); // Open modal on success
+    },
+  });
 
   // Initialize form with validation schema and default values
   const form = useForm({
     resolver: zodResolver(commentSchema),
     defaultValues: {
-      name: "Monir Hossain (Default)",
-      email: "demo@gmail.com",
+      tourPackageId: packageId,
+      clerkId: user?.id, // Optional chaining to handle possible null values
     },
   });
 
-  // Toggle modal open/close state
-  const modalControl = useCallback(() => {
-    setOpen((prev) => !prev);
-  }, []);
-
-  // Function to handle comment form submission
   function onSubmit(data) {
-    // Do your stuff
-    setTimeout(() => {
-      console.log(data);
-      modalControl();
-    }, 2000);
+    mutate(data);
   }
+
   return (
     <>
       <div className="mt-14">
@@ -61,40 +90,6 @@ const PackageCommentBox = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className=" grid grid-cols-2 gap-5 mt-8"
           >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormControl>
-                    <Input
-                      placeholder="Name"
-                      {...field}
-                      className="h-[55px] w-full border-[1px] border-[#E7E6E6] rounded-12px focus-visible:ring-[#295943] text-16px leading-[16px] font-medium text-black "
-                      disabled
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      {...field}
-                      className="h-[55px] w-full border-[1px] border-[#E7E6E6] rounded-12px focus-visible:ring-[#295943] text-16px leading-[16px] font-medium text-black"
-                      disabled={true}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="title"
@@ -127,22 +122,38 @@ const PackageCommentBox = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormControl>
+                    <ImageUpload
+                      multiUpload={true}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                      value={field.value}
+                      varient="attach"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button
-              type="submit"
               className="text-white mt-2 hover:bg-tourHub-green-light duration-300 h-[45px] md:h-[55px]"
               variant="comment"
               size="comment"
+              type="submit"
+              disabled={isPending}
             >
               Post Comment
             </Button>
           </form>
         </Form>
       </div>
-      <FeedbackModalForm
-        isOpen={isOpen}
-        setOpen={setOpen}
-        modalControl={modalControl}
-      />
+      <FeedbackModalForm isOpen={isOpen} setIsOpen={setOpen} />
     </>
   );
 };

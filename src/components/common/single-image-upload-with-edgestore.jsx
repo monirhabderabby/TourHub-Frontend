@@ -8,53 +8,65 @@ import { useDropzone } from "react-dropzone";
 
 // Components
 import { useEdgeStore } from "@/lib/edgestore";
-import { useUser } from "@clerk/nextjs";
 
-const SingleImageUpload = ({ onChange, value, disabled }) => {
+const ImageUpload = ({
+  onChange,
+  value = [],
+  disabled,
+  multiUpload = false,
+}) => {
   const [loading, setLoading] = useState(false); // Track loading state
-  const [uploadedImg, setUploadedImg] = useState(value || ""); // Set initial image state if any
+  const [uploadedImages, setUploadedImages] = useState(value); // Store images (can be single or multiple)
 
   const { edgestore } = useEdgeStore();
-  const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
-
-  // Check if user authentication data has loaded
-  if (!isLoaded) {
-    return null; // Return nothing while loading
-  }
-
-  // Redirect to sign-in page if the user is not signed in
-  if (!isSignedIn) {
-    redirect("/sign-in");
-  }
 
   // Handle file drop and image upload
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      setUploadedImg(""); // Clear current image
       setLoading(true); // Start loading
 
-      if (acceptedFiles && acceptedFiles.length > 0) {
-        // Edge Store
-        const res = await edgestore.publicFiles.upload({
-          file: acceptedFiles[0],
-        });
+      // Ensure that we are either replacing the current image or appending new ones for multi-upload
+      let newUploadedImages = [];
 
-        setLoading(false); // Stop loading after upload completes
-        setUploadedImg(res?.url); // Update uploaded image URL
-        onChange(res?.url); // Pass URL back to parent component
-      } else {
-        setLoading(false); // Stop loading in case no files were accepted
+      if (acceptedFiles && acceptedFiles.length > 0) {
+        // Use Promise.all to upload all files concurrently
+        const uploadedFiles = await Promise.all(
+          acceptedFiles.map(async (file) => {
+            const res = await edgestore.publicFiles.upload({ file });
+            return res?.url;
+          })
+        );
+
+        if (multiUpload) {
+          // Add new images to the existing ones in multi-upload mode
+          newUploadedImages = [...uploadedImages, ...uploadedFiles];
+        } else {
+          // Replace the current image for single upload mode
+          newUploadedImages = [uploadedFiles[0]];
+        }
+
+        setUploadedImages(newUploadedImages); // Update state with new images
+        onChange(newUploadedImages); // Return array of URLs to the parent
       }
+
+      setLoading(false); // Stop loading after upload completes
     },
-    [edgestore, onChange, setUploadedImg, setLoading]
+    [edgestore, onChange, uploadedImages, multiUpload]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  // Remove image at a given index (for multi-upload scenarios)
+  const removeImage = (index) => {
+    const updatedImages = uploadedImages.filter((_, i) => i !== index);
+    setUploadedImages(updatedImages);
+    onChange(updatedImages);
+  };
+
   return (
     <div>
       <AnimatePresence>
-        {uploadedImg ? (
+        {uploadedImages.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }} // Initial opacity for fade-in
             animate={{
@@ -67,38 +79,40 @@ const SingleImageUpload = ({ onChange, value, disabled }) => {
             }}
             className="w-full bg-muted/50 border-dashed border-[1px] rounded-12px min-h-[100px] p-4 flex justify-center items-center"
           >
-            <div className="relative">
-              <motion.div
-                initial={{ filter: "blur(1px)" }} // Initial blur for subtle image effect
-                animate={{
-                  filter: "blur(0px)",
-                  transition: { delay: 1, duration: 0.5 },
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.8,
-                  transition: { duration: 0.5 },
-                }}
-                className="h-[150px] w-[150px] relative"
-              >
-                <Image
-                  src={uploadedImg}
-                  fill
-                  alt="profile"
-                  className="rounded-8px"
-                />
-              </motion.div>
-
-              {/* Remove Image Button */}
-              <div
-                className="bg-rose-500 w-fit text-white absolute top-0 right-0 rounded-tr-8px cursor-pointer"
-                onClick={() => {
-                  onChange(""); // Clear parent state
-                  setUploadedImg(""); // Clear local image state
-                }}
-              >
-                <X />
-              </div>
+            <div className="relative flex gap-x-2">
+              {uploadedImages.map((image, index) => (
+                <motion.div
+                  key={image}
+                  initial={{ filter: "blur(1px)" }} // Initial blur for subtle image effect
+                  animate={{
+                    filter: "blur(0px)",
+                    transition: { delay: 1, duration: 0.5 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: { duration: 0.5 },
+                  }}
+                  className="h-[150px] w-[150px] relative mb-2"
+                >
+                  <Image
+                    src={image}
+                    fill
+                    alt={`uploaded-image-${index}`}
+                    className="rounded-8px"
+                    sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+                  />
+                  {/* Remove Image Button */}
+                  <div
+                    className="bg-rose-500 w-fit text-white absolute top-0 right-0 rounded-tr-8px cursor-pointer"
+                    onClick={() => removeImage(index)}
+                  >
+                    <X />
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         ) : (
@@ -153,4 +167,4 @@ const SingleImageUpload = ({ onChange, value, disabled }) => {
   );
 };
 
-export default SingleImageUpload;
+export default ImageUpload;
