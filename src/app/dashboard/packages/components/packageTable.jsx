@@ -10,7 +10,7 @@ const PackageTable = () => {
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["packages"],
         queryFn: () =>
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}api/v1/package`).then(
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package`).then(
                 (res) => res.json()
             ),
     });

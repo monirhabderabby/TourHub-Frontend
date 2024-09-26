@@ -1,6 +1,9 @@
 "use client";
 
-import SingleImageUpload from "@/components/common/single-image-upload-with-edgestore";
+import {
+    default as ImageUpload,
+    default as SingleImageUpload,
+} from "@/components/common/single-image-upload-with-edgestore";
 import DateField from "@/components/form/dateField";
 import TextField from "@/components/form/textField";
 import RichTextEditor from "@/components/richTextEditor/richTextEditor";
@@ -63,6 +66,7 @@ const PackageSchema = z.object({
     cardImage: z.string({
         required_error: "Please upload a package image.",
     }),
+    // bannerImage: z.ZodArray(),
 });
 
 const PackageForm = () => {
@@ -289,7 +293,29 @@ const PackageForm = () => {
                         />
                     </div>
 
-                    {/* TODO :: Banner images upload field */}
+                    {/* Banner images upload field */}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name="bannerImage"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Banner images</FormLabel>
+                                    <FormControl>
+                                        <ImageUpload
+                                            multiUpload={true}
+                                            onChange={(value) => {
+                                                field.onChange(value);
+                                            }}
+                                            value={field.value}
+                                            varient="attach"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
                     <Button type="submit">Submit</Button>
                 </form>
