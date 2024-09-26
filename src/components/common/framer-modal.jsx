@@ -7,13 +7,15 @@ const FramerModal = ({ setIsOpen, isOpen, children }) => {
       {isOpen && (
         <motion.div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30"
+          style={{ zIndex: 10 }}
           variants={variant}
           initial="containerInitial"
           animate="containerAnimate"
           exit="containerExit"
         >
           <motion.div
-            className="relative flex flex-col py-10 px-14 items-center justify-center h-auto w-fit   bg-white rounded-lg p-4 shadow-lg z-50"
+            className="relative flex flex-col py-10 px-14 items-center justify-center h-auto w-fit   bg-white rounded-lg p-4 shadow-lg"
+            style={{ zIndex: 20 }}
             variants={modalVariant}
             initial="initial"
             animate="animate"
