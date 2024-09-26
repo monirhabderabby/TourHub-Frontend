@@ -33,12 +33,12 @@ const PackageCommentBox = ({ packageId }) => {
   const { user, isLoaded } = useUser();
 
   if (!isLoaded) {
-    return;
+    return null;
   }
 
   // Optimized mutation to handle form submission
   const { mutate, isPending } = useMutation({
-    mutationKey: ["comment"],
+    mutationKey: ["comment", packageId],
     mutationFn: async (data) => {
       // Use async/await to handle promise instead of .then()
       const res = await fetch(
@@ -54,12 +54,13 @@ const PackageCommentBox = ({ packageId }) => {
       if (!res.ok) {
         toast.error("Failed to submit comment");
       }
-      return res.json();
+      return await res.json();
     },
     onError: (error) => {
       toast.error(error.message || "Something went wrong");
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      form.reset();
       setOpen(true); // Open modal on success
     },
   });
@@ -153,7 +154,11 @@ const PackageCommentBox = ({ packageId }) => {
           </form>
         </Form>
       </div>
-      <FeedbackModalForm isOpen={isOpen} setIsOpen={setOpen} />
+      <FeedbackModalForm
+        isOpen={isOpen}
+        setIsOpen={setOpen}
+        packageId={packageId}
+      />
     </>
   );
 };
