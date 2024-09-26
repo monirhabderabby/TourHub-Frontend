@@ -1,4 +1,8 @@
-import CategoryForm from "./components/categoryForm";
+import dynamic from "next/dynamic";
+
+const CategoryForm = dynamic(() => import("./components/categoryForm"), {
+    ssr: false,
+});
 
 const CategoryPage = () => {
     return (
