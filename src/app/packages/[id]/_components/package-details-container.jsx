@@ -76,7 +76,7 @@ const PackageDetailsContainer = ({ packageId }) => {
           country={country}
           images={[cardImage, ...bannerImage]}
         />
-        <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-3 lg:gap-12 relative">
+        <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-3 lg:gap-12 relative pt-5">
           <div className="lg:flex-1">
             <PackageDetails packageId={packageId} data={response?.data} />
           </div>

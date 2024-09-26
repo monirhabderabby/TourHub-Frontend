@@ -6,20 +6,13 @@ import Image from "next/image";
 import { useState } from "react";
 
 // Components
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalTrigger,
-} from "@/components/ui/animated-modal";
-import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { cn } from "@/lib/utils";
 
 const BannerImages = ({ images = [] }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false); // State to control modal visibility
   return (
     <>
-      <div className="grid grid-cols-12 auto-rows-[150px] md:auto-rows-[220px]  overflow-hidden gap-2 md:gap-3 lg:gap-4 grid-flow-row-dense">
+      <div className="grid grid-cols-12 auto-rows-[150px] md:auto-rows-[220px]  overflow-hidden gap-2 md:gap-3 lg:gap-4 grid-flow-row-dense ">
         {images.slice(0, 4).map(async (src, index) => {
           return (
             <motion.div
@@ -61,7 +54,7 @@ const BannerImages = ({ images = [] }) => {
                   "bg-tourHub-title2 text-white font-inter font-medium text-[13.65px] leading-24px px-3 py-1 rounded-[200px] absolute bottom-3 right-4 z-50",
                   (index === 1 || index === 2 || index === 0) && "hidden"
                 )}
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={() => setOpen(true)}
               >
                 See all photos
               </button>
@@ -69,23 +62,8 @@ const BannerImages = ({ images = [] }) => {
           );
         })}
       </div>
-      <ImagesModal setOpen={setOpen} open={open} images={images} />
     </>
   );
 };
 
 export default BannerImages;
-
-// Modal for display more images
-const ImagesModal = ({ open, setOpen, images }) => {
-  return (
-    <Modal open={open} setOpen={setOpen}>
-      <ModalTrigger></ModalTrigger>
-      <ModalBody>
-        <ModalContent>
-          <ParallaxScroll images={images} />
-        </ModalContent>
-      </ModalBody>
-    </Modal>
-  );
-};

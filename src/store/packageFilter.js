@@ -10,7 +10,7 @@ export const useFilterStore = create((set) => ({
   location: "",
   country: "",
   sortBy: "",
-  limit: 2,
+  limit: 10,
   page: 1,
   totalPage: 0,
   setMinMax: (newMin, newMax) => set((state) => ({ min: newMin, max: newMax })),
