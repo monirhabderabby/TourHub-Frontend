@@ -168,8 +168,10 @@ const WizardForm = () => {
                       <FormLabel>Profile Image</FormLabel>
                       <FormControl>
                         <SingleImageUpload
-                          onChange={field.onChange}
-                          value={field.value}
+                          onChange={(imageUrls) => {
+                            field.onChange(imageUrls[0]);
+                          }}
+                          value={[field.value]}
                           isForClerk={true}
                           disabled={isPending}
                         />

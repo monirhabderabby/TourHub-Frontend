@@ -14,7 +14,7 @@ const PackageCommentBox = dynamic(() => import("./package_comment_box"), {
   ssr: false,
 });
 
-const PackageDetails = ({ data }) => {
+const PackageDetails = ({ data, packageId }) => {
   const { tourDuration, totalPeople, description, features, itinerary } =
     data || {};
   return (
@@ -30,7 +30,7 @@ const PackageDetails = ({ data }) => {
       <Faq />
       <Separator className="my-14" />
       <PackageReviews />
-      <PackageCommentBox />
+      <PackageCommentBox packageId={packageId} />
     </div>
   );
 };

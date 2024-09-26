@@ -1,17 +1,6 @@
 import { z } from "zod";
 
 export const commentSchema = z.object({
-  name: z
-    .string({
-      message: "Name is required",
-    })
-    .min(2, { message: "Name must be at least 2 characters long" })
-    .max(50, { message: "Name cannot exceed 50 characters" }),
-  email: z
-    .string({
-      message: "Email is required",
-    })
-    .email({ message: "Please enter a valid email address" }),
   title: z
     .string({
       message: "Title is required",
@@ -25,48 +14,53 @@ export const commentSchema = z.object({
     .min(20, { message: "Comment must be at least 20 characters long" })
     .max(500, { message: "Comment cannot exceed 500 characters" }),
   images: z.array(z.string()).optional(),
+  tourPackageId: z.string(),
+  clerkId: z.string(),
 });
 
-export const ratingSchema = z.object({
-  location: z
+export const RatingSchema = z.object({
+  locationRating: z
     .number({
       message: "Please rate us on your location experience.",
     })
     .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
-
-  amenities: z
-    .number({
-      message: "Please rate the amenities provided.",
-    })
-    .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
-
-  food: z
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  foodRating: z
     .number({
       message: "Please rate the food quality.",
     })
     .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
-
-  price: z
-    .number({
-      message: "Please rate the value for money.",
-    })
-    .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
-
-  rooms: z
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  roomRating: z
     .number({
       message: "Please rate the comfort and cleanliness of the rooms.",
     })
     .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
-
-  tourOperator: z
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  priceRating: z
+    .number({
+      message: "Please rate the value for money.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  tourOperatorRating: z
     .number({
       message: "Please rate your tour operator experience.",
     })
     .min(1, { message: "Rating must be at least 1." })
-    .max(5, { message: "Rating must be at most 5." }),
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  amenitiesRating: z
+    .number({
+      message: "Please rate the amenities provided.",
+    })
+    .min(1, { message: "Rating must be at least 1." })
+    .max(5, { message: "Rating must be at most 5." })
+    .optional(),
+  clerkId: z.string(),
+  tourPackageId: z.string(),
 });

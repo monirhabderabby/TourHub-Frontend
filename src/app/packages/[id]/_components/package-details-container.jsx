@@ -78,7 +78,7 @@ const PackageDetailsContainer = ({ packageId }) => {
         />
         <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-3 lg:gap-12 relative">
           <div className="lg:flex-1">
-            <PackageDetails data={response?.data} />
+            <PackageDetails packageId={packageId} data={response?.data} />
           </div>
           <div>
             <PackageBooking price={price} from={startDate} to={endDate} />

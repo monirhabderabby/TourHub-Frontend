@@ -8,7 +8,7 @@ import moment from "moment";
 
 const PackageBooking = ({ price, from, to }) => {
   return (
-    <div className="w-full  md:w-[280px] lg:w-[360px] sticky top-[80px]  h-auto min-h-[300px] border-[1px] border-[#E7E6E6] rounded-12px px-4 py-8 space-y-8">
+    <div className="w-full  md:w-[280px] lg:w-[360px] sticky top-[80px]  h-auto min-h-[300px] border-[1px] border-[#E7E6E6] rounded-12px px-4 py-8 space-y-8 -z-20">
       <p className="font-inter font-normal text-14px leading-28px text-tourHub-title2">
         From{" "}
         <span className="text-19px text-tourHub-green-dark font-semibold font-inter">
