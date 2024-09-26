@@ -5,8 +5,18 @@ import { CircleAlert, CircleOff, Loader2 } from "lucide-react";
 
 // Component
 import SkeletonWrapper from "@/components/common/SkeletonWrapper";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { TextEffect } from "@/components/ui/text-effect";
 import { useFilterStore } from "@/store/packageFilter";
+import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import MobileDialogFilter from "./MobileDialogFilter";
 import PackageFilterCard from "./package-filter-card";
 import PackagesSorting from "./packages_sorting";
@@ -22,6 +32,11 @@ const PackagesData = () => {
     category,
     starRating,
     sortBy,
+    page,
+    limit,
+    setPage,
+    setTotalPage,
+    totalPage,
   } = useFilterStore();
   const {
     isLoading,
@@ -41,12 +56,31 @@ const PackagesData = () => {
       category,
       starRating,
       sortBy,
+      page,
+      limit,
     ],
     queryFn: () =>
       fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package?min=${min}&max=${max}&startDate=${startDate}&endDate=${endDate}&location=${location}&country=${country}&category=${category}&starRating=${starRating}&sortBy=${sortBy}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package?min=${min}&max=${max}&startDate=${startDate}&endDate=${endDate}&location=${location}&country=${country}&category=${category}&starRating=${starRating}&sortBy=${sortBy}&limit=${limit}&page=${page}`
       ).then((res) => res.json()),
   });
+
+  // Set the total number of pages when data is fetched
+  useEffect(() => {
+    if (response) {
+      const respondedTotalpage = response?.meta?.totalPage || 0;
+      if (totalPage !== respondedTotalpage) {
+        setTotalPage(response?.meta?.totalPage);
+      }
+    }
+  }, [response]);
+
+  // Pagination logic for rendering page numbers
+  const handlePageClick = (pageNum) => {
+    if (pageNum >= 1 && pageNum <= totalPage) {
+      setPage(pageNum);
+    }
+  };
 
   let content;
 
@@ -82,12 +116,14 @@ const PackagesData = () => {
     );
   } else if (response?.data?.length > 0) {
     content = (
-      <div className="mt-4 flex flex-col gap-8">
-        {response?.data.map((item) => (
-          <SkeletonWrapper isLoading={isFetching} key={item._id}>
-            <PackageFilterCard key={item} data={item} />
-          </SkeletonWrapper>
-        ))}
+      <div className="mt-4 flex flex-col gap-8 h-auto">
+        <AnimatePresence>
+          {response?.data.map((item) => (
+            <SkeletonWrapper isLoading={isFetching} key={item._id}>
+              <PackageFilterCard key={item} data={item} />
+            </SkeletonWrapper>
+          ))}
+        </AnimatePresence>
       </div>
     );
   }
@@ -108,6 +144,38 @@ const PackagesData = () => {
         </div>
       </div>
       {content}
+      <div className="mt-5">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={() => handlePageClick(page - 1)}
+                disabled={page === 1}
+              />
+            </PaginationItem>
+            {/* Dynamically render pagination numbers */}
+            {Array.from({ length: totalPage }, (_, index) => (
+              <PaginationItem key={index + 1}>
+                <PaginationLink
+                  href="#"
+                  onClick={() => handlePageClick(index + 1)}
+                  isActive={page === index + 1}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() => handlePageClick(page + 1)}
+                disabled={page === totalPage}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };
