@@ -13,12 +13,21 @@ const PackageSchema = z.object({
     name: z.string().min(3, {
         message: "Name must be at least 3 characters.",
     }),
+    location: z.string().min(3, {
+        message: "Location must be at least 3 characters.",
+    }),
     startDate: z.date({
         required_error: "Start date is required.",
     }),
-    // endDate: z.date({
-    //     required_error: "End date is required.",
-    // }),
+    endDate: z.date({
+        required_error: "End date is required.",
+    }),
+    price: z.number().min(1, {
+        message: "Price is required.",
+    }),
+    totalPeople: z.string().min(1, {
+        message: "Total people is required.",
+    }),
 });
 
 const PackageForm = () => {
@@ -27,7 +36,10 @@ const PackageForm = () => {
         defaultValues: {
             name: "",
             startDate: "",
-            // endDate: "",
+            endDate: "",
+            location: "",
+            price: "",
+            totalPeople: "",
         },
     });
 
@@ -53,15 +65,22 @@ const PackageForm = () => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="w-full space-y-6"
                 >
-                    <div className="grid grid-cols-2 gap-x-5">
+                    <div className="grid grid-cols-2 gap-5">
                         <TextField
                             control={form.control}
                             fieldName={"name"}
+                            type={"text"}
                             label={"Package Name"}
                             placeholder={"Package name"}
                         />
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-5">
+                        <TextField
+                            control={form.control}
+                            fieldName={"location"}
+                            type={"text"}
+                            label={"Location"}
+                            placeholder={"Location"}
+                        />
+
                         <DateField
                             label={"Start Date"}
                             fieldName={"startDate"}
@@ -71,6 +90,20 @@ const PackageForm = () => {
                             label={"End Date"}
                             fieldName={"endDate"}
                             control={form.control}
+                        />
+                        <TextField
+                            control={form.control}
+                            fieldName={"price"}
+                            type={"number"}
+                            label={"Price"}
+                            placeholder={"Price"}
+                        />
+                        <TextField
+                            control={form.control}
+                            fieldName={"totalPeople"}
+                            type={"text"}
+                            label={"Total People"}
+                            placeholder={"Number of total people"}
                         />
                     </div>
 
