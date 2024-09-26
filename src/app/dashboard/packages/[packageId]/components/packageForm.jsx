@@ -2,8 +2,16 @@
 
 import DateField from "@/components/form/dateField";
 import TextField from "@/components/form/textField";
+import RichTextEditor from "@/components/richTextEditor/richTextEditor";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,6 +36,9 @@ const PackageSchema = z.object({
     totalPeople: z.string().min(1, {
         message: "Total people is required.",
     }),
+    description: z.string().min(3, {
+        message: "Description is required.",
+    }),
 });
 
 const PackageForm = () => {
@@ -40,6 +51,7 @@ const PackageForm = () => {
             location: "",
             price: "",
             totalPeople: "",
+            description: "",
         },
     });
 
@@ -104,6 +116,28 @@ const PackageForm = () => {
                             type={"text"}
                             label={"Total People"}
                             placeholder={"Number of total people"}
+                        />
+                    </div>
+
+                    {/* Description - text editor */}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name={"description"}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Package Description</FormLabel>
+                                    <FormControl>
+                                        <RichTextEditor
+                                            content={field.value}
+                                            onChange={(value) =>
+                                                field.onChange(value)
+                                            }
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
                     </div>
 
