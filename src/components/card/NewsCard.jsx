@@ -1,9 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const NewsCard = ({ news }) => {
   return (
+    <Link href={`/news/${news._id}`}> 
     <Card className="w-[300px] h-auto pt-5 cursor-pointer ">
       <CardContent className="mt-1">
         <motion.div className="relative w-full h-[200px] rounded-12px">
@@ -24,7 +26,7 @@ const NewsCard = ({ news }) => {
           </p>
         </div>
       </CardContent>
-    </Card>
+    </Card></Link>
   );
 };
 

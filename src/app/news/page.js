@@ -23,29 +23,20 @@ const tabContentVariants = {
   },
   exit: { opacity: 0 },
 };
-
+// 
 const NewsPage = () => {
-  let [activeTab, setActiveTab] = useState(newsCategory[0].id);
-  const { data, isLoading, isError } = useQuery({
+  let [activeTab, setActiveTab] = useState(newsCategory[0].categoryName);
+
+  const { data } = useQuery({
     queryKey: ["news"],
     queryFn: () =>
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) =>
-        res.json()
-      ),
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) => res.json()),
   });
 
   useEffect(() => {
     // Scroll to the top of the page with smooth animation on component mount
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-[calc(100vh-280px)]">
-        <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
-      </div>
-    );
-  if (isError) return <div>Error</div>;
 
   return (
     <div className="mt-8 font-inter">
@@ -75,55 +66,64 @@ const NewsPage = () => {
           defaultValue="Adventure Travel"
           className="my-5 text-white container "
         >
-          <TabsList className="space-x-2 md:space-x-16 grid grid-cols-2 md:grid-cols-6 items-center justify-center mx-auto gap-y-2">
+          <div className="space-x-2 md:space-x-8 grid grid-cols-2 md:grid-cols-6 items-center justify-center mx-auto gap-y-2">
             {newsCategory.map((tab) => (
-              <TabsTrigger
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`${
-                  activeTab === tab.id ? "" : "hover:text-white/60"
-                } relative rounded-full px-3 py-1.5 text-sm font-medium text-white  transition focus-visible:outline-2`}
+              <button
+                key={tab.categoryName}
+                onClick={() => setActiveTab(tab.categoryName)}
+                className={`${activeTab === tab.categoryName? " text-white bg-tourHub-green-light" : "text-tourHub-green-light bg-gray-100"
+                  } relative rounded-full px-3 py-1.5 text-sm font-medium   transition focus-visible:outline-2`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
               >
-                {activeTab === tab.id && (
+                {activeTab == tab.categoryName && (
                   <motion.span
                     layoutId="bubble"
-                    className="absolute inset-0 -z-20 bg-tourHub-green-light text-white"
+                    className="absolute inset-0 -z-20 "
                     style={{ borderRadius: 9999 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
                   />
                 )}
 
-                {tab.name}
-              </TabsTrigger>
+                {tab.categoryName}
+              </button>
             ))}
-          </TabsList>
+          </div>
 
-          {newsCategory.map((category) => (
-            <TabsContent key={category.name} value={category.name}>
-              <motion.div
-                key={category.name}
-                variants={tabContentVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                layout
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10"
-              >
-                <AnimatePresence>
-                  {data?.data
-                    .filter((n) => n.newsCategory == category.name)
-                    .map((news) => (
-                      <NewsCard key={news._id} news={news} />
-                    ))}
-                </AnimatePresence>
-              </motion.div>
-            </TabsContent>
-          ))}
+          <motion.div
+            layout
+            className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-[40px] gap-x-[58px] w-full bg-transparent mt-10"
+          >
+            <AnimatePresence>
+              {data?.data
+                .filter((n) => {
+                  if (activeTab == "Adventure Travel") {
+                    return n.newsCategory == "Adventure Travel";
+                  } else if (activeTab == "Beach") {
+                    return n.newsCategory == "Beach";
+                  } else if (activeTab == "Explore World") {
+                    return n.newsCategory == "Explore World";
+                  } else if (activeTab == "Family Holidays") {
+                    return n.newsCategory == "Family Holidays";
+                  }
+                  else if (activeTab == "Art and culture") {
+                    return n.newsCategory == "Art and culture";
+                  }
+                  else if (activeTab == "Hill Travel") {
+                    return n.newsCategory == "Hill Travel";
+                  }
+                })
+                .map((news) => (
+                  <NewsCard key={news._id} news={news} />
+                ))}
+            </AnimatePresence>
+          </motion.div>
+          
         </Tabs>
+
+
+    
       </div>
     </div>
   );
