@@ -1,9 +1,18 @@
 "use client";
 
+import SingleImageUpload from "@/components/common/single-image-upload-with-edgestore";
 import DateField from "@/components/form/dateField";
 import TextField from "@/components/form/textField";
 import RichTextEditor from "@/components/richTextEditor/richTextEditor";
 import { Button } from "@/components/ui/button";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
 import {
     Form,
     FormControl,
@@ -12,8 +21,17 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { countries } from "@/lib/countriesData";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronsUpDown, MapPin } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -30,7 +48,7 @@ const PackageSchema = z.object({
     endDate: z.date({
         required_error: "End date is required.",
     }),
-    price: z.number().min(1, {
+    price: z.string().min(1, {
         message: "Price is required.",
     }),
     totalPeople: z.string().min(1, {
@@ -38,6 +56,12 @@ const PackageSchema = z.object({
     }),
     description: z.string().min(3, {
         message: "Description is required.",
+    }),
+    country: z.string({
+        required_error: "Please select a country.",
+    }),
+    cardImage: z.string({
+        required_error: "Please upload a package image.",
     }),
 });
 
@@ -52,6 +76,8 @@ const PackageForm = () => {
             price: "",
             totalPeople: "",
             description: "",
+            country: "",
+            cardImage: "",
         },
     });
 
@@ -103,12 +129,29 @@ const PackageForm = () => {
                             fieldName={"endDate"}
                             control={form.control}
                         />
-                        <TextField
+                        {/* <TextField
                             control={form.control}
                             fieldName={"price"}
                             type={"number"}
                             label={"Price"}
                             placeholder={"Price"}
+                        /> */}
+                        <FormField
+                            control={form.control}
+                            name={"price"}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Price</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            // type="number"
+                                            placeholder={"Price"}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
                         <TextField
                             control={form.control}
@@ -117,6 +160,87 @@ const PackageForm = () => {
                             label={"Total People"}
                             placeholder={"Number of total people"}
                         />
+
+                        {/* Country field */}
+                        <FormField
+                            control={form.control}
+                            name="country"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Country</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "w-full justify-between",
+                                                        !field.value &&
+                                                            "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value
+                                                        ? countries.find(
+                                                              (country) =>
+                                                                  country.value ===
+                                                                  field.value
+                                                          )?.label
+                                                        : "Select country"}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-full p-0">
+                                            <Command>
+                                                <CommandInput placeholder="Search country..." />
+                                                <CommandList>
+                                                    <CommandEmpty>
+                                                        No country found.
+                                                    </CommandEmpty>
+                                                    <CommandGroup>
+                                                        {countries.map(
+                                                            (country) => (
+                                                                <CommandItem
+                                                                    value={
+                                                                        country.label
+                                                                    }
+                                                                    key={
+                                                                        country.value
+                                                                    }
+                                                                    onSelect={() => {
+                                                                        form.setValue(
+                                                                            "country",
+                                                                            country.value
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <MapPin
+                                                                        className={cn(
+                                                                            "mr-2 h-4 w-4",
+                                                                            country.value ===
+                                                                                field.value
+                                                                                ? "opacity-100"
+                                                                                : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                    {
+                                                                        country.label
+                                                                    }
+                                                                </CommandItem>
+                                                            )
+                                                        )}
+                                                    </CommandGroup>
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Country field end */}
                     </div>
 
                     {/* Description - text editor */}
@@ -140,6 +264,32 @@ const PackageForm = () => {
                             )}
                         />
                     </div>
+
+                    {/* Card image */}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name="cardImage"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Package Image</FormLabel>
+                                    <FormControl>
+                                        <SingleImageUpload
+                                            onChange={(imageUrls) => {
+                                                field.onChange(imageUrls[0]);
+                                            }}
+                                            value={[field.value]}
+                                            // isForClerk={false}
+                                            // disabled={isPending}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    {/* TODO :: Banner images upload field */}
 
                     <Button type="submit">Submit</Button>
                 </form>
