@@ -10,7 +10,7 @@ import NewsCard from "@/components/card/newsCard";
 import AllPageBanner from "@/components/common/AllPageBanner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { newsCategory } from "@/lib/newsCategory";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Animation variants
 const tabContentVariants = {
@@ -25,10 +25,11 @@ const tabContentVariants = {
 };
 
 const NewsPage = () => {
+  let [activeTab, setActiveTab] = useState(newsCategory[0].id);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["news"],
     queryFn: () =>
-      fetch(`https://tour-hub-backend.vercel.app/api/v1/news`).then((res) =>
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) =>
         res.json()
       ),
   });
@@ -69,14 +70,33 @@ const NewsPage = () => {
       </div>
       <div>
         {/* title news */}
+
         <Tabs
           defaultValue="Adventure Travel"
-          className="my-5 text-white container"
+          className="my-5 text-white container "
         >
           <TabsList className="space-x-2 md:space-x-16 grid grid-cols-2 md:grid-cols-6 items-center justify-center mx-auto gap-y-2">
-            {newsCategory.map((n) => (
-              <TabsTrigger key={n.name} value={n.name} className="px-2">
-                {n.name}
+            {newsCategory.map((tab) => (
+              <TabsTrigger
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`${
+                  activeTab === tab.id ? "" : "hover:text-white/60"
+                } relative rounded-full px-3 py-1.5 text-sm font-medium text-white  transition focus-visible:outline-2`}
+                style={{
+                  WebkitTapHighlightColor: "transparent",
+                }}
+              >
+                {activeTab === tab.id && (
+                  <motion.span
+                    layoutId="bubble"
+                    className="absolute inset-0 -z-20 bg-tourHub-green-light text-white"
+                    style={{ borderRadius: 9999 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+
+                {tab.name}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -95,7 +115,7 @@ const NewsPage = () => {
               >
                 <AnimatePresence>
                   {data?.data
-                    .filter((n) => n.newsCategory === category.name)
+                    .filter((n) => n.newsCategory == category.name)
                     .map((news) => (
                       <NewsCard key={news._id} news={news} />
                     ))}

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/navbar";
 import AppProvider from "@/provider/app-provider";
+import NProgress from "@/provider/NProgress";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
         <body className={cn(poppins.className, inter.className)}>
           <AppProvider>
             <Navbar />
+            <NProgress />
             {children}
             <Footer />
           </AppProvider>

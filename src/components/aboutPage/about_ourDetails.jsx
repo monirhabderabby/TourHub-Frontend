@@ -30,10 +30,8 @@ const AboutOurDetails = () => {
                                 delay: 0.6,
                             }}
                             className='lg:text-19px text-16px tracking-wide font-normal leading-28px'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet dictum et in feugiat. Platea in
-                            diam, est congue. Posuere sapien morbi augue ultrices. Et facilisi orci sollicitudin placerat
-                            lacus lacus nibh. Egestas semper massa viverra massa proin in morbi placerat. Pharetra nec, est non integer nisi, ut faucibus. Non, in nam sollicitudin vitae
-                            volutpat ac molestie. Turpis pellentesque sit pellentesque id cras lobortis tortor, blandit.
+                            TourHub is your ultimate travel companion, providing seamless booking, exclusive deals, and 24/7 customer support. We specialize in curating unforgettable journeys at unbeatable prices, ensuring every traveler experiences the world effortlessly. Whether you are exploring new destinations or
+                            revisiting favorites, we’re here to make your travel dreams a reality.
                         </motion.p>
                         <motion.p
                             initial={{ opacity: 0, y: 100 }}
@@ -43,9 +41,7 @@ const AboutOurDetails = () => {
                                 delay: 0.8,
                             }}
                             className='lg:text-19px text-16px tracking-wide  font-normal leading-28px'>
-                            Id ac non, semper turpis maecenas. Convallis tempor fringilla quisque arcu, dictum. Vitae cursus
-                            vel netus tincidunt vitae. Malesuada velit, at mattis adipiscing quisque tristique id magna. Blandit porta sit nam magna sit. Turpis vestibulum facilisis placerat
-                            habitant gravida eget. Lacus pretium, arcu non adipiscing sed faucibus semper eget tempor.
+                            TourHub is your trusted travel partner, offering easy booking, exclusive deals, and 24/7 customer support. We provide unforgettable travel experiences at the best prices, ensuring seamless journeys. Whether you are exploring new destinations or revisiting favorites, we make your travel dreams come true.
                         </motion.p>
                     </div>
                 </div>

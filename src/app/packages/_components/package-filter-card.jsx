@@ -1,3 +1,4 @@
+"use client";
 // Packages
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -13,9 +14,21 @@ const PackageFilterCard = ({ data }) => {
     averageRating,
     cardImage,
     _id,
+    tourDuration,
+    totalPeople,
+    comments,
   } = data || {};
   return (
-    <div className="border-[1px] font-inter border-[#E7E6E6] rounded-12px w-full min-h-[280px] h-full p-4 flex flex-col md:flex-row items-center gap-4">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        transition: {
+          duration: 0.5,
+        },
+      }}
+      className="border-[1px] font-inter border-[#E7E6E6] rounded-12px w-full h-full p-4 flex flex-col md:flex-row items-center gap-4"
+    >
       <motion.div
         initial={{
           filter: "blur(2px)",
@@ -28,7 +41,7 @@ const PackageFilterCard = ({ data }) => {
             duration: 0.5,
           },
         }}
-        className=" relative h-[263px] w-full md:w-[280px]"
+        className=" relative h-[263px] w-full md:w-[220px] xl:w-[280px]"
       >
         <Image
           src={cardImage}
@@ -49,7 +62,8 @@ const PackageFilterCard = ({ data }) => {
           {description?.slice(0, 300)}
         </p>
         <p className="text-14px leading-28px text-tourHub-title2 font-normal">
-          <span className="font-medium">{averageRating}</span> (269)
+          <span className="font-medium">{averageRating.toFixed(1)}</span> (
+          {comments.length})
         </p>
         <div className="font-inter font-normal text-tourHub-green-dark text-14px flex items-center justify-evenly">
           <p>Best Price Gurantee</p>
@@ -57,10 +71,15 @@ const PackageFilterCard = ({ data }) => {
         </div>
       </div>
       {/* pricing */}
-      <div className="w-full md:w-[225px] h-auto md:h-[263px] md:border-l-[1px] md:border-[#E7E6E6] flex flex-row md:flex-col justify-between items-center mt-6 md:mt-0">
-        <p className="text-14px font-inter leading-27px text-tourHub-title2">
-          2 Days 1 Nights
-        </p>
+      <div className="w-fit px-6 lg:w-[200px] h-auto md:h-[263px] md:border-l-[1px] md:border-[#E7E6E6] flex flex-row md:flex-col justify-between items-center mt-6 md:mt-0">
+        <div>
+          <p className="text-14px font-inter leading-27px text-tourHub-title2">
+            {tourDuration} /
+          </p>
+          <p className="text-14px font-medium font-inter leading-27px text-tourHub-title2 text-center">
+            {totalPeople} person
+          </p>
+        </div>
         <div className="flex flex-col justify-center items-center gap-y-4">
           <p className="text-[15px] text-tourHub-title2 font-normal leading-[21px]">
             From <span className="font-medium">${price}</span>
@@ -73,7 +92,7 @@ const PackageFilterCard = ({ data }) => {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

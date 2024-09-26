@@ -29,7 +29,7 @@ const Banner = () => {
 
   // Effect to update the local `value` state whenever `location` or `country` changes
   useEffect(() => {
-    setValue(location && country ? `${location}, ${country}` : ""); // Concatenates location and country into one string for display
+    setValue(location && country ? `${location},${country}` : ""); // Concatenates location and country into one string for display
   }, [location, country]);
 
   const router = useRouter();
@@ -72,7 +72,7 @@ const Banner = () => {
                 value={value} // Current value displayed in the location picker
                 setValue={(value) => {
                   setValue(value); // Update local state
-                  const arr = value.split(", "); // Split the selected value into city and country
+                  const arr = value.split(","); // Split the selected value into city and country
                   const location = arr[0]; // Extract city
                   const country = arr[1]; // Extract country
                   setLocation(location); // Update city in the store

@@ -1,14 +1,18 @@
 import { create } from "zustand";
 
 export const useFilterStore = create((set) => ({
-  min: 1000,
-  max: 50000,
+  min: 50,
+  max: 4000,
   startDate: "",
   endDate: "",
   category: "",
   starRating: "",
   location: "",
   country: "",
+  sortBy: "",
+  limit: 2,
+  page: 1,
+  totalPage: 0,
   setMinMax: (newMin, newMax) => set((state) => ({ min: newMin, max: newMax })),
   setDateRange: (newStartDate, newEndDate) =>
     set((state) => ({ startDate: newStartDate, endDate: newEndDate })),
@@ -57,4 +61,7 @@ export const useFilterStore = create((set) => ({
 
   setLocation: (location) => set((state) => ({ location })),
   setCountry: (country) => set((state) => ({ country })),
+  setSortBy: (value) => set((state) => ({ sortBy: value })),
+  setPage: (number) => set((state) => ({ page: number })),
+  setTotalPage: (number) => set((state) => ({ totalPage: number })),
 }));
