@@ -95,6 +95,8 @@ const GalleryHeader = React.memo(({ name }) => {
   );
 });
 
+GalleryHeader.displayName = "GalleryHeader";
+
 const GalleryImage = React.memo(({ index, src }) => {
   return (
     <motion.div
@@ -125,3 +127,5 @@ const GalleryImage = React.memo(({ index, src }) => {
     </motion.div>
   );
 });
+
+GalleryImage.displayName = "GalleryImage";

@@ -140,7 +140,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
         clearTimeout(closeModalTimeout); // Cleanup timeout
       };
     }
-  }, [step]);
+  }, [step, setIsOpen]);
 
   // Handle form submission
   const onSubmit = (data) => {
