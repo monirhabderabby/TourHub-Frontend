@@ -62,7 +62,7 @@ const PackageFilterCard = ({ data }) => {
           {description?.slice(0, 300)}
         </p>
         <p className="text-14px leading-28px text-tourHub-title2 font-normal">
-          <span className="font-medium">{averageRating.toFixed(1)}</span> (
+          <span className="font-medium">{averageRating?.toFixed(1)}</span> (
           {comments.length})
         </p>
         <div className="font-inter font-normal text-tourHub-green-dark text-14px flex items-center justify-evenly">

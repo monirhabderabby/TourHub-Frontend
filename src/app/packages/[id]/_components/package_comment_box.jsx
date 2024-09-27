@@ -30,12 +30,6 @@ const FeedbackModalForm = dynamic(() => import("./package_ratings_modal"), {
 const PackageCommentBox = ({ packageId }) => {
   const [isOpen, setOpen] = useState(false); // State to control modal visibility
 
-  const { user, isLoaded } = useUser();
-
-  if (!isLoaded) {
-    return null;
-  }
-
   // Optimized mutation to handle form submission
   const { mutate, isPending } = useMutation({
     mutationKey: ["comment", packageId],
@@ -64,6 +58,12 @@ const PackageCommentBox = ({ packageId }) => {
       setOpen(true); // Open modal on success
     },
   });
+
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return null;
+  }
 
   // Initialize form with validation schema and default values
   const form = useForm({

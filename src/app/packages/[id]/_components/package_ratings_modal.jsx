@@ -38,7 +38,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
     mutationKey: ["ratings", packageId],
     mutationFn: async (data) => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/comment`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/rating`,
         {
           method: "POST",
           headers: {
@@ -59,9 +59,10 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
       toast.error(error.message);
     },
     onSuccess: () => {
-      toast.success(
-        "Thank you for sharing your feedback and rating! We appreciate your input."
-      );
+      setStep(7);
+      // toast.success(
+      //   "Thank you for sharing your feedback and rating! We appreciate your input."
+      // );
     },
   });
 
@@ -143,7 +144,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
 
   // Handle form submission
   const onSubmit = (data) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -236,11 +237,12 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
                     (step === 6 && !amenitiesState)
                   }
                   onClick={() => {
-                    if (step < fields.length) {
+                    if (step < 6) {
                       setStep((prev) => prev + 1);
                       return;
+                    } else if (step === 6) {
+                      form.handleSubmit(onSubmit);
                     }
-                    form.handleSubmit(onSubmit);
                   }}
                 >
                   {step === 6 ? "Submit" : "Continue"}
