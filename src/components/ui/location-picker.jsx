@@ -33,6 +33,7 @@ const LocationPicker = ({ value, setValue }) => {
       fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/location-country`
       ).then((res) => res.json()),
+    refetchOnWindowFocus: false,
   });
 
   const loading = isLoading || isFetching || isRefetching;

@@ -4,7 +4,15 @@ import { cn } from "@/lib/utils";
 import PackageReviewCard from "./package_review_card";
 import PackageSectionTitle from "./package_section_title";
 
-const PackageReviews = () => {
+const PackageReviews = ({
+  totalAverageRating,
+  averageLocationRating,
+  averageFoodRating,
+  averageAmenitiesRating,
+  averagePriceRating,
+  averageRoomRating,
+  averageTourOperatorRating,
+}) => {
   // demo data
   const data = [
     {
@@ -47,7 +55,15 @@ const PackageReviews = () => {
   return (
     <div>
       <PackageSectionTitle title="Customer Reviews" />
-      <Stats />
+      <Stats
+        totalAverageRating={totalAverageRating}
+        averageLocationRating={averageLocationRating}
+        averageFoodRating={averageFoodRating}
+        averageAmenitiesRating={averageAmenitiesRating}
+        averagePriceRating={averagePriceRating}
+        averageRoomRating={averageRoomRating}
+        averageTourOperatorRating={averageTourOperatorRating}
+      />
       <div className="flex flex-col gap-y-8">
         {data.map(({ id, user, comments }) => (
           <PackageReviewCard key={id} user={user} comments={comments} />
@@ -60,16 +76,24 @@ const PackageReviews = () => {
 export default PackageReviews;
 
 // Stats
-const Stats = () => {
+const Stats = ({
+  totalAverageRating,
+  averageLocationRating,
+  averageFoodRating,
+  averageAmenitiesRating,
+  averagePriceRating,
+  averageRoomRating,
+  averageTourOperatorRating,
+}) => {
   // demo data
   const ratingsData = {
-    Overall: 5.0,
-    Location: 5.0,
-    Amenities: 4.0,
-    Food: 3.0,
-    Price: 4.3,
-    Rooms: 5.0,
-    "Tour Operator": 4.8,
+    Overall: totalAverageRating,
+    Location: averageLocationRating,
+    Amenities: averageAmenitiesRating,
+    Food: averageFoodRating,
+    Price: averagePriceRating,
+    Rooms: averageRoomRating,
+    "Tour Operator": averageTourOperatorRating,
   };
 
   const transformedRatings = transformRatings(ratingsData);

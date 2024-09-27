@@ -10,7 +10,7 @@ export function transformRatings(ratings) {
   return Object.keys(ratings).map((title, index) => ({
     id: index + 1,
     tag: getTag(ratings[title]),
-    review: ratings[title].toFixed(1),
+    review: ratings[title],
     title: title,
   }));
 }

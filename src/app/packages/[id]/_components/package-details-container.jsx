@@ -92,6 +92,8 @@ const LoadingState = memo(() => (
   </div>
 ));
 
+LoadingState.displayName = "LoadingState";
+
 // Error State Component for reusability
 const ErrorState = memo(({ message }) => (
   <div className="h-[80vh] md:h-[calc(100vh-25vh)] w-full flex justify-center gap-x-2 items-center">
@@ -105,6 +107,8 @@ const ErrorState = memo(({ message }) => (
     </div>
   </div>
 ));
+
+ErrorState.displayName = "ErrorState";
 
 // Suggested Packages Component
 const SuggestedPackages = memo(() => (
@@ -122,3 +126,5 @@ const SuggestedPackages = memo(() => (
     </div>
   </div>
 ));
+
+SuggestedPackages.displayName = "SuggestedPackages";

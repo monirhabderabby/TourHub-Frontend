@@ -44,7 +44,15 @@ const PackageDetails = ({ data = {}, packageId }) => {
       {/* FAQ and Reviews */}
       <Faq />
       <Separator className="my-14" />
-      <PackageReviews />
+      <PackageReviews
+        totalAverageRating={data?.totalAverageRating || ""}
+        averageLocationRating={data?.averageLocationRating || ""}
+        averageFoodRating={data?.averageFoodRating || ""}
+        averageAmenitiesRating={data?.averageAmenitiesRating || ""}
+        averagePriceRating={data?.averagePriceRating || ""}
+        averageRoomRating={data?.averageRoomRating || ""}
+        averageTourOperatorRating={data?.averageTourOperatorRating || ""}
+      />
 
       {/* Comments */}
       <PackageCommentBox packageId={packageId} />
