@@ -1,35 +1,52 @@
 // Packages
-import { CalendarDays, Check, GroupIcon, Languages, X } from "lucide-react";
-
-// Components
 import { Separator } from "@/components/ui/separator";
+import { CalendarDays, Check, GroupIcon, Languages, X } from "lucide-react";
 import dynamic from "next/dynamic";
-import Faq from "./faq";
-import Itinerary from "./itinerary";
 import PackageDescription from "./package_description";
-import PackageReviews from "./package_reviews";
 import PackageSectionTitle from "./package_section_title";
-import TourMap from "./tour_map";
+
+// Dynamic Imports
 const PackageCommentBox = dynamic(() => import("./package_comment_box"), {
   ssr: false,
 });
+const Faq = dynamic(() => import("./faq"), { ssr: false });
+const Itinerary = dynamic(() => import("./itinerary"), { ssr: false });
+const PackageReviews = dynamic(() => import("./package_reviews"), {
+  ssr: false,
+});
+const TourMap = dynamic(() => import("./tour_map"), { ssr: false });
 
-const PackageDetails = ({ data, packageId }) => {
-  const { tourDuration, totalPeople, description, features, itinerary } =
-    data || {};
+// Main Component
+const PackageDetails = ({ data = {}, packageId }) => {
+  const { tourDuration, totalPeople, description, features, itinerary } = data;
+
   return (
-    <div className="w-full ">
+    <div className="w-full">
+      {/* Specs Section */}
       <Specs duration={tourDuration} groupSize={totalPeople} />
+
+      {/* Description */}
       <PackageDescription description={description} />
       <Separator className="my-14" />
-      <WhatsInclude excludes={features?.exclude} includes={features?.include} />
+
+      {/* What's Included */}
+      <WhatsInclude
+        includes={features?.include || []}
+        excludes={features?.exclude || []}
+      />
       <Separator className="my-14" />
+
+      {/* Itinerary */}
       <Itinerary itineraryData={itinerary} />
       <TourMap />
       <Separator className="my-14" />
+
+      {/* FAQ and Reviews */}
       <Faq />
       <Separator className="my-14" />
       <PackageReviews />
+
+      {/* Comments */}
       <PackageCommentBox packageId={packageId} />
     </div>
   );
@@ -37,19 +54,19 @@ const PackageDetails = ({ data, packageId }) => {
 
 export default PackageDetails;
 
-// Specs
+/* Specs Component */
 const Specs = ({ duration, groupSize }) => {
   const data = [
     {
       id: 1,
       title: "Duration",
-      description: duration,
+      description: duration || "N/A",
       icon: <CalendarDays className="text-gray-500" />,
     },
     {
       id: 2,
       title: "Group Size",
-      description: `${groupSize} person`,
+      description: `${groupSize || "N/A"} person`,
       icon: <GroupIcon className="text-gray-500" />,
     },
     {
@@ -59,8 +76,9 @@ const Specs = ({ duration, groupSize }) => {
       icon: <Languages className="text-gray-500" />,
     },
   ];
+
   return (
-    <div className="w-full  h-fit grid grid-cols-2 gap-6 md:flex items-center  gap-x-8 md:gap-x-16">
+    <div className="w-full h-fit grid grid-cols-2 gap-6 md:flex items-center gap-x-8 md:gap-x-16">
       {data.map(({ description, icon, id, title }) => (
         <div key={id} className="flex items-center gap-x-2">
           <div className="border-[1px] border-[#E7E6E6] w-[50px] h-[50px] rounded-12px flex justify-center items-center">
@@ -80,33 +98,52 @@ const Specs = ({ duration, groupSize }) => {
   );
 };
 
-// Whats include
+/* What's Included Component */
 const WhatsInclude = ({ includes = [], excludes = [] }) => {
   return (
     <div className="space-y-4">
       <PackageSectionTitle title="What's included" />
       <div className="grid grid-cols-2 gap-4">
+        {/* Included Features */}
         <div className="flex flex-col gap-y-4">
-          {includes.map((text) => (
-            <div key={text} className="flex items-center gap-x-2">
-              <div className="bg-[#EFF7F1] w-[24px] h-[24px] rounded-full flex justify-center items-center">
-                <Check className="w-4 h-4 text-tourHub-green-dark" />
-              </div>
-              <p>{text}</p>
-            </div>
-          ))}
+          {includes.length > 0 ? (
+            includes.map((text) => (
+              <IncludeExcludeItem key={text} text={text} included />
+            ))
+          ) : (
+            <p>No features included.</p>
+          )}
         </div>
+
+        {/* Excluded Features */}
         <div className="flex flex-col gap-y-4">
-          {excludes.map((text) => (
-            <div key={text} className="flex items-center gap-x-2">
-              <div className="bg-[#FFE5E5] w-[24px] h-[24px] rounded-full flex justify-center items-center">
-                <X className="w-4 h-4 text-rose-500" />
-              </div>
-              <p>{text}</p>
-            </div>
-          ))}
+          {excludes.length > 0 ? (
+            excludes.map((text) => (
+              <IncludeExcludeItem key={text} text={text} included={false} />
+            ))
+          ) : (
+            <p>No features excluded.</p>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
+// Reusable component for include/exclude items
+const IncludeExcludeItem = ({ text, included }) => (
+  <div className="flex items-center gap-x-2">
+    <div
+      className={`${
+        included ? "bg-[#EFF7F1]" : "bg-[#FFE5E5]"
+      } w-[24px] h-[24px] rounded-full flex justify-center items-center`}
+    >
+      {included ? (
+        <Check className="w-4 h-4 text-tourHub-green-dark" />
+      ) : (
+        <X className="w-4 h-4 text-rose-500" />
+      )}
+    </div>
+    <p>{text}</p>
+  </div>
+);

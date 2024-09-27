@@ -3,13 +3,12 @@
 // Packages
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
 
 // Components
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-const BannerImages = ({ images = [] }) => {
-  const [isOpen, setOpen] = useState(false); // State to control modal visibility
+const BannerImages = ({ images = [], packageId }) => {
   return (
     <>
       <div className="grid grid-cols-12 auto-rows-[150px] md:auto-rows-[220px]  overflow-hidden gap-2 md:gap-3 lg:gap-4 grid-flow-row-dense ">
@@ -49,15 +48,15 @@ const BannerImages = ({ images = [] }) => {
                 priority
                 fetchPriority="high"
               />
-              <button
+              <Link
                 className={cn(
                   "bg-tourHub-title2 text-white font-inter font-medium text-[13.65px] leading-24px px-3 py-1 rounded-[200px] absolute bottom-3 right-4 z-50",
                   (index === 1 || index === 2 || index === 0) && "hidden"
                 )}
-                onClick={() => setOpen(true)}
+                href={`/packages/${packageId}/gallery`}
               >
                 See all photos
-              </button>
+              </Link>
             </motion.div>
           );
         })}

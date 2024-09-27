@@ -5,7 +5,7 @@ const Page = ({ params }) => {
   const packageId = params.id;
   return (
     <div>
-      <GalleryContainer />
+      <GalleryContainer packageId={packageId} />
     </div>
   );
 };
