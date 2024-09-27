@@ -7,6 +7,7 @@ import { Loader2, MessageSquareX } from "lucide-react";
 import { TextEffect } from "@/components/ui/text-effect";
 import { transformRatings } from "@/lib/reviews";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 import PackageReviewCard from "./package_review_card";
 import PackageSectionTitle from "./package_section_title";
 
@@ -37,6 +38,12 @@ const PackageReviews = ({
       ).then((res) => res.json()), // Fetching the comments with pagination
     getNextPageParam: (lastPage) => lastPage?.nextPage || false, // Determines the next page for infinite loading
   });
+
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return null;
+  }
 
   // Render comments if response contains data
   let content;
@@ -76,16 +83,35 @@ const PackageReviews = ({
 
     content = (
       <div className="flex flex-col gap-y-8">
-        {comments.map(({ _id, userId, comment, title, images, createdAt }) => (
-          <PackageReviewCard
-            key={_id} // Unique key for React rendering optimization
-            author={{ name: userId?.name, profileImage: userId?.image }}
-            comment={comment}
-            title={title || ""} // Fallback for missing title
-            images={images}
-            createdAt={createdAt}
-          />
-        ))}
+        {comments.map(
+          ({
+            _id,
+            userId,
+            comment,
+            title,
+            images,
+            createdAt,
+            helpful = [],
+            notHelpful = [],
+          }) => {
+            const actionVisibility =
+              !helpful.includes(user?.id) || !notHelpful?.includes(user?.id);
+            return (
+              <PackageReviewCard
+                key={_id} // Unique key for React rendering optimization
+                author={{ name: userId?.name, profileImage: userId?.image }}
+                comment={comment}
+                title={title || ""} // Fallback for missing title
+                images={images}
+                createdAt={createdAt}
+                commentId={_id}
+                clerkId={user?.id}
+                helpful={helpful || []}
+                notHelpful={notHelpful || []}
+              />
+            );
+          }
+        )}
       </div>
     );
   }
@@ -142,61 +168,6 @@ const PackageReviews = ({
 };
 
 export default PackageReviews;
-
-const LoadMoreButton = ({ fetchNextPage, isFetchingNextPage }) => {
-  return (
-    <motion.div
-      initial={{ width: "auto" }}
-      animate={{
-        width: isFetchingNextPage ? "60px" : "auto", // Animate to smaller width when loading, expand when not loading
-        transition: { duration: 0.5, ease: "easeInOut" },
-      }}
-      className="my-24 flex items-center justify-center"
-    >
-      <motion.button
-        type="button"
-        onClick={() => fetchNextPage()} // Fetch next page on button click
-        className="flex items-center rounded-full border border-gray-300 bg-secondary-50 px-3 py-2 text-sm font-medium text-tourHub-title2 hover:bg-gray-100"
-      >
-        {isFetchingNextPage ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0, scale: 0.5 }} // Animate loader from smaller size
-            animate={{ opacity: 1, scale: 1 }} // Loader appears with scale-up effect
-            exit={{ opacity: 0, scale: 0.5 }} // Animate loader out when it's done
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <Loader2 className="animate-spin h-4 w-4 text-tourHub-gray" />{" "}
-            {/* Loader Spinner */}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="load-more"
-            initial={{ opacity: 0 }} // Text fades in when loader is off
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="flex items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="mr-1 h-4 w-4"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Load More
-          </motion.div>
-        )}
-      </motion.button>
-    </motion.div>
-  );
-};
 
 // Stats
 const Stats = ({
