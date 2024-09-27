@@ -30,6 +30,17 @@ const FeedbackModalForm = dynamic(() => import("./package_ratings_modal"), {
 const PackageCommentBox = ({ packageId }) => {
   const [isOpen, setOpen] = useState(false); // State to control modal visibility
 
+  // Initialize form with validation schema and default values
+  const { user, isLoaded } = useUser();
+
+  const form = useForm({
+    resolver: zodResolver(commentSchema),
+    defaultValues: {
+      tourPackageId: packageId,
+      clerkId: user?.id, // Optional chaining to handle possible null values
+    },
+  });
+
   // Optimized mutation to handle form submission
   const { mutate, isPending } = useMutation({
     mutationKey: ["comment", packageId],
@@ -59,20 +70,9 @@ const PackageCommentBox = ({ packageId }) => {
     },
   });
 
-  const { user, isLoaded } = useUser();
-
   if (!isLoaded) {
     return null;
   }
-
-  // Initialize form with validation schema and default values
-  const form = useForm({
-    resolver: zodResolver(commentSchema),
-    defaultValues: {
-      tourPackageId: packageId,
-      clerkId: user?.id, // Optional chaining to handle possible null values
-    },
-  });
 
   function onSubmit(data) {
     mutate(data);
