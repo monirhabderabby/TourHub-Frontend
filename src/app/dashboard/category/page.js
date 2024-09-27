@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import CategoryTable from "./components/categoryTable";
 
 const CategoryPage = () => {
     return (
@@ -23,6 +24,7 @@ const CategoryPage = () => {
                 </Link>
             </div>
             <Separator className="mb-4" />
+            <CategoryTable />
         </div>
     );
 };

@@ -14,7 +14,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const CategorySchema = z.object({
@@ -29,34 +33,87 @@ const CategorySchema = z.object({
         .max(160, {
             message: "Description must not be longer than 160 characters.",
         }),
-    image: z.array(z.string().min(1)),
+    image: z.string(),
 });
 
-const CategoryForm = () => {
+const CategoryForm = ({ category }) => {
+    const router = useRouter();
+
+    const formTitle = category ? "Update Category" : "Create Category";
+    const description = category ? "Update the category" : "Add a new category";
+    const btnText = category ? "Update" : "Submit";
+    const toastMessage = category
+        ? "Category updated successfully."
+        : "Category created successfully.";
+
     const form = useForm({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
-            name: "",
-            categoryDescription: "",
-            image: [],
+            name: category.name,
+            categoryDescription: category.categoryDescription,
+            image: category.image,
+        },
+    });
+
+    // category create post api connection
+    const { mutate, isPending } = useMutation({
+        mutationKey: ["categories"],
+        mutationFn: async (data) => {
+            // Determine whether to use POST or PATCH
+            const method = category ? "PATCH" : "POST";
+            const url = category
+                ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${category._id}` // Assume ID comes from category
+                : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`;
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json(); // Get the error response
+                toast.error(errorResponse.message || "An error occured");
+            }
+
+            return response.json();
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: () => {
+            toast.success(toastMessage);
+            router.push("/dashboard/category");
         },
     });
 
     function onSubmit(data) {
-        console.log(data);
+        mutate(data);
     }
 
     return (
         <div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter">
-                        Create Category
+                    <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter mb-1">
+                        {formTitle}
                     </h2>
                     <p className="text-tourHub-green-dark text-base mb-1">
-                        Add a new category
+                        {description}
                     </p>
                 </div>
+                {category && (
+                    <Button
+                        disabled={isPending}
+                        variant="destructive"
+                        size="sm"
+                        // onClick={() => setActive(true)}
+                    >
+                        <Trash className="h-4 w-4" />
+                    </Button>
+                )}
             </div>
             <Separator className="mb-4" />
             <Form {...form}>
@@ -107,8 +164,7 @@ const CategoryForm = () => {
                                                 field.onChange(imageUrls[0]);
                                             }}
                                             value={[field.value]}
-                                            // isForClerk={false}
-                                            // disabled={isPending}
+                                            disabled={isPending}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -117,7 +173,16 @@ const CategoryForm = () => {
                         />
                     </div>
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={isPending}>
+                        {isPending ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </>
+                        ) : (
+                            btnText
+                        )}
+                    </Button>
                 </form>
             </Form>
         </div>
