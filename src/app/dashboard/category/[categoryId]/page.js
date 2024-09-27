@@ -1,13 +1,9 @@
-import dynamic from "next/dynamic";
+import Category from "./components/category";
 
-const CategoryForm = dynamic(() => import("./components/categoryForm"), {
-    ssr: false,
-});
-
-const CategoryPage = () => {
+const CategoryPage = ({ params }) => {
     return (
         <div>
-            <CategoryForm />
+            <Category categoryId={params.categoryId} />
         </div>
     );
 };
