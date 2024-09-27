@@ -52,6 +52,7 @@ const PackageDetails = ({ data = {}, packageId }) => {
         averagePriceRating={data?.averagePriceRating || ""}
         averageRoomRating={data?.averageRoomRating || ""}
         averageTourOperatorRating={data?.averageTourOperatorRating || ""}
+        packageId={packageId}
       />
 
       {/* Comments */}
