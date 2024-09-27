@@ -40,7 +40,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/rating`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "content-type": "application/json",
           },
@@ -144,6 +144,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
 
   // Handle form submission
   const onSubmit = (data) => {
+    console.log(data);
     mutate(data);
   };
 

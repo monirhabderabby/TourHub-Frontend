@@ -20,7 +20,7 @@ const GalleryContainer = ({ packageId }) => {
     queryKey: ["package", packageId],
     queryFn: () =>
       fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${packageId}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${packageId}?fields=bannerImage,name`
       ).then((res) => res.json()),
   });
 
