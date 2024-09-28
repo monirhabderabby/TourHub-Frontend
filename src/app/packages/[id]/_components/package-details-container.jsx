@@ -71,7 +71,12 @@ const PackageDetailsContainer = ({ packageId }) => {
             <PackageDetails packageId={packageId} data={response?.data} />
           </div>
           <div>
-            <PackageBooking price={price} from={startDate} to={endDate} />
+            <PackageBooking
+              price={price}
+              from={startDate}
+              to={endDate}
+              packageId={packageId}
+            />
           </div>
         </div>
         {/* suggest packages */}
