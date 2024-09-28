@@ -40,13 +40,13 @@ const Category = ({ categoryId }) => {
                 </p>
             </div>
         );
-    } else if (!isLoading) {
-        return (
-            <div>
-                <CategoryForm category={categoryData?.data} />
-            </div>
-        );
     }
+
+    return (
+        <div>
+            <CategoryForm category={categoryData?.data} />
+        </div>
+    );
 };
 
 export default Category;

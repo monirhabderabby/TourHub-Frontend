@@ -24,49 +24,81 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import MultiSelectComboboxCreate from "@/components/ui/multi-select-combobox-create";
+import MultiSelectCombobox from "@/components/ui/multi-select-component";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { TextEffect } from "@/components/ui/text-effect";
 import { countries } from "@/lib/countriesData";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronsUpDown, MapPin } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronsUpDown, CircleOff, Loader2Icon, MapPin } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const PackageSchema = z.object({
-    name: z.string().min(3, {
-        message: "Name must be at least 3 characters.",
-    }),
-    location: z.string().min(3, {
-        message: "Location must be at least 3 characters.",
-    }),
-    startDate: z.date({
-        required_error: "Start date is required.",
-    }),
-    endDate: z.date({
-        required_error: "End date is required.",
-    }),
-    price: z.string().min(1, {
-        message: "Price is required.",
-    }),
-    totalPeople: z.string().min(1, {
-        message: "Total people is required.",
-    }),
-    description: z.string().min(3, {
-        message: "Description is required.",
-    }),
-    country: z.string({
-        required_error: "Please select a country.",
-    }),
-    cardImage: z.array(z.string().min(1)),
-    bannerImage: z.array(z.string().min(1)),
-});
+const PackageSchema = z
+    .object({
+        name: z.string().min(3, {
+            message: "Name must be at least 3 characters.",
+        }),
+        location: z.string().min(3, {
+            message: "Location must be at least 3 characters.",
+        }),
+        startDate: z
+            .date({
+                message: "Start date is required.",
+            })
+            .min(new Date(), {
+                message: "Start date cannot be in the past.",
+            }),
+        endDate: z.date({
+            message: "End date is required.",
+        }),
+        price: z.string().min(1, {
+            message: "Price is required.",
+        }),
+        totalPeople: z.string().min(1, {
+            message: "Total people is required.",
+        }),
+        description: z.string().min(3, {
+            message: "Description is required.",
+        }),
+        country: z.string().min(1, {
+            message: "Please select a country.",
+        }),
+        cardImage: z.string().min(1),
+        bannerImage: z.array(z.string().min(1)).min(1, {
+            message: "Banner image is required.",
+        }),
+        category: z.array(z.string()).min(1, {
+            message: "Please select at least one category.",
+        }),
+        include: z.array(z.string().min(1)).min(1, {
+            message: "Please add include features.",
+        }),
+        exclude: z.array(z.string().min(1)).min(1, {
+            message: "Please add exclude features.",
+        }),
+    })
+    .refine((data) => data.endDate > data.startDate, {
+        message: "End date must be after start date.",
+        path: ["endDate"], // Point the error at endDate
+    });
 
 const PackageForm = () => {
+    const featuresData = [
+        { value: "Guided Tours", label: "Guided Tours" },
+        { value: "Meals", label: "Meals" },
+        { value: "Accommodation", label: "Accommodation" },
+        { value: "Flights", label: "Flights" },
+        { value: "Personal Expenses", label: "Personal Expenses" },
+    ];
+
     const form = useForm({
         resolver: zodResolver(PackageSchema),
         defaultValues: {
@@ -78,13 +110,53 @@ const PackageForm = () => {
             totalPeople: "",
             description: "",
             country: "",
-            cardImage: [""],
-            bannerImage: [""],
+            cardImage: [],
+            bannerImage: [],
+            category: [],
+            include: [],
+            exclude: [],
         },
     });
 
+    const {
+        data: categoryData,
+        isLoading,
+        isError,
+        error,
+    } = useQuery({
+        queryKey: ["categories"],
+        queryFn: () =>
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`).then(
+                (res) => res.json()
+            ),
+    });
+
+    const categoryInfo = categoryData?.data?.map((category) => ({
+        value: category._id,
+        label: category.name,
+    }));
+
     function onSubmit(data) {
         console.log(data);
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-[calc(100vh-280px)]">
+                <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
+            </div>
+        );
+    } else if (isError) {
+        return (
+            <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
+                <CircleOff className="h-7 w-7 text-red-600" />
+                <p className="max-w-[400px] text-center text-14px text-tourHub-gray">
+                    <TextEffect per="char" preset="fade">
+                        {error.message}
+                    </TextEffect>
+                </p>
+            </div>
+        );
     }
 
     return (
@@ -160,7 +232,7 @@ const PackageForm = () => {
                                                     variant="outline"
                                                     role="combobox"
                                                     className={cn(
-                                                        "w-full justify-between",
+                                                        "w-full justify-between font-normal",
                                                         !field.value &&
                                                             "text-muted-foreground"
                                                     )}
@@ -224,8 +296,85 @@ const PackageForm = () => {
                                 </FormItem>
                             )}
                         />
-
                         {/* Country field end */}
+
+                        {/* Category */}
+                        <div>
+                            <FormField
+                                control={form.control}
+                                name="category"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Category</FormLabel>
+                                        <FormControl>
+                                            <MultiSelectCombobox
+                                                selectedValues={field.value}
+                                                onChange={field.onChange}
+                                                data={categoryInfo}
+                                                placeholder="Select category"
+                                                searchPlaceholder="Search category..."
+                                                emptyMessage={
+                                                    "No framework found."
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        {/* Included features */}
+                        <div>
+                            <FormField
+                                control={form.control}
+                                name="include"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Included features</FormLabel>
+                                        <FormControl>
+                                            <MultiSelectComboboxCreate
+                                                selectedValues={field.value}
+                                                onChange={field.onChange}
+                                                data={featuresData}
+                                                placeholder="Select features"
+                                                searchPlaceholder="Search feature..."
+                                                emptyMessage={
+                                                    "No feature found."
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        {/* Excluded features */}
+                        <div>
+                            <FormField
+                                control={form.control}
+                                name="exclude"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Excluded features</FormLabel>
+                                        <FormControl>
+                                            <MultiSelectComboboxCreate
+                                                selectedValues={field.value}
+                                                onChange={field.onChange}
+                                                data={featuresData}
+                                                placeholder="Select features"
+                                                searchPlaceholder="Search feature..."
+                                                emptyMessage={
+                                                    "No feature found."
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
 
                     {/* Description - text editor */}
