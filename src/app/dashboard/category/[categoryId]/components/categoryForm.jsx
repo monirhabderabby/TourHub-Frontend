@@ -4,12 +4,12 @@ import { default as SingleImageUpload } from "@/components/common/single-image-u
 import TextField from "@/components/form/textField";
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,171 +22,171 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const CategorySchema = z.object({
-    name: z.string().min(3, {
-        message: "Name must be at least 3 characters.",
+  name: z.string().min(3, {
+    message: "Name must be at least 3 characters.",
+  }),
+  categoryDescription: z
+    .string()
+    .min(10, {
+      message: "Description must be at least 10 characters.",
+    })
+    .max(160, {
+      message: "Description must not be longer than 160 characters.",
     }),
-    categoryDescription: z
-        .string()
-        .min(10, {
-            message: "Description must be at least 10 characters.",
-        })
-        .max(160, {
-            message: "Description must not be longer than 160 characters.",
-        }),
-    image: z.string(),
+  image: z.string(),
 });
 
 const CategoryForm = ({ category }) => {
-    const router = useRouter();
+  const router = useRouter();
 
-    const formTitle = category ? "Update Category" : "Create Category";
-    const description = category ? "Update the category" : "Add a new category";
-    const btnText = category ? "Update" : "Submit";
-    const toastMessage = category
-        ? "Category updated successfully."
-        : "Category created successfully.";
+  const formTitle = category ? "Update Category" : "Create Category";
+  const description = category ? "Update the category" : "Add a new category";
+  const btnText = category ? "Update" : "Submit";
+  const toastMessage = category
+    ? "Category updated successfully."
+    : "Category created successfully.";
 
-    const form = useForm({
-        resolver: zodResolver(CategorySchema),
-        defaultValues: {
-            name: category.name,
-            categoryDescription: category.categoryDescription,
-            image: category.image,
+  const form = useForm({
+    resolver: zodResolver(CategorySchema),
+    defaultValues: {
+      name: category?.name,
+      categoryDescription: category?.categoryDescription,
+      image: category?.image,
+    },
+  });
+
+  // category create post api connection
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["categories"],
+    mutationFn: async (data) => {
+      // Determine whether to use POST or PATCH
+      const method = category ? "PATCH" : "POST";
+      const url = category
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${category._id}` // Assume ID comes from category
+        : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`;
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "content-type": "application/json",
         },
-    });
+        body: JSON.stringify(data),
+      });
 
-    // category create post api connection
-    const { mutate, isPending } = useMutation({
-        mutationKey: ["categories"],
-        mutationFn: async (data) => {
-            // Determine whether to use POST or PATCH
-            const method = category ? "PATCH" : "POST";
-            const url = category
-                ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${category._id}` // Assume ID comes from category
-                : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`;
+      if (!response.ok) {
+        const errorResponse = await response.json(); // Get the error response
+        toast.error(errorResponse.message || "An error occured");
+      }
 
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+      return response.json();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      toast.success(toastMessage);
+      router.push("/dashboard/category");
+    },
+  });
 
-            if (!response.ok) {
-                const errorResponse = await response.json(); // Get the error response
-                toast.error(errorResponse.message || "An error occured");
-            }
+  function onSubmit(data) {
+    mutate(data);
+  }
 
-            return response.json();
-        },
-        onError: (error) => {
-            toast.error(error.message);
-        },
-        onSuccess: () => {
-            toast.success(toastMessage);
-            router.push("/dashboard/category");
-        },
-    });
-
-    function onSubmit(data) {
-        mutate(data);
-    }
-
-    return (
+  return (
+    <div>
+      <div className="flex items-center justify-between">
         <div>
-            <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter mb-1">
-                        {formTitle}
-                    </h2>
-                    <p className="text-tourHub-green-dark text-base mb-1">
-                        {description}
-                    </p>
-                </div>
-                {category && (
-                    <Button
-                        disabled={isPending}
-                        variant="destructive"
-                        size="sm"
-                        // onClick={() => setActive(true)}
-                    >
-                        <Trash className="h-4 w-4" />
-                    </Button>
-                )}
-            </div>
-            <Separator className="mb-4" />
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="w-full space-y-6"
-                >
-                    <div className="grid grid-cols-2">
-                        <TextField
-                            control={form.control}
-                            fieldName={"name"}
-                            type={"text"}
-                            label={"Category Name"}
-                            placeholder={"Category name"}
-                        />
-                    </div>
-                    <div className="grid grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="categoryDescription"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Tell us a little bit about yourself"
-                                            className="resize-none h-24"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    {/* Category image */}
-                    <div className="grid grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="image"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Category Image</FormLabel>
-                                    <FormControl>
-                                        <SingleImageUpload
-                                            onChange={(imageUrls) => {
-                                                field.onChange(imageUrls[0]);
-                                            }}
-                                            value={[field.value]}
-                                            disabled={isPending}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <Button type="submit" disabled={isPending}>
-                        {isPending ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Please wait
-                            </>
-                        ) : (
-                            btnText
-                        )}
-                    </Button>
-                </form>
-            </Form>
+          <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter mb-1">
+            {formTitle}
+          </h2>
+          <p className="text-tourHub-green-dark text-base mb-1">
+            {description}
+          </p>
         </div>
-    );
+        {category && (
+          <Button
+            disabled={isPending}
+            variant="destructive"
+            size="sm"
+            // onClick={() => setActive(true)}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+      <Separator className="mb-4" />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-6"
+        >
+          <div className="grid grid-cols-2">
+            <TextField
+              control={form.control}
+              fieldName={"name"}
+              type={"text"}
+              label={"Category Name"}
+              placeholder={"Category name"}
+            />
+          </div>
+          <div className="grid grid-cols-2">
+            <FormField
+              control={form.control}
+              name="categoryDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us a little bit about yourself"
+                      className="resize-none h-24"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Category image */}
+          <div className="grid grid-cols-2">
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category Image</FormLabel>
+                  <FormControl>
+                    <SingleImageUpload
+                      onChange={(imageUrls) => {
+                        field.onChange(imageUrls[0]);
+                      }}
+                      value={[field.value]}
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <Button type="submit" disabled={isPending}>
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              btnText
+            )}
+          </Button>
+        </form>
+      </Form>
+    </div>
+  );
 };
 
 export default CategoryForm;

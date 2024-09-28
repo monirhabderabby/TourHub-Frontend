@@ -1,11 +1,11 @@
+import Overview from "./(components)/overview_stats";
+
 const DashboardPage = () => {
-    return (
-        <div>
-            <h1 className="text-3xl font-medium tracking-wide text-tourHub-gray">
-                Welcome to Dashboard
-            </h1>
-        </div>
-    );
+  return (
+    <div>
+      <Overview />
+    </div>
+  );
 };
 
 export default DashboardPage;
