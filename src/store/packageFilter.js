@@ -64,4 +64,19 @@ export const useFilterStore = create((set) => ({
   setSortBy: (value) => set((state) => ({ sortBy: value })),
   setPage: (number) => set((state) => ({ page: number })),
   setTotalPage: (number) => set((state) => ({ totalPage: number })),
+  reset: () =>
+    set((state) => ({
+      min: 50,
+      max: 4000,
+      startDate: "",
+      endDate: "",
+      category: "",
+      starRating: "",
+      location: "",
+      country: "",
+      sortBy: "",
+      limit: 10,
+      page: 1,
+      totalPage: 0,
+    })),
 }));
