@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.0.45",
     "@clerk/nextjs": "^5.5.5",
     "@edgestore/react": "^0.2.2",
     "@edgestore/server": "^0.2.2",
