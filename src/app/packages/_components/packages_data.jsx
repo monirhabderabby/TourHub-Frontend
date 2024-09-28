@@ -82,6 +82,25 @@ const PackagesData = () => {
     }
   };
 
+  useEffect(() => {
+    // Scroll to the top of the page on initial load
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: smooth scrolling
+    });
+  }, [
+    min,
+    max,
+    startDate,
+    endDate,
+    location,
+    country,
+    category.starRating,
+    sortBy,
+    page,
+    limit,
+  ]);
+
   let content;
 
   if (isLoading) {

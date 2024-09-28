@@ -28,6 +28,7 @@ const PackageFilter = () => {
       <FilterLocation />
       <FilterPrice />
       <FilterRatings />
+      <ResetButton />
     </div>
   );
 };
@@ -363,6 +364,20 @@ const FilterLocation = () => {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+};
+
+const ResetButton = () => {
+  const { reset } = useFilterStore();
+  return (
+    <div className="py-8 px-6">
+      <button
+        className="bg-tourHub-green-dark hover:text-tourHub-green-hover w-full py-2 rounded-8px text-white hover:text-white/80 transition-all duration-300"
+        onClick={() => reset()}
+      >
+        Reset Filter
+      </button>
     </div>
   );
 };
