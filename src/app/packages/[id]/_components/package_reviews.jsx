@@ -36,7 +36,13 @@ const PackageReviews = ({
       fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/comment/${packageId}?sortBy=averageRating&page=${pageParam}&limit=5`
       ).then((res) => res.json()), // Fetching the comments with pagination
-    getNextPageParam: (lastPage) => lastPage?.nextPage || false, // Determines the next page for infinite loading
+    getNextPageParam: (lastPage) => {
+      // Check if there are more pages
+      if (lastPage.success && lastPage.meta.totalPage > lastPage.meta.page) {
+        return lastPage.meta.page + 1; // Return the next page number
+      }
+      return undefined; // No more pages
+    },
   });
 
   const { user, isLoaded } = useUser();
@@ -94,8 +100,6 @@ const PackageReviews = ({
             helpful = [],
             notHelpful = [],
           }) => {
-            const actionVisibility =
-              !helpful.includes(user?.id) || !notHelpful?.includes(user?.id);
             return (
               <PackageReviewCard
                 key={_id} // Unique key for React rendering optimization
@@ -140,6 +144,7 @@ const PackageReviews = ({
             type="button"
             onClick={() => fetchNextPage()} // Fetch next page on button click
             className="flex items-center rounded-full border border-gray-300 bg-secondary-50 px-3 py-2 text-sm font-medium text-tourHub-title2 hover:bg-gray-100"
+            disabled={isFetchingNextPage || !hasNextPage}
           >
             {isFetchingNextPage ? (
               <Loader2 className="animate-spin h-4 w-4 text-tourHub-gray" /> // Spinner when fetching next page
@@ -157,7 +162,11 @@ const PackageReviews = ({
                     clipRule="evenodd"
                   />
                 </svg>
-                Load More
+                {!hasNextPage
+                  ? "End"
+                  : isFetchingNextPage
+                  ? "Loading.."
+                  : "Load More"}
               </>
             )}
           </button>
