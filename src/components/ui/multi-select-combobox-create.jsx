@@ -50,14 +50,17 @@ export default function MultiSelectComboboxCreate({
     };
 
     const handleCreateNew = () => {
-        const newData = {
-            value: `new-${Date.now()}`,
-            label: search,
-        };
-        setFinalData((prev) => [...prev, newData]);
-        onChange([...selectedValues, newData.value]);
-        setSearch("");
-        setOpen(false);
+        const newItem = search.trim();
+        if (newItem && !finalData.some((d) => d.value === newItem)) {
+            const newData = {
+                value: newItem,
+                label: newItem,
+            };
+            setFinalData((prev) => [...prev, newData]);
+            onChange([...selectedValues, newItem]);
+            setSearch("");
+            setOpen(false);
+        }
     };
 
     return (
@@ -91,7 +94,7 @@ export default function MultiSelectComboboxCreate({
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="mt-0 w-full"
+                                className="mt-2 w-full"
                                 onClick={handleCreateNew}
                             >
                                 <PlusCircle className="mr-2 h-4 w-4" />
