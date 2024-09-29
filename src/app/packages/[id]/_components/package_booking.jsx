@@ -8,25 +8,22 @@ import { useUser } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 
-const PackageBooking = ({ price, from, to, packageId }) => {
+const PackageBooking = ({ price, from, to, packageId, packageName }) => {
   const { user, isLoaded } = useUser();
 
   if (!isLoaded) return null;
   const { mutate: checkoutMutation, isPending } = useMutation({
     mutationKey: ["checkout"],
     mutationFn: (data) =>
-      fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      ).then((res) => res.json()),
+      fetch(`/api/project/checkout`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((res) => res.json()),
     onSuccess: (data) => {
-      console.log(data);
+      window.location.assign(data?.url);
     },
     onError: (error) => {
       console.log(error?.message);
@@ -36,7 +33,8 @@ const PackageBooking = ({ price, from, to, packageId }) => {
   const checkoutHandler = () => {
     checkoutMutation({
       packageId: packageId,
-      clerkId: user?.id,
+      packageName: packageName,
+      packagePrice: price,
     });
   };
   return (
