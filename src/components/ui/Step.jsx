@@ -104,7 +104,7 @@ function CloseIcon(props) {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="lucide lucide-x"
+      className="lucide lucide-x"
     >
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />

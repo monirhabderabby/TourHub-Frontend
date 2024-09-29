@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { useUser } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
+import { toast } from "sonner";
 
 const PackageBooking = ({ price, from, to, packageId, packageName }) => {
   const { user, isLoaded } = useUser();
@@ -14,19 +15,36 @@ const PackageBooking = ({ price, from, to, packageId, packageName }) => {
   if (!isLoaded) return null;
   const { mutate: checkoutMutation, isPending } = useMutation({
     mutationKey: ["checkout"],
-    mutationFn: (data) =>
-      fetch(`/api/project/checkout`, {
+    mutationFn: async (data) => {
+      const response = await fetch(`/api/project/checkout`, {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json", // Use capitalized "Content-Type"
         },
         body: JSON.stringify(data),
-      }).then((res) => res.json()),
+      });
+
+      if (!response.ok) {
+        // Throw an error if the response is not ok
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Something went wrong during checkout."
+        );
+      }
+
+      return response.json(); // Return the parsed JSON data
+    },
     onSuccess: (data) => {
-      window.location.assign(data?.url);
+      if (data?.url) {
+        // Redirect to the checkout URL
+        window.location.assign(data.url);
+      } else {
+        toast.error("Failed to create a checkout URL!"); // User-friendly error message
+      }
     },
     onError: (error) => {
-      console.log(error?.message);
+      console.error("Checkout error:", error); // Log error details for debugging
+      toast.error(error.message || "An unexpected error occurred."); // Provide a fallback message
     },
   });
 
