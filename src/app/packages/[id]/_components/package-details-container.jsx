@@ -76,6 +76,7 @@ const PackageDetailsContainer = ({ packageId }) => {
               from={startDate}
               to={endDate}
               packageId={packageId}
+              packageName={name || ""}
             />
           </div>
         </div>
