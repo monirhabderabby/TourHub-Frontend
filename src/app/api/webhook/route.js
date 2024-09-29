@@ -26,12 +26,6 @@ export async function POST(req) {
   const packageName = session?.metadata?.packageName;
 
   if (event.type === "checkout.session.completed") {
-    console.log({
-      clerkId,
-      packageId,
-      packagePrice,
-      packageName,
-    });
   }
 
   return NextResponse.json({ success: true });
