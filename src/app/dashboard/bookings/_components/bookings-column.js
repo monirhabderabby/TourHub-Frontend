@@ -1,6 +1,10 @@
-import { cn } from "@/lib/utils";
+// Packages
 import moment from "moment";
-import BookingsAction from "./row-action";
+
+// Components
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
+import { cn } from "@/lib/utils";
+import BookingsRowAction from "./BookingsRowAction";
 
 export const BookingsColumn = [
   {
@@ -35,7 +39,9 @@ export const BookingsColumn = [
   },
   {
     accessorKey: "amount",
-    header: "Amount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Amount" />
+    ),
     cell: ({ row }) => (
       <p className="font-medium font-inter text-tourHub-title2">
         ${row.getValue("amount")}
@@ -64,7 +70,7 @@ export const BookingsColumn = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return <BookingsAction data={row.original} />;
+      return <BookingsRowAction data={row.original} />;
     },
   },
 ];

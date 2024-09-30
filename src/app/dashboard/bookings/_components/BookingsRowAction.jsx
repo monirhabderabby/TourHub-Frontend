@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const BookingsAction = ({ data }) => {
+const BookingsRowAction = ({ data }) => {
   const packageId = data?.packageId;
   return (
     <div>
@@ -14,4 +14,4 @@ const BookingsAction = ({ data }) => {
   );
 };
 
-export default BookingsAction;
+export default BookingsRowAction;
