@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { CategorySchema } from "@/schema/category.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, Trash } from "lucide-react";
@@ -21,22 +22,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const CategorySchema = z.object({
-    name: z.string().min(3, {
-        message: "Name must be at least 3 characters.",
-    }),
-    categoryDescription: z
-        .string()
-        .min(10, {
-            message: "Description must be at least 10 characters.",
-        })
-        .max(160, {
-            message: "Description must not be longer than 160 characters.",
-        }),
-    image: z.string(),
-});
 
 const CategoryForm = ({ category }) => {
     const [open, setOpen] = useState(false);

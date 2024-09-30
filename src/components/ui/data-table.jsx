@@ -22,7 +22,7 @@ import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Input } from "./input";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, filterField, filterPlaceholder }) {
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
 
@@ -41,21 +41,14 @@ export function DataTable({ columns, data }) {
     },
   });
 
-  const categoryData = [
-    {
-      label: "Sea",
-      value: "66f3ca4d3ee46925ae3bda18",
-    },
-  ];
-
   return (
     <div>
-      <div className="flex justify-between gap-6 items-center py-4">
+      <div className="flex justify-between items-center py-4">
         <Input
-          placeholder="Filter by name"
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
+          placeholder={filterPlaceholder}
+          value={table.getColumn(filterField)?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn(filterField)?.setFilterValue(event.target.value)
           }
           className="max-w-sm focus-visible:ring-[#3a6f54]"
         />

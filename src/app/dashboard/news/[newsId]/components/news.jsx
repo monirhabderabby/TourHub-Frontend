@@ -3,25 +3,21 @@
 import { TextEffect } from "@/components/ui/text-effect";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
-import dynamic from "next/dynamic";
+import NewsForm from "./newsForm";
 
-const CategoryForm = dynamic(() => import("./categoryForm"), {
-    ssr: false,
-});
-
-const Category = ({ categoryId }) => {
+const News = ({ newsId }) => {
     const {
-        data: categoryData,
+        data: newsData,
         isLoading,
         isError,
         error,
     } = useQuery({
-        queryKey: ["categories", categoryId],
+        queryKey: ["news", newsId],
         queryFn: () =>
             fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${categoryId}`
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${newsId}`
             ).then((res) => res.json()),
-        enabled: categoryId?.length >= 12,
+        enabled: newsId?.length >= 12,
     });
 
     if (isLoading) {
@@ -45,9 +41,9 @@ const Category = ({ categoryId }) => {
 
     return (
         <div>
-            <CategoryForm category={categoryData?.data} />
+            <NewsForm news={newsData?.data} />
         </div>
     );
 };
 
-export default Category;
+export default News;

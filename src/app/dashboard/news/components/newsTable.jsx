@@ -1,36 +1,28 @@
 "use client";
 
+import { DataTable } from "@/components/ui/data-table";
 import { TextEffect } from "@/components/ui/text-effect";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
-import dynamic from "next/dynamic";
+import { columns } from "./columns";
 
-const CategoryForm = dynamic(() => import("./categoryForm"), {
-    ssr: false,
-});
-
-const Category = ({ categoryId }) => {
-    const {
-        data: categoryData,
-        isLoading,
-        isError,
-        error,
-    } = useQuery({
-        queryKey: ["categories", categoryId],
+const NewsTable = () => {
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["news"],
         queryFn: () =>
-            fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${categoryId}`
-            ).then((res) => res.json()),
-        enabled: categoryId?.length >= 12,
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then(
+                (res) => res.json()
+            ),
     });
 
-    if (isLoading) {
+    if (isLoading)
         return (
             <div className="flex justify-center items-center h-[calc(100vh-280px)]">
                 <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
             </div>
         );
-    } else if (isError) {
+
+    if (isError)
         return (
             <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
                 <CircleOff className="h-7 w-7 text-red-600" />
@@ -41,13 +33,17 @@ const Category = ({ categoryId }) => {
                 </p>
             </div>
         );
-    }
 
     return (
         <div>
-            <CategoryForm category={categoryData?.data} />
+            <DataTable
+                columns={columns}
+                data={data?.data}
+                filterField={"title"}
+                filterPlaceholder={"Filter by title"}
+            />
         </div>
     );
 };
 
-export default Category;
+export default NewsTable;

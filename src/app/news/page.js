@@ -8,7 +8,7 @@ import { Loader2Icon } from "lucide-react";
 // Components
 import NewsCard from "@/components/card/newsCard";
 import AllPageBanner from "@/components/common/AllPageBanner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs} from "@/components/ui/tabs";
 import { newsCategory } from "@/lib/newsCategory";
 import { useEffect, useState } from "react";
 
@@ -23,14 +23,15 @@ const tabContentVariants = {
   },
   exit: { opacity: 0 },
 };
-// 
+//
 const NewsPage = () => {
   let [activeTab, setActiveTab] = useState(newsCategory[0].categoryName);
 
   const { data } = useQuery({
     queryKey: ["news"],
     queryFn: () =>
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) => res.json()),
+      fetch(`http://localhost:5000/api/v1/news`).then((res) => res.json()),
+    // fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then((res) => res.json()),
   });
 
   useEffect(() => {
@@ -71,8 +72,11 @@ const NewsPage = () => {
               <button
                 key={tab.categoryName}
                 onClick={() => setActiveTab(tab.categoryName)}
-                className={`${activeTab === tab.categoryName? " text-white bg-tourHub-green-light" : "text-tourHub-green-light bg-gray-100"
-                  } relative rounded-full px-3 py-1.5 text-sm font-medium   transition focus-visible:outline-2`}
+                className={`${
+                  activeTab === tab.categoryName
+                    ? " text-white bg-tourHub-green-light"
+                    : "text-tourHub-green-light bg-gray-100"
+                } relative rounded-full px-3 py-1.5 text-sm font-medium   transition focus-visible:outline-2`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
@@ -91,10 +95,7 @@ const NewsPage = () => {
             ))}
           </div>
 
-          <motion.div
-            layout
-            className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-[40px] gap-x-[58px] w-full bg-transparent mt-10"
-          >
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-[40px] gap-x-[58px] w-full bg-transparent mt-10">
             <AnimatePresence>
               {data?.data
                 .filter((n) => {
@@ -106,11 +107,9 @@ const NewsPage = () => {
                     return n.newsCategory == "Explore World";
                   } else if (activeTab == "Family Holidays") {
                     return n.newsCategory == "Family Holidays";
-                  }
-                  else if (activeTab == "Art and culture") {
+                  } else if (activeTab == "Art and culture") {
                     return n.newsCategory == "Art and culture";
-                  }
-                  else if (activeTab == "Hill Travel") {
+                  } else if (activeTab == "Hill Travel") {
                     return n.newsCategory == "Hill Travel";
                   }
                 })
@@ -118,12 +117,8 @@ const NewsPage = () => {
                   <NewsCard key={news._id} news={news} />
                 ))}
             </AnimatePresence>
-          </motion.div>
-          
+          </div>
         </Tabs>
-
-
-    
       </div>
     </div>
   );

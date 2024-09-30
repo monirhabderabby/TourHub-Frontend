@@ -14,23 +14,23 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const RowActions = ({ pack }) => {
+const RowActions = ({ news }) => {
     const [open, setOpen] = useState(false);
 
-    const router = useRouter();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const onCopy = (id) => {
         navigator.clipboard.writeText(id);
-        toast.success(`Product id copied to the clipboard`);
+        toast.success(`News id copied to the clipboard`);
     };
 
-    // package delete api
+    // news delete api
     const { mutate: deleteMutate, isPending: deletePending } = useMutation({
-        mutationKey: ["packages", pack?._id],
+        mutationKey: ["news", news?._id],
         mutationFn: async () => {
             const method = "DELETE";
-            const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${pack._id}`;
+            const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${news._id}`;
 
             const response = await fetch(url, {
                 method: method,
@@ -47,11 +47,11 @@ const RowActions = ({ pack }) => {
             toast.error(error.message);
         },
         onSuccess: () => {
-            toast.success("Package deleted successfully.");
+            toast.success("News deleted successfully.");
             setOpen(false);
 
-            // Invalidate the package query so that it refetches and updates the table
-            queryClient.invalidateQueries(["packages"]);
+            // Invalidate the news query so that it refetches and updates the table
+            queryClient.invalidateQueries(["news"]);
         },
     });
 
@@ -76,19 +76,19 @@ const RowActions = ({ pack }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => onCopy(pack._id)}>
+                    <DropdownMenuItem onClick={() => onCopy(news._id)}>
                         <Copy className="mr-2 h-4 w-4" />
                         Copy Id
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => router.push(`/packages/${pack._id}`)}
+                        onClick={() => router.push(`/news/${news._id}`)}
                     >
                         <FileSearch2 className="mr-2 h-4 w-4" />
-                        View Details
+                        View News
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() =>
-                            router.push(`/dashboard/packages/${pack._id}`)
+                            router.push(`/dashboard/news/${news._id}`)
                         }
                     >
                         <Edit className="mr-2 h-4 w-4" />
