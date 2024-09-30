@@ -1,5 +1,5 @@
 // Packages
-import { LocateIcon } from "lucide-react";
+import { Loader2, LocateIcon } from "lucide-react";
 
 // Components
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import moment from "moment";
 import { toast } from "sonner";
 
 const PackageBooking = ({ price, from, to, packageId, packageName }) => {
-  const { user, isLoaded } = useUser();
+  const { isLoaded } = useUser();
 
   if (!isLoaded) return null;
   const { mutate: checkoutMutation, isPending } = useMutation({
@@ -38,8 +38,6 @@ const PackageBooking = ({ price, from, to, packageId, packageName }) => {
       if (data?.url) {
         // Redirect to the checkout URL
         window.location.assign(data.url);
-      } else {
-        toast.error("Failed to create a checkout URL!"); // User-friendly error message
       }
     },
     onError: (error) => {
@@ -87,11 +85,14 @@ const PackageBooking = ({ price, from, to, packageId, packageName }) => {
           <h3>${price}</h3>
         </div>
         <Button
-          className="w-full bg-tourHub-green-dark hover:bg-tourHub-green-hover py-6 mt-2"
+          className="w-full relative bg-tourHub-green-dark hover:bg-tourHub-green-hover py-6 mt-2"
           onClick={checkoutHandler}
           disabled={isPending}
         >
           {isPending ? "Processing..." : "Book Now"}
+          {isPending && (
+            <Loader2 className="h-4 w-4 md:h-5 md:w-5 animate-spin  absolute right-5 top-4 md:top-3" />
+          )}
         </Button>
       </div>
     </div>

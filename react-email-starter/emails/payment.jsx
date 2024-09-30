@@ -12,7 +12,7 @@ import {
   Text,
 } from "@react-email/components";
 
-export const PaymentTemplete = () => (
+export const PaymentTemplete = ({ packageName, price, transactionId }) => (
   <Html>
     <Head />
     <Preview>Get your order summary, estimated delivery date and more</Preview>
@@ -23,8 +23,8 @@ export const PaymentTemplete = () => (
           <Img
             src={`https://utfs.io/f/0H3br7tpgSGKjjZNU6DLMa5G0bYgKP2IpRlzcQfkXVuTqm1v`}
             width="66"
-            height="22"
-            alt="Nike"
+            height="66"
+            alt="checkMark"
             style={{ margin: "auto" }}
           />
           <Heading style={global.heading}>Payment successful</Heading>
@@ -32,24 +32,24 @@ export const PaymentTemplete = () => (
             Congratulations! Your Payment Was Successful
           </Text>
           <Text style={{ ...global.text, marginTop: 24 }}>
-            We are delighted to inform you that your payment for [Tour Package
-            Name] has been successfully processed. 🎉
+            We are delighted to inform you that your payment for {packageName}{" "}
+            has been successfully processed. 🎉
           </Text>
         </Section>
         <Hr style={{ ...global.hr, marginTop: "20px" }} />
         <Section style={{ ...global.defaultPadding, marginLeft: "20px" }}>
           <Text style={adressTitle}>Payment Details:</Text>
           <Text style={{ ...global.text, fontSize: 14 }}>
-            Amount Paid: $2500
+            Amount Paid: ${price}
           </Text>
           <Text style={{ ...global.text, fontSize: 14 }}>
-            Transaction ID: ThG658F
+            Transaction ID: {transactionId}
           </Text>
           <Text
             style={{ ...global.text, paddingRight: "40px", marginTop: "30px" }}
           >
-            Thank you for choosing [Your Company Name] for your travel
-            adventure. We’re excited to be part of your journey!
+            Thank you for choosing TourHub for your travel adventure. We’re
+            excited to be part of your journey!
           </Text>
         </Section>
 
@@ -75,8 +75,6 @@ export const PaymentTemplete = () => (
     </Body>
   </Html>
 );
-
-export default NikeReceiptEmail;
 
 const paddingX = {
   paddingLeft: "40px",
