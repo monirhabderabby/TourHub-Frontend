@@ -37,6 +37,12 @@ export const dashboardTabsList = [
   },
   {
     id: generateRandomId(),
+    path: "/dashboard/bookings",
+    icon: <Store className="h-4 w-4" />,
+    linkText: "Bookings",
+  },
+  {
+    id: generateRandomId(),
     path: "/dashboard/packages",
     icon: <Package className="h-4 w-4" />,
     linkText: "Packages",

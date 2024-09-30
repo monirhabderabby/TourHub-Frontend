@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const OrderAction = ({ data }) => {
+const BookingsAction = ({ data }) => {
   const packageId = data?.packageId;
   return (
     <div>
@@ -14,4 +14,4 @@ const OrderAction = ({ data }) => {
   );
 };
 
-export default OrderAction;
+export default BookingsAction;
