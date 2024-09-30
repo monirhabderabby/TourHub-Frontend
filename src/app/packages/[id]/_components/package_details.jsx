@@ -38,7 +38,7 @@ const PackageDetails = ({ data = {}, packageId }) => {
 
       {/* Itinerary */}
       <Itinerary itineraryData={itinerary} />
-      <TourMap />
+      {data?.mapLocation && <TourMap embededSrc={data?.mapLocation} />}
       <Separator className="my-14" />
 
       {/* FAQ and Reviews */}
