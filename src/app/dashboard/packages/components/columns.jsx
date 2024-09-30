@@ -1,15 +1,18 @@
 "use client";
 
+// Packages
+import { StarFilledIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import Image from "next/image";
+
+// Components
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { StarFilledIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import Image from "next/image";
-import RowActions from "./rowActions";
+import PackagesRowActions from "./PackagesRowActions";
 
 export const PackagesColumn = [
   {
@@ -133,7 +136,7 @@ export const PackagesColumn = [
     cell: ({ row }) => {
       const pack = row.original;
 
-      return <RowActions pack={pack} />;
+      return <PackagesRowActions pack={pack} />;
     },
   },
 ];
