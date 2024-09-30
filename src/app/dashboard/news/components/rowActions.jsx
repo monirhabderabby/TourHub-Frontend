@@ -1,4 +1,4 @@
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Copy, Edit, FileSearch2, MoreHorizontal, Trash } from "lucide-react";
 
 import AlertModal from "@/components/ui/alert-modal";
 import { Button } from "@/components/ui/button";
@@ -79,6 +79,12 @@ const RowActions = ({ news }) => {
                     <DropdownMenuItem onClick={() => onCopy(news._id)}>
                         <Copy className="mr-2 h-4 w-4" />
                         Copy Id
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() => router.push(`/news/${news._id}`)}
+                    >
+                        <FileSearch2 className="mr-2 h-4 w-4" />
+                        View News
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() =>
