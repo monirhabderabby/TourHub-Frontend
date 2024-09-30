@@ -12,24 +12,6 @@ import {
 } from "@/components/ui/table";
 
 export function DataTable({ columns, table }) {
-  // const [columnFilters, setColumnFilters] = useState([]);
-  // const [sorting, setSorting] = useState([]);
-
-  // const table = useReactTable({
-  //   data,
-  //   columns,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   onColumnFiltersChange: setColumnFilters,
-  //   getFilteredRowModel: getFilteredRowModel(),
-  //   onSortingChange: setSorting,
-  //   getSortedRowModel: getSortedRowModel(),
-  //   getPaginationRowModel: getPaginationRowModel(),
-  //   state: {
-  //     columnFilters,
-  //     sorting,
-  //   },
-  // });
-
   return (
     <div>
       <div className="rounded-md border">
