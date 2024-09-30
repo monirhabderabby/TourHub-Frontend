@@ -8,6 +8,7 @@ import DateField from "@/components/form/dateField";
 import NumberInput from "@/components/form/numberInput";
 import TextField from "@/components/form/textField";
 import RichTextEditor from "@/components/richTextEditor/richTextEditor";
+import AlertModal from "@/components/ui/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
     Command,
@@ -39,7 +40,7 @@ import { countries } from "@/lib/countriesData";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { parse } from "date-fns";
 import {
     ChevronsUpDown,
@@ -47,8 +48,12 @@ import {
     Loader2,
     Loader2Icon,
     MapPin,
+    Trash,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const itineraryItemSchema = z.object({
@@ -136,7 +141,11 @@ const PackageSchema = z
     });
 
 const PackageForm = ({ singlePackage }) => {
+    const [open, setOpen] = useState(false);
     const { user } = useUser();
+    const router = useRouter();
+    const queryClient = useQueryClient();
+
     const featuresData = [
         { value: "Guided Tours", label: "Guided Tours" },
         { value: "Meals", label: "Meals" },
@@ -177,12 +186,12 @@ const PackageForm = ({ singlePackage }) => {
             mapLocation: singlePackage ? singlePackage?.mapLocation : "",
         },
     });
-
     const { fields, append, remove } = useFieldArray({
         control: form.control,
         name: "itinerary",
     });
 
+    // Category data fetching
     const {
         data: categoryData,
         isLoading,
@@ -195,7 +204,6 @@ const PackageForm = ({ singlePackage }) => {
                 (res) => res.json()
             ),
     });
-
     const categoryInfo = categoryData?.data?.map((category) => ({
         value: category._id,
         label: category.name,
@@ -205,7 +213,6 @@ const PackageForm = ({ singlePackage }) => {
     const { mutate, isPending } = useMutation({
         mutationKey: ["packages", singlePackage?._id],
         mutationFn: async (data) => {
-            // Determine whether to use POST or PATCH
             const method = singlePackage ? "PATCH" : "POST";
             const url = singlePackage
                 ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${singlePackage._id}`
@@ -224,18 +231,17 @@ const PackageForm = ({ singlePackage }) => {
                 toast.error(errorResponse.message || "An error occured");
             }
 
-            if (response.ok) {
-                router.push("/dashboard/packages");
-            }
-
             return response.json();
         },
         onError: (error) => {
             toast.error(error.message);
         },
-        onSuccess: () => {
-            toast.success(toastMessage);
-            router.push("/dashboard/packages");
+        onSuccess: (data) => {
+            if (data) {
+                toast.success(toastMessage);
+                queryClient.invalidateQueries(["packages"]);
+                router.push("/dashboard/packages");
+            }
         },
     });
 
@@ -253,19 +259,56 @@ const PackageForm = ({ singlePackage }) => {
         mutate(data);
     }
 
-    if (isLoading) {
+    // package delete api
+    const {
+        mutate: deleteMutate,
+        isPending: deletePending,
+        isError: deleteError,
+        error: deleteErr,
+    } = useMutation({
+        mutationKey: ["packages", singlePackage?._id],
+        mutationFn: async () => {
+            const method = "DELETE";
+            const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${singlePackage._id}`;
+
+            const response = await fetch(url, {
+                method: method,
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json(); // Get the error response
+                toast.error(errorResponse.message || "An error occured");
+            }
+
+            return response.json();
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: () => {
+            toast.success("Package deleted successfully.");
+            setOpen(false);
+            router.push("/dashboard/package");
+        },
+    });
+
+    const onDelete = () => {
+        deleteMutate();
+    };
+
+    if (isLoading | deletePending) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-280px)]">
                 <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
             </div>
         );
-    } else if (isError) {
+    } else if (isError | deleteError) {
         return (
             <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
                 <CircleOff className="h-7 w-7 text-red-600" />
                 <p className="max-w-[400px] text-center text-14px text-tourHub-gray">
                     <TextEffect per="char" preset="fade">
-                        {error.message}
+                        {error.message | deleteErr.message}
                     </TextEffect>
                 </p>
             </div>
@@ -274,7 +317,13 @@ const PackageForm = ({ singlePackage }) => {
 
     return (
         <div>
-            <div className="flex items-center">
+            <AlertModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                loading={deletePending}
+                onConfirm={onDelete}
+            />
+            <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter">
                         {formTitle}
@@ -283,6 +332,16 @@ const PackageForm = ({ singlePackage }) => {
                         {description}
                     </p>
                 </div>
+                {singlePackage && (
+                    <Button
+                        disabled={isPending}
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => setOpen(true)}
+                    >
+                        <Trash className="h-4 w-4" />
+                    </Button>
+                )}
             </div>
             <Separator className="mb-4" />
             <Form {...form}>
