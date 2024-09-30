@@ -123,10 +123,10 @@ const CategoryForm = ({ category }) => {
             />
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter mb-1">
+                    <h2 className="text-tourHub-title2 text-2xl md:text-[30px] font-bold font-inter mb-[2px] md:mb-1">
                         {formTitle}
                     </h2>
-                    <p className="text-tourHub-green-dark text-base mb-1">
+                    <p className="text-tourHub-green-dark text-sm md:text-base mb-1">
                         {description}
                     </p>
                 </div>
@@ -147,7 +147,7 @@ const CategoryForm = ({ category }) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="w-full space-y-6"
                 >
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
                         <TextField
                             control={form.control}
                             fieldName={"name"}
@@ -156,7 +156,7 @@ const CategoryForm = ({ category }) => {
                             placeholder={"Category name"}
                         />
                     </div>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="categoryDescription"
@@ -177,7 +177,7 @@ const CategoryForm = ({ category }) => {
                     </div>
 
                     {/* Category image */}
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="image"

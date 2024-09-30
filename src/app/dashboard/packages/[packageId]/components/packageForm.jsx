@@ -238,12 +238,13 @@ const PackageForm = ({ singlePackage }) => {
                 loading={deletePending}
                 onConfirm={onDelete}
             />
+
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter">
+                    <h2 className="text-tourHub-title2 text-2xl md:text-[30px] font-bold font-inter mb-[2px] md:mb-1">
                         {formTitle}
                     </h2>
-                    <p className="text-tourHub-green-dark text-base mb-1">
+                    <p className="text-tourHub-green-dark text-sm md:text-base mb-1">
                         {description}
                     </p>
                 </div>
@@ -264,7 +265,7 @@ const PackageForm = ({ singlePackage }) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="w-full space-y-6"
                 >
-                    <div className="grid grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <TextField
                             control={form.control}
                             fieldName={"name"}
@@ -488,7 +489,7 @@ const PackageForm = ({ singlePackage }) => {
                         {fields.map((field, index) => (
                             <div
                                 key={field.id}
-                                className="grid grid-cols-3 gap-5 mb-5"
+                                className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5"
                             >
                                 <FormField
                                     control={form.control}
@@ -554,7 +555,11 @@ const PackageForm = ({ singlePackage }) => {
                             type="button"
                             variant="outline"
                             onClick={() =>
-                                append({ day: "", title: "", description: "" })
+                                append({
+                                    day: "",
+                                    title: "",
+                                    description: "",
+                                })
                             }
                         >
                             Add Day

@@ -3,7 +3,11 @@
 import { TextEffect } from "@/components/ui/text-effect";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
-import NewsForm from "./newsForm";
+import dynamic from "next/dynamic";
+
+const NewsForm = dynamic(() => import("./newsForm"), {
+    ssr: false,
+});
 
 const News = ({ newsId }) => {
     const {
