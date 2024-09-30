@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import moment from "moment";
-import OrderAction from "./RowAction";
+import MyBookingRowAction from "./MyBookingRowAction";
 
 export const MyBookingsColumn = [
   {
@@ -64,7 +64,7 @@ export const MyBookingsColumn = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return <OrderAction data={row.original} />;
+      return <MyBookingRowAction data={row.original} />;
     },
   },
 ];
