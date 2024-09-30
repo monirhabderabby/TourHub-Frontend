@@ -17,9 +17,10 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
-import { PackagesColumn } from "./columns";
+import { usePackageColumns } from "./columns";
 
 const PackageTable = () => {
+  const PackagesColumn = usePackageColumns();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["packages"],
     queryFn: () =>
