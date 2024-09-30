@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Newspaper,
   Package,
+  Store,
   User,
 } from "lucide-react";
 
@@ -21,6 +22,12 @@ export const dashboardTabsList = [
     path: "/dashboard/profile",
     icon: <User className="h-4 w-4" />,
     linkText: "Profile",
+  },
+  {
+    id: generateRandomId(),
+    path: "/dashboard/orders",
+    icon: <Store className="h-4 w-4" />,
+    linkText: "Orders",
   },
   {
     id: generateRandomId(),
