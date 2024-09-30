@@ -55,6 +55,34 @@ async function createStripeCheckoutSession(
   });
 }
 
+// Function to store the new Stripe customer in the database
+async function storeStripeCustomerInDB(clerkId, customerId) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/users/stripe-user`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ clerkId, customerId }),
+      }
+    );
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: "Failed to store Stripe user in the database.",
+      };
+    }
+
+    const result = await res.json();
+    return { success: true, data: result?.data };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
 // Main function for handling the POST request
 export async function POST(req) {
   try {
@@ -85,14 +113,41 @@ export async function POST(req) {
         },
       },
     ];
+    // Attempt to fetch an existing Stripe customer for the user
+    let stripeCustomer;
+    const res = await getStripeCustomer(user.id);
 
-    // Fetch or create a Stripe customer
-    let stripeCustomer = await getStripeCustomer(user.id);
+    // Check if the fetching operation was unsuccessful
+    if (res?.success) {
+      // Assign the fetched customer data to the variable
+      stripeCustomer = res?.data;
+    }
+
+    // If no customer data is found, create a new Stripe customer
     if (!stripeCustomer) {
-      stripeCustomer = await stripe.customers.create({
+      // Create a new customer in Stripe using the user's email
+      const stripeResponse = await stripe.customers.create({
         email: user?.emailAddresses[0]?.emailAddress,
       });
-      // Optionally store the new Stripe customer in the database
+
+      // Optionally store the newly created Stripe customer ID in the database
+      const res = await storeStripeCustomerInDB(user?.id, stripeResponse?.id);
+
+      // Check if the storing operation was unsuccessful
+      if (!res?.success) {
+        // Return an error response if unable to save the customer information
+        return NextResponse.json({ message: res?.message }, { status: 405 });
+      }
+
+      // Assign the newly created customer data to the variable
+      stripeCustomer = res?.data;
+    }
+
+    if (!user?.primaryEmailAddress.emailAddress) {
+      return NextResponse.json(
+        { message: "Email address not found from clerk" },
+        { status: 400 }
+      );
     }
 
     // Create Stripe checkout session
@@ -104,13 +159,14 @@ export async function POST(req) {
         clerkId: user.id,
         packagePrice,
         packageName,
+        customerEmail: user?.primaryEmailAddress?.emailAddress,
       }
     );
 
     // Return the checkout URL
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session?.url });
   } catch (error) {
     console.error("[PACKAGE_ID-Checkout]", error.message);
-    return NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
