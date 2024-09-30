@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { newsCategory } from "@/lib/newsCategory";
+import { NewsSchema } from "@/schema/news.schema";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -30,22 +31,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const NewsSchema = z.object({
-    title: z.string().min(3, {
-        message: "Name must be at least 3 characters.",
-    }),
-    description: z.string().min(3, {
-        message: "Description is required.",
-    }),
-    newsCategory: z.string().min(1, {
-        message: "Category is required",
-    }),
-    images: z.string().min(1, {
-        message: "Image is required",
-    }),
-});
 
 const NewsForm = ({ news }) => {
     const [open, setOpen] = useState(false);
