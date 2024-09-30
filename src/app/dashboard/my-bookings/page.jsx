@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import OrderTable from "./_components/order-table";
+const MyBookingsTable = dynamic(
+  () => import("./_components/my-booking-table"),
+  {
+    ssr: false,
+  }
+);
 
 const Page = () => {
   return (
@@ -22,7 +28,7 @@ const Page = () => {
         </Link>
       </div>
       <Separator className="mb-4" />
-      <OrderTable />
+      <MyBookingsTable />
     </div>
   );
 };

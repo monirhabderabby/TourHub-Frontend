@@ -2,15 +2,15 @@ import { cn } from "@/lib/utils";
 import OrderAction from "./RowAction";
 
 export const OrderColumns = [
-  {
-    accessorKey: "name",
-    header: "Package",
-    cell: ({ row }) => (
-      <p className="font-inter text-14px text-tourHub-green-dark font-medium">
-        {row.getValue("name")}
-      </p>
-    ),
-  },
+  // {
+  //   accessorKey: "name",
+  //   header: "Package",
+  //   cell: ({ row }) => (
+  //     <p className="font-inter text-14px text-tourHub-green-dark font-medium">
+  //       {row.getValue("name")}
+  //     </p>
+  //   ),
+  // },
   {
     accessorKey: "createdAt",
     header: "Payment Time",
