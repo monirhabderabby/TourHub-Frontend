@@ -8,7 +8,7 @@ const OrderAction = ({ data }) => {
       {isPaid ? (
         <Link href="/">
           <Button size="sm" variant="outline">
-            View
+            Details
           </Button>
         </Link>
       ) : null}

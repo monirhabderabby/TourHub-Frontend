@@ -42,6 +42,7 @@ export async function POST(req) {
             packageId: packageId,
             amount: Number(packagePrice),
             paymentStatus: "Paid",
+            transactionId: transactionId,
           }),
         }
       );

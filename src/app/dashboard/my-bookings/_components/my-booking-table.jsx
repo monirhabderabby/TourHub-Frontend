@@ -1,5 +1,9 @@
 "use client";
+import { ErrorState } from "@/app/packages/[id]/_components/package-details-container";
 import { DataTable } from "@/components/ui/data-table";
+import { useUser } from "@clerk/nextjs";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { OrderColumns } from "./columns";
 
 export const data = [
@@ -65,12 +69,49 @@ export const data = [
   },
 ];
 
-const OrderTable = () => {
-  return (
-    <div>
-      <DataTable columns={OrderColumns} data={data} />
-    </div>
-  );
+const MyBookingsTable = () => {
+  const { isLoaded, user } = useUser();
+  if (!isLoaded) return null;
+  const {
+    data: response,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["my-bookings", user?.id],
+    queryFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/booking/${user?.id}`
+      ).then((res) => res.json()),
+  });
+
+  let content;
+
+  if (isLoading || !isLoaded) {
+    content = (
+      <div className="h-[80vh] md:h-[calc(100vh-25vh)]  w-full flex justify-center gap-x-2 items-center">
+        <Loader2 className="animate-spin text-tourHub-green-dark h-5 w-5" />
+      </div>
+    );
+  } else if (isError) {
+    content = <ErrorState message={error.message} />;
+  } else if (response) {
+    // Memoizing the processed transactions
+    const processedBookings = response?.data?.result.map(
+      ({ createdAt, transactionId, paymentStatus, packageId, amount }) => ({
+        createdAt,
+        transactionId,
+        paymentStatus,
+        packageId,
+      })
+    );
+
+    console.log(response);
+
+    content = <DataTable columns={OrderColumns} data={processedBookings} />;
+  }
+
+  return <div>{content}</div>;
 };
 
-export default OrderTable;
+export default MyBookingsTable;

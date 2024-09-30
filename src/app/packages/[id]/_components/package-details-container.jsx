@@ -101,7 +101,7 @@ const LoadingState = memo(() => (
 LoadingState.displayName = "LoadingState";
 
 // Error State Component for reusability
-const ErrorState = memo(({ message }) => (
+export const ErrorState = memo(({ message }) => (
   <div className="h-[80vh] md:h-[calc(100vh-25vh)] w-full flex justify-center gap-x-2 items-center">
     <div className="flex flex-col justify-center items-center">
       <AlertCircle className="h-6 w-6 text-red-500" />
