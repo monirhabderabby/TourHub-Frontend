@@ -1,11 +1,14 @@
 // Packages
 import { Plus } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
 // Components
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import CategoryTable from "./components/categoryTable";
+const CategoryTable = dynamic(() => import("./components/categoryTable"), {
+  ssr: false,
+});
 
 const CategoryPage = () => {
   return (

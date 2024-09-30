@@ -1,5 +1,11 @@
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+// Packages
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Copy, Edit, FileSearch2, MoreHorizontal, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
+// Components
 import AlertModal from "@/components/ui/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,28 +15,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 
-const RowActions = ({ category }) => {
+const PackagesRowActions = ({ pack }) => {
   const [open, setOpen] = useState(false);
 
-  const queryClient = useQueryClient();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const onCopy = (id) => {
     navigator.clipboard.writeText(id);
-    toast.success(`Category id copied to the clipboard`);
+    toast.success(`Product id copied to the clipboard`);
   };
 
-  // category delete api
+  // package delete api
   const { mutate: deleteMutate, isPending: deletePending } = useMutation({
-    mutationKey: ["categories", category?._id],
+    mutationKey: ["packages", pack?._id],
     mutationFn: async () => {
       const method = "DELETE";
-      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${category._id}`;
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${pack._id}`;
 
       const response = await fetch(url, {
         method: method,
@@ -47,11 +49,11 @@ const RowActions = ({ category }) => {
       toast.error(error.message);
     },
     onSuccess: () => {
-      toast.success("Category deleted successfully.");
+      toast.success("Package deleted successfully.");
       setOpen(false);
 
-      // Invalidate the categories query so that it refetches and updates the table
-      queryClient.invalidateQueries(["categories"]);
+      // Invalidate the package query so that it refetches and updates the table
+      queryClient.invalidateQueries(["packages"]);
     },
   });
 
@@ -76,12 +78,18 @@ const RowActions = ({ category }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(category._id)}>
+          <DropdownMenuItem onClick={() => onCopy(pack._id)}>
             <Copy className="mr-2 h-4 w-4" />
             Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/category/${category._id}`)}
+            onClick={() => router.push(`/packages/${pack._id}`)}
+          >
+            <FileSearch2 className="mr-2 h-4 w-4" />
+            View Details
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/dashboard/packages/${pack._id}`)}
           >
             <Edit className="mr-2 h-4 w-4" />
             Update
@@ -96,4 +104,4 @@ const RowActions = ({ category }) => {
   );
 };
 
-export default RowActions;
+export default PackagesRowActions;
