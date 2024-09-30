@@ -9,23 +9,54 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const RowActions = ({ pack }) => {
-    const [loading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const onCopy = (id) => {
         navigator.clipboard.writeText(id);
         toast.success(`Product id copied to the clipboard`);
     };
 
+    // package delete api
+    const { mutate: deleteMutate, isPending: deletePending } = useMutation({
+        mutationKey: ["packages", pack?._id],
+        mutationFn: async () => {
+            const method = "DELETE";
+            const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${pack._id}`;
+
+            const response = await fetch(url, {
+                method: method,
+            });
+
+            if (!response.ok) {
+                const errorResponse = await response.json(); // Get the error response
+                toast.error(errorResponse.message || "An error occured");
+            }
+
+            return response.json();
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: () => {
+            toast.success("Package deleted successfully.");
+            setOpen(false);
+
+            // Invalidate the package query so that it refetches and updates the table
+            queryClient.invalidateQueries(["packages"]);
+        },
+    });
+
     const onDelete = () => {
-        toast.error("Delete api not connected");
+        deleteMutate();
     };
 
     return (
@@ -34,7 +65,7 @@ const RowActions = ({ pack }) => {
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 onConfirm={onDelete}
-                loading={loading}
+                loading={deletePending}
             />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
