@@ -21,6 +21,7 @@ const Category = ({ categoryId }) => {
             fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category/${categoryId}`
             ).then((res) => res.json()),
+        enabled: categoryId?.length >= 12,
     });
 
     if (isLoading) {

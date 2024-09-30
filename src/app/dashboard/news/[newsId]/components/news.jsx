@@ -17,6 +17,7 @@ const News = ({ newsId }) => {
             fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${newsId}`
             ).then((res) => res.json()),
+        enabled: newsId?.length >= 12,
     });
 
     if (isLoading) {
