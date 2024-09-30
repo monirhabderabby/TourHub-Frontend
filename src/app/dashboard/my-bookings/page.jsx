@@ -15,7 +15,7 @@ const Page = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter">
-            Orders
+            My Tours
           </h2>
           <p className="text-tourHub-gray text-14px pt-1 mb-1">
             Tour Packages You Have Booked with Us

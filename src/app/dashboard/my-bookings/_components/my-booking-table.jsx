@@ -4,7 +4,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { OrderColumns } from "./columns";
+import { MyBookingsColumn } from "./columns";
 
 export const data = [
   {
@@ -102,13 +102,20 @@ const MyBookingsTable = () => {
         createdAt,
         transactionId,
         paymentStatus,
-        packageId,
+        packageId: packageId?._id,
+        name: packageId?.name,
+        amount,
       })
     );
 
-    console.log(response);
-
-    content = <DataTable columns={OrderColumns} data={processedBookings} />;
+    content = (
+      <DataTable
+        filterField="name"
+        filterPlaceholder="Search by name"
+        columns={MyBookingsColumn}
+        data={processedBookings}
+      />
+    );
   }
 
   return <div>{content}</div>;
