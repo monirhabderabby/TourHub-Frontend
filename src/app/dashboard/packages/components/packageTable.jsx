@@ -35,7 +35,12 @@ const PackageTable = () => {
 
     return (
         <div>
-            <DataTable columns={columns} data={data?.data} />
+            <DataTable
+                columns={columns}
+                data={data?.data}
+                filterField={"name"}
+                filterPlaceholder={"Filter by name"}
+            />
         </div>
     );
 };

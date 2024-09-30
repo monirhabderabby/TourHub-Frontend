@@ -6,11 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
 import { columns } from "./columns";
 
-const CategoryTable = () => {
+const NewsTable = () => {
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["categories"],
+        queryKey: ["news"],
         queryFn: () =>
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`).then(
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news`).then(
                 (res) => res.json()
             ),
     });
@@ -39,11 +39,11 @@ const CategoryTable = () => {
             <DataTable
                 columns={columns}
                 data={data?.data}
-                filterField={"name"}
-                filterPlaceholder={"Filter by name"}
+                filterField={"title"}
+                filterPlaceholder={"Filter by title"}
             />
         </div>
     );
 };
 
-export default CategoryTable;
+export default NewsTable;

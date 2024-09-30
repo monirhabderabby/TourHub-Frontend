@@ -1,28 +1,31 @@
 "use client";
 
-import { DataTable } from "@/components/ui/data-table";
 import { TextEffect } from "@/components/ui/text-effect";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
-import { columns } from "./columns";
+import NewsForm from "./newsForm";
 
-const CategoryTable = () => {
-    const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["categories"],
+const News = ({ newsId }) => {
+    const {
+        data: newsData,
+        isLoading,
+        isError,
+        error,
+    } = useQuery({
+        queryKey: ["news", newsId],
         queryFn: () =>
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`).then(
-                (res) => res.json()
-            ),
+            fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${newsId}`
+            ).then((res) => res.json()),
     });
 
-    if (isLoading)
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-280px)]">
                 <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
             </div>
         );
-
-    if (isError)
+    } else if (isError) {
         return (
             <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
                 <CircleOff className="h-7 w-7 text-red-600" />
@@ -33,17 +36,13 @@ const CategoryTable = () => {
                 </p>
             </div>
         );
+    }
 
     return (
         <div>
-            <DataTable
-                columns={columns}
-                data={data?.data}
-                filterField={"name"}
-                filterPlaceholder={"Filter by name"}
-            />
+            <NewsForm news={newsData?.data} />
         </div>
     );
 };
 
-export default CategoryTable;
+export default News;
