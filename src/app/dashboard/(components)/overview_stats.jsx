@@ -65,11 +65,8 @@ const Overview = () => {
   return (
     <div className="relative flex w-full flex-wrap gap-2 md:flex-nowrap">
       {data?.map(({ icon, id, name, value }) => (
-        <SkeletonWrapper isLoading={isLoading}>
-          <Card
-            className="flex h-24 w-full items-center gap-2 gap-x-3 p-4 rounded-5px shadow-none font-inter"
-            key={id}
-          >
+        <SkeletonWrapper isLoading={isLoading} key={id}>
+          <Card className="flex h-24 w-full items-center gap-2 gap-x-3 p-4 rounded-5px shadow-none font-inter">
             {icon}
             <div className="flex flex-col items-start gap-0">
               <p className="text-muted-foreground text-16px">{name}</p>
