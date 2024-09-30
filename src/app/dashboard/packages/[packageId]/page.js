@@ -1,13 +1,9 @@
-import dynamic from "next/dynamic";
+import Package from "./components/package";
 
-const PackageForm = dynamic(() => import("./components/packageForm"), {
-    ssr: false,
-});
-
-const PackagePage = () => {
+const PackagePage = ({ params }) => {
     return (
         <div>
-            <PackageForm />
+            <Package packageId={params.packageId} />
         </div>
     );
 };
