@@ -51,8 +51,8 @@ const CancelledContainer = ({ packageId }) => {
         </div>
         <div className="max-w-[500px] text-14px text-tourHub-gray mt-4">
           <TextEffect per="word" preset="fade">
-            Your payment has been cancelled. We couldn't process your payment.
-            Please try again
+            Your payment has been cancelled. We couldn&apos;t process your
+            payment. Please try again
           </TextEffect>
         </div>
         <Link href={`/packages/${packageId}`}>

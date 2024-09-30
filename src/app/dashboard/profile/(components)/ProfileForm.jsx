@@ -89,7 +89,7 @@ const ProfileForm = ({ userId }) => {
         clerkId: clerkId,
       });
     }
-  }, [response]); // Runs when response changes
+  }, [response, form]); // Runs when response changes
 
   const handleUploadClick = () => {
     if (fileInputRef.current) {
