@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 
 import {
   Table,
@@ -17,44 +10,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableViewOptions } from "./data-table-view-options";
-import { Input } from "./input";
 
-export function DataTable({ columns, data, filterField, filterPlaceholder }) {
-  const [columnFilters, setColumnFilters] = useState([]);
-  const [sorting, setSorting] = useState([]);
+export function DataTable({ columns, table }) {
+  // const [columnFilters, setColumnFilters] = useState([]);
+  // const [sorting, setSorting] = useState([]);
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    state: {
-      columnFilters,
-      sorting,
-    },
-  });
+  // const table = useReactTable({
+  //   data,
+  //   columns,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   onColumnFiltersChange: setColumnFilters,
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   onSortingChange: setSorting,
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   state: {
+  //     columnFilters,
+  //     sorting,
+  //   },
+  // });
 
   return (
     <div>
-      <div className="flex justify-between items-center py-4">
-        <Input
-          placeholder={filterPlaceholder}
-          value={table.getColumn(filterField)?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn(filterField)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm focus-visible:ring-[#3a6f54]"
-        />
-
-        <DataTableViewOptions table={table} />
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -104,9 +81,6 @@ export function DataTable({ columns, data, filterField, filterPlaceholder }) {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="mt-4">
-        <DataTablePagination table={table} />
       </div>
     </div>
   );

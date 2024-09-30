@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import RowActions from "./rowActions";
 
-export const columns = [
+export const PackagesColumn = [
   {
     accessorKey: "cardImage",
     header: "Image",
