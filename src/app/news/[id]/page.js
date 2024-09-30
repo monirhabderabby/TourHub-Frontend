@@ -6,7 +6,6 @@ import Link from "next/link";
 // Images
 import bg from "@/assets/bg.png";
 import blogAuthor from "@/assets/blog-author.png";
-import blogImg from "@/assets/blog-img.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { newsCategory } from "@/lib/newsCategory";
 
@@ -17,7 +16,7 @@ const newsDetailspage = ({ params }) => {
     const { data } = useQuery({
         queryKey: ["news", newsId],
         queryFn: () =>
-            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${newsId}`).then((res) =>
+            fetch(`http://localhost:5000/api/v1/news/${newsId}`).then((res) =>
               res.json()
             ),
     });
