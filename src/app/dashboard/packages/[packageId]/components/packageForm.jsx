@@ -1,5 +1,19 @@
 "use client";
+// Packages
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    ChevronsUpDown,
+    CircleOff,
+    Loader2,
+    Loader2Icon,
+    MapPin,
+    Trash,
+} from "lucide-react";
+import { useFieldArray, useForm } from "react-hook-form";
 
+// Components
 import {
     default as ImageUpload,
     default as SingleImageUpload,
@@ -38,114 +52,16 @@ import { Separator } from "@/components/ui/separator";
 import { TextEffect } from "@/components/ui/text-effect";
 import { countries } from "@/lib/countriesData";
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { parse } from "date-fns";
-import {
-    ChevronsUpDown,
-    CircleOff,
-    Loader2,
-    Loader2Icon,
-    MapPin,
-    Trash,
-} from "lucide-react";
+import { PackageSchema } from "@/schema/package.schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const itineraryItemSchema = z.object({
-    day: z.string().min(1, "Day is required"),
-    title: z.string().min(1, "Title is required"),
-    description: z.string().min(1, "Description is required"),
-});
-
-const PackageSchema = z
-    .object({
-        name: z.string().min(3, {
-            message: "Name must be at least 3 characters.",
-        }),
-        location: z.string().min(3, {
-            message: "Location must be at least 3 characters.",
-        }),
-        startDate: z
-            .string({
-                message: "Start date is required.",
-            })
-            .refine(
-                (value) => {
-                    const date = parse(value, "yyyy-MM-dd", new Date());
-                    return !isNaN(date.getTime());
-                },
-                {
-                    message: `Invalid date format. Expected "yyyy-MM-dd" format.`,
-                }
-            ),
-        endDate: z
-            .string({
-                message: "End date is required.",
-            })
-            .refine(
-                (value) => {
-                    const date = parse(value, "yyyy-MM-dd", new Date());
-                    return !isNaN(date.getTime());
-                },
-                {
-                    message: `Invalid date format. Expected "yyyy-MM-dd" format.`,
-                }
-            ),
-        price: z
-            .number({
-                message: "Price is required",
-            })
-            .min(1, "Price must be greater than 0"),
-        totalPeople: z.string().min(1, {
-            message: "Total people is required.",
-        }),
-        description: z.string().min(3, {
-            message: "Description is required.",
-        }),
-        tourDuration: z.string().min(1, {
-            message: "Tour duration is required.",
-        }),
-        mapLocation: z.string().min(1, {
-            message: "Map location is required.",
-        }),
-        country: z.string().min(1, {
-            message: "Please select a country.",
-        }),
-        cardImage: z.string().min(1, {
-            message: "Image is required",
-        }),
-        bannerImage: z.array(z.string().min(1)).min(1, {
-            message: "Banner image is required.",
-        }),
-        category: z.array(z.string().min(1)).min(1, {
-            message: "Please select at least one category.",
-        }),
-        include: z.array(z.string().min(1)).min(1, {
-            message: "Please add include features.",
-        }),
-        exclude: z.array(z.string().min(1)).min(1, {
-            message: "Please add exclude features.",
-        }),
-        itinerary: z
-            .array(itineraryItemSchema)
-            .min(1, "At least one itinerary item is required"),
-    })
-    .refine((data) => data.endDate > data.startDate, {
-        message: "End date must be after start date.",
-        path: ["endDate"], // Point the error at endDate
-    });
 
 const PackageForm = ({ singlePackage }) => {
     const [open, setOpen] = useState(false);
     const { user } = useUser();
     const router = useRouter();
     const queryClient = useQueryClient();
-
     const featuresData = [
         { value: "Guided Tours", label: "Guided Tours" },
         { value: "Meals", label: "Meals" },
@@ -186,12 +102,12 @@ const PackageForm = ({ singlePackage }) => {
             mapLocation: singlePackage ? singlePackage?.mapLocation : "",
         },
     });
+
     const { fields, append, remove } = useFieldArray({
         control: form.control,
         name: "itinerary",
     });
 
-    // Category data fetching
     const {
         data: categoryData,
         isLoading,
@@ -204,6 +120,7 @@ const PackageForm = ({ singlePackage }) => {
                 (res) => res.json()
             ),
     });
+
     const categoryInfo = categoryData?.data?.map((category) => ({
         value: category._id,
         label: category.name,
@@ -213,6 +130,7 @@ const PackageForm = ({ singlePackage }) => {
     const { mutate, isPending } = useMutation({
         mutationKey: ["packages", singlePackage?._id],
         mutationFn: async (data) => {
+            // Determine whether to use POST or PATCH
             const method = singlePackage ? "PATCH" : "POST";
             const url = singlePackage
                 ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${singlePackage._id}`
@@ -260,12 +178,7 @@ const PackageForm = ({ singlePackage }) => {
     }
 
     // package delete api
-    const {
-        mutate: deleteMutate,
-        isPending: deletePending,
-        isError: deleteError,
-        error: deleteErr,
-    } = useMutation({
+    const { mutate: deleteMutate, isPending: deletePending } = useMutation({
         mutationKey: ["packages", singlePackage?._id],
         mutationFn: async () => {
             const method = "DELETE";
@@ -285,10 +198,12 @@ const PackageForm = ({ singlePackage }) => {
         onError: (error) => {
             toast.error(error.message);
         },
-        onSuccess: () => {
-            toast.success("Package deleted successfully.");
-            setOpen(false);
-            router.push("/dashboard/package");
+        onSuccess: (data) => {
+            if (data) {
+                toast.success("Package deleted successfully.");
+                queryClient.invalidateQueries(["packages"]);
+                router.push("/dashboard/packages");
+            }
         },
     });
 
@@ -296,19 +211,19 @@ const PackageForm = ({ singlePackage }) => {
         deleteMutate();
     };
 
-    if (isLoading | deletePending) {
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-280px)]">
                 <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
             </div>
         );
-    } else if (isError | deleteError) {
+    } else if (isError) {
         return (
             <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
                 <CircleOff className="h-7 w-7 text-red-600" />
                 <p className="max-w-[400px] text-center text-14px text-tourHub-gray">
                     <TextEffect per="char" preset="fade">
-                        {error.message | deleteErr.message}
+                        {error.message}
                     </TextEffect>
                 </p>
             </div>
@@ -722,7 +637,7 @@ const PackageForm = ({ singlePackage }) => {
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Please wait
+                                {singlePackage ? "Saving..." : "Please wait"}
                             </>
                         ) : (
                             btnText
