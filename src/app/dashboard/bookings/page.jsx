@@ -1,5 +1,8 @@
 import { Separator } from "@/components/ui/separator";
-import BookingsTable from "./_components/bookings-table";
+import dynamic from "next/dynamic";
+const BookingsTable = dynamic(() => import("./_components/bookings-table"), {
+  ssr: false,
+});
 
 const Page = () => {
   return (

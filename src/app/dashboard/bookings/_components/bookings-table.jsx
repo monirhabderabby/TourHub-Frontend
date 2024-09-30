@@ -44,8 +44,8 @@ const BookingsTable = () => {
 
     content = (
       <DataTable
-        filterField="name"
-        filterPlaceholder="Search by name"
+        filterField="transactionId"
+        filterPlaceholder="Search by transaction ID"
         columns={BookingsColumn}
         data={processedBookings}
       />
