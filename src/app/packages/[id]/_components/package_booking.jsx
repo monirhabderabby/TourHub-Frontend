@@ -7,10 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { useUser } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const PackageBooking = ({ price, from, to, packageId, packageName }) => {
-  const { isLoaded } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
+  const router = useRouter();
+  const pathname = usePathname(); // Get the current route
 
   if (!isLoaded) return null;
   const { mutate: checkoutMutation, isPending } = useMutation({
@@ -47,11 +50,19 @@ const PackageBooking = ({ price, from, to, packageId, packageName }) => {
   });
 
   const checkoutHandler = () => {
-    checkoutMutation({
-      packageId: packageId,
-      packageName: packageName,
-      packagePrice: price,
-    });
+    if (!isSignedIn) {
+      router.push(
+        `/sign-in?redirect_url=${
+          process.env.NEXT_PUBLIC_APP_URL
+        }/${encodeURIComponent(pathname)}`
+      );
+    } else {
+      checkoutMutation({
+        packageId: packageId,
+        packageName: packageName,
+        packagePrice: price,
+      });
+    }
   };
   return (
     <div className="w-full  md:w-[280px]  lg:w-[360px] sticky top-[80px]  h-auto min-h-[300px] border-[1px] border-[#E7E6E6] rounded-12px px-4 py-8 space-y-8">
@@ -77,7 +88,6 @@ const PackageBooking = ({ price, from, to, packageId, packageName }) => {
           </div>
         </div>
       </div>
-
       <Separator className="my-2" />
       <div>
         <div className="text-tourHub-title2 font-medium font-inter text-[16.88px] leading-33px flex items-center w-full justify-between">
