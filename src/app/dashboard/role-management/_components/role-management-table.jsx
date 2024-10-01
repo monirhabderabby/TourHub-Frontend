@@ -24,7 +24,7 @@ const RoleManagementTable = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["bookings"],
+    queryKey: ["users"],
     queryFn: () =>
       fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/users`).then((res) =>
         res.json()
