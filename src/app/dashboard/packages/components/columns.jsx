@@ -39,7 +39,8 @@ export const usePackageColumns = () => {
       },
       {
         accessorKey: "category",
-        header: null,
+        enableHiding: true,
+        size: 0,
         filterFn: (row, id, value) => {
           // Get the category from the row
           const rowCategory = row.getValue(id);
@@ -84,6 +85,8 @@ export const usePackageColumns = () => {
       },
       {
         accessorKey: "description",
+        enableHiding: true,
+        size: 0,
         header: "Description",
         cell: ({ row }) => {
           const description = row.getValue("description");

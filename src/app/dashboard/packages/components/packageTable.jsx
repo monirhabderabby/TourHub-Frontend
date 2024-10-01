@@ -61,6 +61,7 @@ export default PackageTable;
 
 const TableContainer = ({ data, columns }) => {
   const [columnFilters, setColumnFilters] = useState([]); // State for column filters
+  const [columnVisibility, setColumnVisibility] = useState({});
   const [sorting, setSorting] = useState([]); // State for sorting
 
   const table = useReactTable({
@@ -72,9 +73,14 @@ const TableContainer = ({ data, columns }) => {
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       columnFilters,
       sorting,
+      columnVisibility: {
+        category: false,
+        description: false,
+      },
     },
   });
 
