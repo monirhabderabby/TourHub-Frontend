@@ -1,4 +1,13 @@
 "use client";
+
+// Packages
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AnimatePresence } from "framer-motion";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
+// Components
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -6,12 +15,56 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 
 const RoleChangeAction = ({ data }) => {
-  const { role } = data;
+  const [open, setOpen] = useState(false); // Default state is false
+  const { role, clerkId } = data;
   const isAdmin = role === "admin";
+
+  const { isLoaded, user } = useUser(); // useUser hook called unconditionally
+
+  const queryClient = useQueryClient();
+
+  // Ensure that the component waits for the user to load before rendering
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["users"],
+    mutationFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/users/update-role/${clerkId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            ClerkId: user?.id,
+          },
+        }
+      ).then((res) => res.json()),
+    onSuccess: (data) => {
+      if (data?.success) {
+        queryClient.invalidateQueries(["users"]);
+        setOpen(false); // Close the popover on success
+        toast.success(`${data?.data?.name} is now a ${data?.data?.role}.`);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const onUpdate = () => {
+    if (isLoaded) {
+      mutate();
+    } else {
+      toast.warning(
+        "User data is still loading. Please wait before attempting to change the role."
+      );
+    }
+  };
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <p
           className={cn(
@@ -29,10 +82,15 @@ const RoleChangeAction = ({ data }) => {
 
         <div className="flex justify-end">
           <Button
-            className="mt-4 bg-tourHub-title2 hover:bg-tourHub-title2/80"
+            className="mt-4 bg-tourHub-title2 hover:bg-tourHub-title2/80 text-[12px] text-white flex items-center gap-x-1"
             size="sm"
+            onClick={onUpdate}
+            disabled={isPending || !isLoaded} // Updated to 'isLoading'
           >
             Make {isAdmin ? "User" : "Admin"}
+            <AnimatePresence>
+              {isPending && <Loader2 className="h-3 w-3 animate-spin" />}
+            </AnimatePresence>
           </Button>
         </div>
       </PopoverContent>
