@@ -24,7 +24,7 @@ const RoleChangeAction = ({ data }) => {
       </PopoverTrigger>
       <PopoverContent className="w-full max-w-[200px]">
         <p className="text-14px font-inter text-tourHub-title2 font-medium outline-tourHub-title">
-          Are you sure you want to change the user's role?
+          Are you sure you want to change the user&apos;s role?
         </p>
 
         <div className="flex justify-end">
