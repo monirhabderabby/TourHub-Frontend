@@ -91,9 +91,11 @@ const TableContainer = ({ data, columns }) => {
         <DataTableViewOptions table={table} />
       </div>
       <DataTable columns={columns} table={table} />
-      <div className="mt-4">
-        <DataTablePagination table={table} />
-      </div>
+      {data?.length > 10 && (
+        <div className="mt-4">
+          <DataTablePagination table={table} />
+        </div>
+      )}
     </div>
   );
 };
