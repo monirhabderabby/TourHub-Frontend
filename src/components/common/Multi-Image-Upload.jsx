@@ -126,6 +126,7 @@ const MultiImageDropzone = React.forwardRef(
           {/* Images */}
           {value?.map(({ file, progress }, index) => (
             <div key={index} className={variants.image + " aspect-square"}>
+              {/* eslint-disable @next/next/no-img-element */}
               <img
                 className="h-full w-full rounded-md object-cover"
                 src={imageUrls[index]}

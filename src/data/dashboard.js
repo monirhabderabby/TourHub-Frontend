@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Newspaper,
   Package,
+  ShieldEllipsis,
   Store,
   User,
 } from "lucide-react";
@@ -52,5 +53,11 @@ export const dashboardTabsList = [
     path: "/dashboard/category",
     icon: <LayoutDashboard className="h-4 w-4" />,
     linkText: "Category",
+  },
+  {
+    id: generateRandomId(),
+    path: "/dashboard/role-management",
+    icon: <ShieldEllipsis className="h-4 w-4" />,
+    linkText: "Role Management",
   },
 ];
