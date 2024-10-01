@@ -20,16 +20,16 @@ import {
 export const description = "A line chart";
 
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+  { month: "January", users: 186 },
+  { month: "February", users: 305 },
+  { month: "March", users: 237 },
+  { month: "April", users: 73 },
+  { month: "May", users: 209 },
+  { month: "June", users: 214 },
 ];
 
 const chartConfig = {
-  desktop: {
+  users: {
     label: "New Users",
     color: "hsl(var(--chart-1))",
   },
@@ -65,9 +65,9 @@ export default function NewUserCompare() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="users"
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-users)"
               strokeWidth={2}
               dot={false}
             />
