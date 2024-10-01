@@ -3,12 +3,11 @@
 // Packages
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion"; // Import Framer Motion
-import { Loader2Icon } from "lucide-react";
 
 // Components
-import NewsCard from "@/components/card/newsCard";
+import NewsCard from "@/components/card/NewsCard";
 import AllPageBanner from "@/components/common/AllPageBanner";
-import { Tabs} from "@/components/ui/tabs";
+import { Tabs } from "@/components/ui/tabs";
 import { newsCategory } from "@/lib/newsCategory";
 import { useEffect, useState } from "react";
 
