@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -25,6 +26,7 @@ module.exports = {
           green: {
             light: "#43B97F",
             dark: "#295943",
+            hover: "#3a6f54",
           },
         },
 

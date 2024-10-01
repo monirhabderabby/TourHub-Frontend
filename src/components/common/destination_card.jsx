@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { BiSolidNavigation } from "react-icons/bi";
 
-const DestinationCard = async ({ bannerImage, name, price, index }) => {
+const DestinationCard = ({ bannerImage, name, price, index }) => {
   return (
     <div
       className="mx-auto w-full md:w-[380px] h-auto rounded-10px bg-white shadow-[1px_2px_12px_1px_#00000025] hover:shadow-[1px_2px_12px_1px_#00000040] p-3 cursor-pointer transition-all duration-300"

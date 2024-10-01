@@ -5,6 +5,12 @@ import { Inter, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 // CSS
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/navbar";
+import AppProvider from "@/provider/app-provider";
+import MessengerChatBot from "@/provider/messenger-chatbot";
+import NProgress from "@/provider/NProgress";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 // Fonts
@@ -28,8 +34,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={cn(poppins.className, inter.className)}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={cn(poppins.className, inter.className)}>
+          <AppProvider>
+            <Navbar />
+            <NProgress />
+            <MessengerChatBot />
+            {children}
+            <Footer />
+          </AppProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

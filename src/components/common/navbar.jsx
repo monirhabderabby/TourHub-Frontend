@@ -1,109 +1,150 @@
 "use client";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-const NavPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <nav className=" bg-gradient text-primary-foreground absolute w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex  justify-between items-center   gap-64">
-            <div className="flex-shrink-0">
-              <span className="font-bold text-xl">TourHub</span>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-40 flex items-baseline space-x-4">
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                >
-                  Home
-                </a>
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                >
-                  Services
-                </a>
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-foreground hover:text-primary"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
-            <div className="hidden md:block ">
-              <Button className="  bg-tourHub-green-light  text-white rounded-md  ">
-                <p className=" ml-2">Login</p>
-              </Button>
-            </div>
-          </div>
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-primary-foreground hover:text-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
+// Packages
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-      {isOpen && (
+// Components
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
+
+const Navbar = () => {
+    const [scrolling, setScrolling] = useState(false); // Track scrolling state for styling changes
+
+    const pathname = usePathname(); // Get current route to highlight active menu
+
+    const menus = [
+        { id: 1, href: "/", linkText: "Home" },
+        { id: 2, href: "/packages", linkText: "Discover" },
+        // { id: 3, href: "/services", linkText: "Services" },
+        { id: 4, href: "/news", linkText: "News" },
+        { id: 5, href: "/about", linkText: "About Us" },
+        { id: 6, href: "/Contact", linkText: "Contact" },
+        { id: 7, href: "/dashboard", linkText: "Dashboard" },
+    ];
+
+    // Track window scroll to update navbar style
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setScrolling(true); // Set navbar background when scrolling
+            } else {
+                setScrolling(false); // Reset when not scrolling
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    return (
         <div
-          className="md:hidden bg-black z-10  absolute w-full  flex flex-col justify-center items-center"
-          id="mobile-menu"
+            className={`py-3 fixed top-0 z-50 text-white w-full h-[60px] ${
+                scrolling && "bg-tourHub-green-dark" // Add background when scrolling
+            } ${
+                pathname === "/"
+                    ? !scrolling && "md:mt-7" // Add margin on homepage when not scrolling
+                    : "bg-tourHub-green-dark mt-0" // Default background for other pages
+            } transition duration-300`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-            >
-              About
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-            >
-              Services
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground hover:text-primary"
-            >
-              Contact
-            </a>
-            <Button className="  bg-tourHub-green-light  text-white rounded-md  ml-2 ">
-                <p className=" ml-2">Login</p>
-              </Button>
-          </div>
+            <div className="container">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <Link href={"/"} className="font-bold text-xl">
+                            TourHub
+                        </Link>
+                    </div>
+                    <div className="hidden md:flex items-center md:gap-x-5 lg:gap-x-10">
+                        {/* Desktop Menu Links */}
+                        {menus.map((menu) => (
+                            <Link
+                                key={menu.id}
+                                href={menu.href}
+                                className={`${
+                                    pathname === menu.href
+                                        ? "font-semibold"
+                                        : "font-light" // Highlight active menu
+                                }`}
+                            >
+                                {menu.linkText}
+                            </Link>
+                        ))}
+                    </div>
+                    {/* Login button */}
+                    <div className="hidden md:block">
+                        <SignedOut>
+                            <SignInButton
+                                fallbackRedirectUrl="/"
+                                signUpFallbackRedirectUrl="/wizard"
+                            >
+                                <Button
+                                    className={cn(
+                                        scrolling &&
+                                            "border-[1px] border-white/10", // Add border when scrolling
+                                        "bg-tourHub-green-dark hover:bg-[#3a6f54]" // Change hover color for button
+                                    )}
+                                >
+                                    Sign In
+                                </Button>
+                            </SignInButton>
+                        </SignedOut>
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                    </div>
+
+                    {/* Mobile Responsive */}
+                    <div className="md:hidden">
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" className="p-1">
+                                    <Menu />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent
+                                side="top"
+                                className="bg-[#047857] text-white"
+                            >
+                                <div className="flex flex-col items-center gap-y-8 mt-6">
+                                    <div className="flex flex-col items-center gap-y-5">
+                                        {/* Mobile Menu Links */}
+                                        {menus.map((menu) => (
+                                            <Link
+                                                key={menu.id}
+                                                href={menu.href}
+                                                className={`${
+                                                    pathname === menu.href
+                                                        ? "font-semibold"
+                                                        : "font-light" // Highlight active menu on mobile
+                                                }`}
+                                            >
+                                                <SheetClose>
+                                                    {menu.linkText}
+                                                </SheetClose>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    {/* Login button for mobile */}
+                                    <Link href={"/login"}>
+                                        <Button className="bg-tourHub-green-light text-white rounded-md">
+                                            <SheetClose>Login</SheetClose>
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
+                    </div>
+                </div>
+            </div>
         </div>
-      )}
-    </nav>
-  );
+    );
 };
 
-export default NavPage;
+export default Navbar;
