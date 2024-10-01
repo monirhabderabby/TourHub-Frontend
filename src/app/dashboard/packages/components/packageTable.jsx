@@ -9,10 +9,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { CircleOff, Loader2Icon } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 // Components
 import { DataTable } from "@/components/ui/data-table";
+import { DataTableFacetedFilter } from "@/components/ui/data-table-faceted-filter";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
@@ -76,6 +77,24 @@ const TableContainer = ({ data, columns }) => {
       sorting,
     },
   });
+
+  const categoriesOptions = useMemo(() => {
+    const categoriesMap = new Map();
+
+    data?.forEach((item) => {
+      item?.category?.forEach((category) => {
+        categoriesMap.set(category?.name, {
+          value: category?._id,
+          label: category?.name,
+        });
+      });
+    });
+
+    const uniqueCategories = new Set(categoriesMap.values());
+
+    return Array.from(uniqueCategories);
+  }, [data]);
+
   return (
     <div>
       <div className="flex justify-between items-center py-4">
@@ -88,7 +107,14 @@ const TableContainer = ({ data, columns }) => {
           className="max-w-sm focus-visible:ring-[#3a6f54]"
         />
 
-        <DataTableViewOptions table={table} />
+        <div className="flex items-center gap-x-2">
+          <DataTableFacetedFilter
+            title="Tour Type"
+            column={table.getColumn("category")}
+            options={categoriesOptions}
+          />
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
       <DataTable columns={columns} table={table} />
       {data?.length > 10 && (

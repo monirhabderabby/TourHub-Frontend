@@ -38,6 +38,30 @@ export const usePackageColumns = () => {
         },
       },
       {
+        accessorKey: "category",
+        header: null,
+        filterFn: (row, id, value) => {
+          // Get the category from the row
+          const rowCategory = row.getValue(id);
+
+          // Check if the rowCategory includes any of the selected filter values
+          return (
+            value.length === 0 ||
+            rowCategory.some(({ _id }) => value.includes(_id))
+          );
+        },
+        cell: ({ row }) => {
+          const { category } = row.original || {};
+          return (
+            <div className="flex items-center gap-x-1">
+              {category?.map(({ name, _id }) => (
+                <p key={_id}>{name}</p>
+              ))}
+            </div>
+          );
+        },
+      },
+      {
         accessorKey: "name",
         header: "Name",
       },
