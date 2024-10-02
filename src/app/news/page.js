@@ -11,6 +11,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { TextEffect } from "@/components/ui/text-effect";
 import { newsCategory } from "@/lib/newsCategory";
 import { CircleAlert, CircleOff, Loader2Icon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Animation variants
@@ -26,7 +27,11 @@ const tabContentVariants = {
 };
 //
 const NewsPage = () => {
-    let [activeTab, setActiveTab] = useState(newsCategory[0].categoryName);
+    const [activeTab, setActiveTab] = useState(newsCategory[0].categoryName);
+
+    const searchParams = useSearchParams();
+
+    const category = searchParams.get("category");
 
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["news"],
@@ -95,9 +100,17 @@ const NewsPage = () => {
     }
 
     useEffect(() => {
-        // Scroll to the top of the page with smooth animation on component mount
+        // Only change the activeTab if the category from URL matches any category in newsCategory
+        if (
+            category &&
+            newsCategory.some((tab) => tab.categoryName === category)
+        ) {
+            setActiveTab(category);
+        }
+
+        // Scroll to top when the category changes
         window.scrollTo({ top: 0, behavior: "smooth" });
-    }, []);
+    }, [category]);
 
     return (
         <div className="mt-8 font-inter">
