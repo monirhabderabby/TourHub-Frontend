@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 // Components
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import Overview from "./(components)/overview_stats";
 const NewUserCompare = dynamic(
   () => import("./(components)/(comparison)/new-user-compare-chart"),
@@ -14,7 +16,14 @@ const TotalSellCompare = dynamic(
   }
 );
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const { publicMetadata } = await currentUser();
+  const admin = publicMetadata?.role === "admin";
+
+  if (!admin) {
+    redirect("/dashboard/profile");
+  }
+
   return (
     <div>
       <Overview />
