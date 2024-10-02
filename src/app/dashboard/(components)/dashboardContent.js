@@ -6,13 +6,25 @@ import { usePathname } from "next/navigation";
 
 // Components
 import { dashboardTabsList } from "@/data/dashboard";
+import { useUser } from "@clerk/nextjs";
 
 const DashboardContent = ({ children }) => {
   const pathname = usePathname();
+  const { isLoaded, user } = useUser();
+
+  if (!isLoaded) return null;
+
+  const currentRole = user?.publicMetadata?.role;
+
+  // Filter tabs based on the user's role
+  const filteredTabs = dashboardTabsList.filter((tab) =>
+    tab.roles.includes(currentRole)
+  );
+
   return (
     <div>
       <div className="md:hidden flex items-center gap-x-3 mb-4">
-        {dashboardTabsList.map((tab) => (
+        {filteredTabs.map((tab) => (
           <Link
             key={tab.id}
             href={tab.path}

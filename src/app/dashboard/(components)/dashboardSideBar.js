@@ -1,6 +1,7 @@
 "use client";
 
 // Packages
+import { useUser } from "@clerk/nextjs";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,12 +12,23 @@ import { dashboardTabsList } from "@/data/dashboard";
 export default function DashboardSideBar() {
   const pathname = usePathname();
 
+  const { isLoaded, user } = useUser();
+
+  if (!isLoaded) return null;
+
+  const currentRole = user?.publicMetadata?.role;
+
+  // Filter tabs based on the user's role
+  const filteredTabs = dashboardTabsList.filter((tab) =>
+    tab.roles.includes(currentRole)
+  );
+
   return (
     <div className="md:block hidden h-full">
       <div className="flex h-full max-h-screen flex-col gap-2 ">
         <div className="flex-1 overflow-auto">
           <nav className="grid items-start pr-6 text-sm font-medium space-y-2">
-            {dashboardTabsList.map((tab) => (
+            {filteredTabs.map((tab) => (
               <Link
                 key={tab.id}
                 className={clsx(
