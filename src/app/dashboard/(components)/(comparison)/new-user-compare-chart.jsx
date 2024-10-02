@@ -74,7 +74,7 @@ export default function NewUserCompare() {
     content = (
       <NewUsersCompareCard
         chartData={filteredData}
-        currentMonthStats={response?.data?.currentMonthStats}
+        currentMonthStats={response?.data?.lastMonthStats}
       />
     );
   }
@@ -83,7 +83,8 @@ export default function NewUserCompare() {
 }
 
 const NewUsersCompareCard = ({ chartData, currentMonthStats }) => {
-  const trendingUp = currentMonthStats?.status?.increase;
+  const trendingUp = currentMonthStats?.status == "increase";
+
   const trendingPercentage = currentMonthStats?.percentage;
   return (
     <Card className="shadow-none">
