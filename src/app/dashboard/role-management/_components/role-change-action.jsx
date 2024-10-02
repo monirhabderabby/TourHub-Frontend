@@ -19,7 +19,10 @@ import { useUser } from "@clerk/nextjs";
 
 const RoleChangeAction = ({ data }) => {
   const [open, setOpen] = useState(false); // Default state is false
+  const superAdmin = process.env.NEXT_PUBLIC_SUPER_ADMIN;
   const { role, clerkId } = data;
+  const isSuperAdmin = clerkId === superAdmin;
+  console.log(isSuperAdmin, clerkId, superAdmin);
   const isAdmin = role === "admin";
 
   const { isLoaded, user } = useUser(); // useUser hook called unconditionally
@@ -63,13 +66,21 @@ const RoleChangeAction = ({ data }) => {
     }
   };
 
+  const onPopOverChange = () => {
+    if (isSuperAdmin) {
+      return;
+    }
+    setOpen((prev) => !prev);
+  };
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={onPopOverChange}>
       <PopoverTrigger asChild>
         <p
           className={cn(
             "font-inter text-14px w-fit px-2 rounded-[50px] cursor-pointer",
-            isAdmin ? "bg-green-200" : "bg-gray-200"
+            isAdmin ? "bg-green-200" : "bg-gray-200",
+            isSuperAdmin && "bg-orange-200"
           )}
         >
           {role}
@@ -82,10 +93,13 @@ const RoleChangeAction = ({ data }) => {
 
         <div className="flex justify-end">
           <Button
-            className="mt-4 bg-tourHub-title2 hover:bg-tourHub-title2/80 text-[12px] text-white flex items-center gap-x-1"
+            className={cn(
+              "mt-4 bg-tourHub-title2 hover:bg-tourHub-title2/80 text-[12px] text-white flex items-center gap-x-1",
+              isSuperAdmin && "select-none"
+            )}
             size="sm"
             onClick={onUpdate}
-            disabled={isPending || !isLoaded} // Updated to 'isLoading'
+            disabled={isPending || !isLoaded || isSuperAdmin} // Updated to 'isLoading'
           >
             Make {isAdmin ? "User" : "Admin"}
             <AnimatePresence>
