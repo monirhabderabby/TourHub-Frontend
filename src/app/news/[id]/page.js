@@ -5,10 +5,12 @@ import Link from "next/link";
 
 // Images
 import bg from "@/assets/bg.png";
+import RichTextViewer from "@/components/richTextEditor/richTextViewer";
 import { TextEffect } from "@/components/ui/text-effect";
 import { newsCategory } from "@/lib/newsCategory";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff, Loader2Icon } from "lucide-react";
+import AlsoLikeSection from "./components/alsoLikeSection";
 
 const newsDetailspage = ({ params }) => {
     const newsId = params.id;
@@ -52,10 +54,10 @@ const newsDetailspage = ({ params }) => {
             </div>
 
             {/* page content */}
-            <div className="w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto border-[1px] border-[#E7E6E6] p-5 md:p-10 lg:mt-10 rounded-xl">
+            <div className="w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto border-[1px] border-[#E7E6E6] px-5 py-5 md:px-10 md:py-8 lg:mt-10 rounded-xl">
                 <div className="grid grid-cols-4 gap-10">
                     <div className="col-span-4 md:col-span-3">
-                        <div className="mt-3 relative overflow-hidden h-[500px] w-full">
+                        <div className="mt-3 relative overflow-hidden h-[200px] md:h-[500px] w-full">
                             <Image
                                 src={data?.data?.images}
                                 alt="blog image"
@@ -68,13 +70,11 @@ const newsDetailspage = ({ params }) => {
                         </div>
 
                         <div className="mt-5 md:mt-10">
-                            <h2 className="text-19px md:text-27px leading-10 mb-5 text-tourHub-title font-bold">
+                            <h2 className="text-19px md:text-27px md:leading-10 mb-5 text-tourHub-title font-bold">
                                 {data?.data.title}
                             </h2>
 
-                            <p className="text-base font-normal leading-7 text-tourHub-title text-16px">
-                                {data?.data.description}
-                            </p>
+                            <RichTextViewer content={data?.data?.description} />
                         </div>
                     </div>
                     <div className="col-span-4 md:col-span-1">
@@ -112,13 +112,8 @@ const newsDetailspage = ({ params }) => {
                         </div>
                     </div>
                 </div>
-                <div className="my-5 md:my-10">
-                    <h4 className="text-tourHub-title text-xl font-bold leading-7 mb-5">
-                        You might also like
-                    </h4>
-
-                    {/* TODO: render 3 news card of this category */}
-                </div>
+                {/* Suggestions */}
+                <AlsoLikeSection data={data} />
             </div>
         </div>
     );
