@@ -1,8 +1,10 @@
 "use client";
-
+// Packages
+import { useQuery } from "@tanstack/react-query";
 import { CircleOff, TrendingDown, TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
+// Components
 import SkeletonWrapper from "@/components/common/SkeletonWrapper";
 import {
   Card,
@@ -18,18 +20,12 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { TextEffect } from "@/components/ui/text-effect";
-import { useQuery } from "@tanstack/react-query";
+import { monthsOrder } from "@/data/stats";
 
 export const description = "A line chart";
 
-// const chartData = [
-//   { month: "January", users: 186 },
-//   { month: "February", users: 305 },
-//   { month: "March", users: 237 },
-//   { month: "April", users: 73 },
-//   { month: "May", users: 209 },
-//   { month: "June", users: 214 },
-// ];
+// Get the current month index (0 for January, 9 for October, etc.)
+const currentMonthIndex = new Date().getMonth();
 
 const chartConfig = {
   users: {
@@ -72,10 +68,13 @@ export default function NewUserCompare() {
       </Card>
     );
   } else if (response?.success) {
+    const filteredData = (response?.data?.chartData || []).filter(
+      (item) => monthsOrder.indexOf(item.month) <= currentMonthIndex
+    );
     content = (
       <NewUsersCompareCard
-        chartData={response?.data?.chartData || []}
-        currentMonthStats={response?.data?.currentMonthStats}
+        chartData={filteredData}
+        currentMonthStats={response?.data?.lastMonthStats}
       />
     );
   }
@@ -84,7 +83,8 @@ export default function NewUserCompare() {
 }
 
 const NewUsersCompareCard = ({ chartData, currentMonthStats }) => {
-  const trendingUp = currentMonthStats?.status?.increase;
+  const trendingUp = currentMonthStats?.status == "increase";
+
   const trendingPercentage = currentMonthStats?.percentage;
   return (
     <Card className="shadow-none">
