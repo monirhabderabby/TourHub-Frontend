@@ -22,22 +22,22 @@ const SingleNewsCard = ({ news }) => {
                         {news.newsCategory}
                     </Badge>
                     <Link href={`/news/${news._id}`}>
-                        <h3 className="leading-[26px] text-tourHub-title2 hover:opacity-75 duration-300">
+                        <h3 className="leading-[26px] text-tourHub-title2 hover:opacity-75 duration-300 line-clamp-2">
                             {news.title}
                         </h3>
                     </Link>
-                    <p className="pt-2 text-[13px] text-tourHub-gray mb-2">
+                    <p className="pt-2 text-[12px] text-tourHub-gray mb-2">
                         Published:{" "}
                         {format(new Date(news.createdAt), "dd MMMM yyyy")}
                     </p>
 
                     <div className="flex items-center gap-x-2 pb-2">
-                        <Avatar>
+                        <Avatar className="w-7 h-7">
                             <AvatarImage src={news?.user?.image} />
                             <AvatarFallback>TH</AvatarFallback>
                         </Avatar>
-                        <p className="text-sm text-tourHub-title2 font-medium">
-                            {news?.user?.name} User Name
+                        <p className="text-[12px] text-tourHub-title2 font-medium">
+                            {news?.user?.name}
                         </p>
                     </div>
                 </div>
