@@ -5,21 +5,39 @@ import Link from "next/link";
 
 // Images
 import bg from "@/assets/bg.png";
-import blogAuthor from "@/assets/blog-author.png";
-import { useQuery } from "@tanstack/react-query";
+import { TextEffect } from "@/components/ui/text-effect";
 import { newsCategory } from "@/lib/newsCategory";
-
+import { useQuery } from "@tanstack/react-query";
+import { CircleOff, Loader2Icon } from "lucide-react";
 
 const newsDetailspage = ({ params }) => {
-
-    const newsId = params.id
-    const { data } = useQuery({
+    const newsId = params.id;
+    const { data, isLoading, isError, error } = useQuery({
         queryKey: ["news", newsId],
         queryFn: () =>
-            fetch(`http://localhost:5000/api/v1/news/${newsId}`).then((res) =>
-              res.json()
-            ),
+            fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/news/${newsId}`
+            ).then((res) => res.json()),
     });
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-[calc(100vh-280px)]">
+                <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
+            </div>
+        );
+    } else if (isError) {
+        return (
+            <div className="w-full flex flex-col gap-2 justify-center items-center min-h-[60vh] font-inter">
+                <CircleOff className="h-7 w-7 text-red-600" />
+                <p className="max-w-[400px] text-center text-14px text-tourHub-gray">
+                    <TextEffect per="char" preset="fade">
+                        {error.message}
+                    </TextEffect>
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -37,20 +55,25 @@ const newsDetailspage = ({ params }) => {
             <div className="w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto border-[1px] border-[#E7E6E6] p-5 md:p-10 lg:mt-10 rounded-xl">
                 <div className="grid grid-cols-4 gap-10">
                     <div className="col-span-4 md:col-span-3">
-                        <div className="mt-3">
-                            <Image src={data?.data?.images} alt="blog image" width={690} height={100}/>
+                        <div className="mt-3 relative overflow-hidden h-[500px] w-full">
+                            <Image
+                                src={data?.data?.images}
+                                alt="blog image"
+                                layout="fill"
+                                className="object-cover"
+                            />
                             <p className="text-sm md:text-base absolute left-0 bottom-0 bg-white italic font-light text-tourHub-title px-5 py-3">
-
+                                {data?.data?.newsCategory}
                             </p>
                         </div>
 
                         <div className="mt-5 md:mt-10">
-                            <h2 className="text-19px md:text-27px mb-5 text-tourHub-title font-bold">
-                            {data?.data.title}
+                            <h2 className="text-19px md:text-27px leading-10 mb-5 text-tourHub-title font-bold">
+                                {data?.data.title}
                             </h2>
 
                             <p className="text-base font-normal leading-7 text-tourHub-title text-16px">
-                              {data?.data.description}
+                                {data?.data.description}
                             </p>
                         </div>
                     </div>
@@ -59,19 +82,27 @@ const newsDetailspage = ({ params }) => {
                             <h4 className="text-tourHub-title text-xl font-bold leading-7 mb-5">
                                 About author
                             </h4>
-                            <Image src={blogAuthor} alt="author image" />
-                            <p className="my-5 text-tourHub-title">Brandon King</p>
+                            <Image
+                                src={data?.data?.user?.image}
+                                alt="author image"
+                                width={140}
+                                height={100}
+                                className=" h-[140px] object-cover rounded-lg"
+                            />
+                            <p className="my-5 text-tourHub-title">
+                                {data?.data?.user?.name}
+                            </p>
                         </div>
                         <div className="my-10">
                             <h4 className="text-tourHub-title text-19px font-bold leading-7 mb-5">
-                               All Categories Here
+                                All Categories Here
                             </h4>
 
                             <div className="flex flex-col gap-3">
                                 {newsCategory.map((category) => (
                                     <Link
                                         key={category.id}
-                                        href={`/news`}
+                                        href={`/news?category=${category.categoryName}`}
                                         className="text-tourHub-green-light underline text-14px text-base font-normal hover:opacity-80 transition duration-300"
                                     >
                                         {category.categoryName}
@@ -90,7 +121,7 @@ const newsDetailspage = ({ params }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default newsDetailspage
+export default newsDetailspage;

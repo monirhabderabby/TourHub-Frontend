@@ -3,7 +3,6 @@
 import Banner from "@/components/homePage/banner";
 import PopulerTours from "@/components/homePage/populer_tours";
 import Testimonilas from "@/components/homePage/testimonilas";
-import TopDestination from "@/components/homePage/top_destination";
 import TopNews from "@/components/homePage/top_news";
 import TravelersPoint from "@/components/homePage/travelers_point";
 import TrendingDestinations from "@/components/homePage/trending_destinations";
@@ -17,7 +16,6 @@ export default function Home() {
             <TrendingDestinations />
             <TravelersPoint />
             <PopulerTours />
-            <TopDestination />
             <TopNews />
             <Testimonilas />
         </main>
