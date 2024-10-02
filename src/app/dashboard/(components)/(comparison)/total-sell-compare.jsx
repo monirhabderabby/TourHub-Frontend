@@ -1,8 +1,11 @@
 "use client";
-
-import { TrendingUp } from "lucide-react";
+// Packages
+import { useQuery } from "@tanstack/react-query";
+import { CircleOff, TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
+// Components
+import SkeletonWrapper from "@/components/common/SkeletonWrapper";
 import {
   Card,
   CardContent,
@@ -16,17 +19,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { TextEffect } from "@/components/ui/text-effect";
+import { monthsOrder } from "@/data/stats";
 
 export const description = "A multiple bar chart";
-
-const chartData = [
-  { month: "January", sell: 1866, booked: 80 },
-  { month: "February", sell: 3055, booked: 200 },
-  { month: "March", sell: 2377, booked: 120 },
-  { month: "April", sell: 733, booked: 190 },
-  { month: "May", sell: 2099, booked: 130 },
-  { month: "June", sell: 2144, booked: 140 },
-];
 
 const chartConfig = {
   sell: {
@@ -40,6 +36,51 @@ const chartConfig = {
 };
 
 export default function TotalSellCompare() {
+  const {
+    isLoading,
+    data: response,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["sales-stats"],
+    queryFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/booking/stats/monthly-sales`
+      ).then((res) => res.json()),
+  });
+
+  // Get the current month index (0 for January, 9 for October, etc.)
+  const currentMonthIndex = new Date().getMonth();
+
+  let content;
+  if (isLoading) {
+    content = (
+      <SkeletonWrapper isLoading={isLoading}>
+        <TotalSellCompareCard />
+      </SkeletonWrapper>
+    );
+  } else if (isError) {
+    content = (
+      <Card className="shadow-none w-full h-full flex flex-col justify-center items-center">
+        <CircleOff className="h-7 w-7 text-red-600" />
+        <p className="max-w-[400px] text-center text-14px text-tourHub-gray">
+          <TextEffect per="char" preset="fade">
+            {error?.message || "something went wrong!"}
+          </TextEffect>
+        </p>
+      </Card>
+    );
+  } else if (response?.success) {
+    const filteredData = (response?.data || []).filter(
+      (item) => monthsOrder.indexOf(item.month) <= currentMonthIndex
+    );
+    content = <TotalSellCompareCard chartData={filteredData} />;
+  }
+
+  return content;
+}
+
+const TotalSellCompareCard = ({ chartData }) => {
   return (
     <Card className="shadow-none">
       <CardHeader>
@@ -76,4 +117,4 @@ export default function TotalSellCompare() {
       </CardFooter>
     </Card>
   );
-}
+};
