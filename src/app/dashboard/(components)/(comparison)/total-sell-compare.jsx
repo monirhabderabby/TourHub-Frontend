@@ -85,7 +85,11 @@ const TotalSellCompareCard = ({ chartData }) => {
     <Card className="shadow-none">
       <CardHeader>
         <CardTitle>Bar Chart - Sell</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>
+          {chartData?.length > 0 && chartData[0]?.month} -{" "}
+          {chartData?.length > 0 && chartData[chartData?.length - 1]?.month}{" "}
+          2024
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
