@@ -175,42 +175,44 @@ const ProfileForm = ({ userId }) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                {editable && <FormLabel>Name</FormLabel>}
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Your Name"
-                    {...field}
-                    className="disabled:opacity-100"
-                    disabled={!editable}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                {editable && <FormLabel>Email</FormLabel>}
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Primary Email"
-                    {...field}
-                    className="disabled:opacity-70"
-                    disabled={true}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <div className="col-span-2 space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  {editable && <FormLabel>Name</FormLabel>}
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Your Name"
+                      {...field}
+                      className="disabled:opacity-100"
+                      disabled={!editable}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  {editable && <FormLabel>Email</FormLabel>}
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Primary Email"
+                      {...field}
+                      className="disabled:opacity-70"
+                      disabled={true}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
         </form>
       </Form>
     );

@@ -85,7 +85,7 @@ const TableContainer = ({ data, columns }) => {
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm focus-visible:ring-[#3a6f54]"
+          className="max-w-[300px] focus-visible:ring-[#3a6f54]"
         />
 
         <DataTableViewOptions table={table} />
