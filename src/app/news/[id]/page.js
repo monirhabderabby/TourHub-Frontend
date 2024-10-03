@@ -62,7 +62,7 @@ const newsDetailspage = ({ params }) => {
                                 src={data?.data?.images}
                                 alt="blog image"
                                 layout="fill"
-                                className="object-cover"
+                                className="object-cover rounded-xl"
                             />
                             <p className="text-sm md:text-base absolute left-0 bottom-0 bg-white italic font-light text-tourHub-title px-5 py-3">
                                 {data?.data?.newsCategory}
