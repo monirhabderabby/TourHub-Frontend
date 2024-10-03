@@ -10,7 +10,7 @@ export default async function NewsDashboardLayout({ children, params }) {
   // If no user is authenticated, redirect to the sign-in page with a redirect URL back to the current page
   if (!user) {
     redirect(
-      `/sign-in?redirect_url=${
+      `/sign-in?forceRedirectUrl=${
         process.env.NEXT_PUBLIC_APP_URL
       }/${encodeURIComponent(params.slug)}` // Encode the slug parameter to pass it safely in the URL
     );

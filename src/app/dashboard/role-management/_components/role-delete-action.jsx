@@ -1,12 +1,16 @@
 "use client";
 // Packages
+import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Trash2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { toast } from "sonner";
 
 // Components
-import AlertModal from "@/components/ui/alert-modal";
+const AlertModal = dynamic(() => import("@/components/ui/alert-modal"), {
+  ssr: false,
+});
 
 const RoleDeleteAction = ({ clerkId }) => {
   const [open, setOpen] = useState(false);
@@ -45,7 +49,7 @@ const RoleDeleteAction = ({ clerkId }) => {
       />
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-x-2 text-14px font-inter text-tourHub-title hover:shadow-sm   px-3 hover:text-rose-600 py-1 rounded-md"
+        className=" items-center gap-x-2 text-14px font-inter text-tourHub-title hover:shadow-sm   px-3 hover:text-rose-600 py-1 rounded-md hidden md:flex"
       >
         {deletePending ? (
           <Loader2 className="h-4 w-4 animate-spin text-rose-600" />
@@ -54,6 +58,13 @@ const RoleDeleteAction = ({ clerkId }) => {
         )}{" "}
         Delete User
       </button>
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
     </>
   );
 };

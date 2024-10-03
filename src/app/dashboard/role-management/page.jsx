@@ -13,7 +13,7 @@ const Page = () => {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-tourHub-title2 text-[30px] font-bold font-inter">
+          <h2 className="text-tourHub-title2 text-23px md:text-[30px] font-bold font-inter">
             All Users
           </h2>
           <p className="text-tourHub-gray text-14px pt-1 mb-1">

@@ -133,11 +133,27 @@ const Navbar = () => {
                                         ))}
                                     </div>
                                     {/* Login button for mobile */}
-                                    <Link href={"/login"}>
-                                        <Button className="bg-tourHub-green-light text-white rounded-md">
-                                            <SheetClose>Login</SheetClose>
-                                        </Button>
-                                    </Link>
+                                    <div>
+                                        <SignedOut>
+                                            <SignInButton
+                                                fallbackRedirectUrl="/"
+                                                signUpFallbackRedirectUrl="/wizard"
+                                            >
+                                                <Button
+                                                    className={cn(
+                                                        scrolling &&
+                                                            "border-[1px] border-white/10", // Add border when scrolling
+                                                        "bg-tourHub-green-dark hover:bg-[#3a6f54]" // Change hover color for button
+                                                    )}
+                                                >
+                                                    Sign In
+                                                </Button>
+                                            </SignInButton>
+                                        </SignedOut>
+                                        <SignedIn>
+                                            <UserButton />
+                                        </SignedIn>
+                                    </div>
                                 </div>
                             </SheetContent>
                         </Sheet>
