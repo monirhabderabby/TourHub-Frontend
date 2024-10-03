@@ -9,15 +9,15 @@ import TrendingDestinations from "@/components/homePage/trending_destinations";
 import WhyChooseTour from "@/components/homePage/whyChoose_tour";
 
 export default function Home() {
-    return (
-        <main className="space-y-[80px] md:space-y-[100px] lg:space-y-[200px]">
-            <Banner />
-            <WhyChooseTour />
-            <TrendingDestinations />
-            <TravelersPoint />
-            <PopulerTours />
-            <TopNews />
-            <Testimonilas />
-        </main>
-    );
+  return (
+    <main className="space-y-[80px] md:space-y-[100px] lg:space-y-[200px] ">
+      <Banner />
+      <WhyChooseTour />
+      <TrendingDestinations />
+      <TravelersPoint />
+      <PopulerTours />
+      <TopNews />
+      <Testimonilas />
+    </main>
+  );
 }
