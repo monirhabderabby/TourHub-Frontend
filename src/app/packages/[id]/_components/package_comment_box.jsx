@@ -65,7 +65,11 @@ const PackageCommentBox = ({ packageId }) => {
       toast.error(error.message || "Something went wrong");
     },
     onSuccess: (data) => {
-      form.reset();
+      form.reset({
+        title: "",
+        comment: "",
+        images: [],
+      });
       setOpen(true); // Open modal on success
     },
   });

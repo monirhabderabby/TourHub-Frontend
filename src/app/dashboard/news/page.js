@@ -12,6 +12,9 @@ const NewsTable = dynamic(() => import("./components/newsTable"), {
 });
 
 const NewsPage = () => {
+  console.log(
+    encodeURIComponent("https%3A%2F%2Ftour-hub-frontend.vercel.app%2Fdashboard")
+  );
   return (
     <div>
       <div className="flex items-center justify-between">
