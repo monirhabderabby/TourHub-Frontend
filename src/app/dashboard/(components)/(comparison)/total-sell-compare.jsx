@@ -71,16 +71,22 @@ export default function TotalSellCompare() {
       </Card>
     );
   } else if (response?.success) {
-    const filteredData = (response?.data || []).filter(
+    const filteredData = (response?.data?.chartData || []).filter(
       (item) => monthsOrder.indexOf(item.month) <= currentMonthIndex
     );
-    content = <TotalSellCompareCard chartData={filteredData} />;
+    content = (
+      <TotalSellCompareCard
+        chartData={filteredData}
+        sellStatus={response?.data?.comparison?.sellStatus || ""}
+        sellPercentage={response?.data?.comparison?.sellPercentage || 5.2}
+      />
+    );
   }
 
   return content;
 }
 
-const TotalSellCompareCard = ({ chartData }) => {
+const TotalSellCompareCard = ({ chartData, sellStatus, sellPercentage }) => {
   return (
     <Card className="shadow-none">
       <CardHeader>
@@ -113,10 +119,11 @@ const TotalSellCompareCard = ({ chartData }) => {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Trending {sellStatus === "increase" ? "up" : "down"} by 5.
+          {sellPercentage}% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total sales report for the last 6 months
+          Showing total sales report for the last {chartData?.length} months
         </div>
       </CardFooter>
     </Card>
