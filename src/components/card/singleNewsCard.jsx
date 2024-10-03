@@ -14,7 +14,7 @@ const SingleNewsCard = ({ news }) => {
                         src={news.images}
                         alt="news"
                         layout="fill" // Ensures the image fills the container
-                        className="hover:scale-105 transition-all duration-500 object-cover" // Crops the image to cover the full space
+                        className="bg-gray-100 hover:scale-105 transition-all duration-500 object-cover" // Crops the image to cover the full space
                     />
                 </div>
                 <div className="py-2 px-5 space-y-2">

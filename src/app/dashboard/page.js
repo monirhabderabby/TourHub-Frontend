@@ -27,7 +27,7 @@ const DashboardPage = async () => {
   return (
     <div>
       <Overview />
-      <div className="w-full grid grid-cols-2 gap-6 mt-4">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
         <NewUserCompare />
         <TotalSellCompare />
       </div>

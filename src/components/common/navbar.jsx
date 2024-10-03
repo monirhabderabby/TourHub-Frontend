@@ -20,11 +20,10 @@ const Navbar = () => {
     const menus = [
         { id: 1, href: "/", linkText: "Home" },
         { id: 2, href: "/packages", linkText: "Discover" },
-        // { id: 3, href: "/services", linkText: "Services" },
-        { id: 4, href: "/news", linkText: "News" },
-        { id: 5, href: "/about", linkText: "About Us" },
-        { id: 6, href: "/Contact", linkText: "Contact" },
-        { id: 7, href: "/dashboard", linkText: "Dashboard" },
+        { id: 3, href: "/news", linkText: "News" },
+        { id: 4, href: "/about", linkText: "About Us" },
+        { id: 5, href: "/Contact", linkText: "Contact" },
+        { id: 6, href: "/dashboard", linkText: "Dashboard" },
     ];
 
     // Track window scroll to update navbar style
@@ -96,7 +95,9 @@ const Navbar = () => {
                             </SignInButton>
                         </SignedOut>
                         <SignedIn>
-                            <UserButton />
+                            <div className="flex items-center mt-[3px]">
+                                <UserButton />
+                            </div>
                         </SignedIn>
                     </div>
 
@@ -132,11 +133,27 @@ const Navbar = () => {
                                         ))}
                                     </div>
                                     {/* Login button for mobile */}
-                                    <Link href={"/login"}>
-                                        <Button className="bg-tourHub-green-light text-white rounded-md">
-                                            <SheetClose>Login</SheetClose>
-                                        </Button>
-                                    </Link>
+                                    <div>
+                                        <SignedOut>
+                                            <SignInButton
+                                                fallbackRedirectUrl="/"
+                                                signUpFallbackRedirectUrl="/wizard"
+                                            >
+                                                <Button
+                                                    className={cn(
+                                                        scrolling &&
+                                                            "border-[1px] border-white/10", // Add border when scrolling
+                                                        "bg-tourHub-green-dark hover:bg-[#3a6f54]" // Change hover color for button
+                                                    )}
+                                                >
+                                                    Sign In
+                                                </Button>
+                                            </SignInButton>
+                                        </SignedOut>
+                                        <SignedIn>
+                                            <UserButton />
+                                        </SignedIn>
+                                    </div>
                                 </div>
                             </SheetContent>
                         </Sheet>
