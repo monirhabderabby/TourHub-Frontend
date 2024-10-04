@@ -49,13 +49,21 @@ const MyBookingsTable = () => {
   } else if (response) {
     // Memoizing the processed transactions
     const processedBookings = response?.data?.result.map(
-      ({ createdAt, transactionId, paymentStatus, packageId, amount }) => ({
+      ({
+        createdAt,
+        transactionId,
+        paymentStatus,
+        packageId,
+        amount,
+        _id,
+      }) => ({
         createdAt,
         transactionId,
         paymentStatus,
         packageId: packageId?._id,
         name: packageId?.name,
         amount,
+        _id,
       })
     );
 
