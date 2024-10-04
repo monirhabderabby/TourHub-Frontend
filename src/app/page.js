@@ -1,5 +1,3 @@
-// Components
-
 import Banner from "@/components/homePage/banner";
 import PopulerTours from "@/components/homePage/populer_tours";
 import Testimonilas from "@/components/homePage/testimonilas";
