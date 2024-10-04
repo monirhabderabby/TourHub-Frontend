@@ -1,6 +1,6 @@
 "use client";
 // Packages
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -18,21 +18,31 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import BulkDeleteButton from "./BulkDeleteButton";
 import { usePackageColumns } from "./columns";
 
+const fetchData = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package`
+  );
+
+  if (!res.ok) {
+    console.log("Network response was not ok");
+  }
+  return res.json();
+};
+
 const PackageTable = () => {
   const PackagesColumn = usePackageColumns();
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ["packages"],
-    queryFn: () =>
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package`).then(
-        (res) => res.json()
-      ),
+    queryFn: fetchData,
   });
 
   // Show loading spinner while data is being fetched
-  if (isLoading)
+  if (isLoading || isFetching)
     return (
       <div className="flex justify-center items-center h-[400px]">
         <Loader2Icon className="h-6 w-6 animate-spin text-tourHub-green-dark" />
@@ -63,7 +73,34 @@ export default PackageTable;
 const TableContainer = ({ data, columns }) => {
   const [columnFilters, setColumnFilters] = useState([]); // State for column filters
   const [columnVisibility, setColumnVisibility] = useState({});
+  const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState([]); // State for sorting
+  const queryClient = useQueryClient();
+
+  const router = useRouter();
+
+  const { isPending, mutate: bulkDeleteMutation } = useMutation({
+    mutationKey: ["packageBulkDelete"],
+    mutationFn: (data) =>
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/bulk`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((res) => res.json()),
+    onSuccess: (data) => {
+      if (data) {
+        queryClient.invalidateQueries(["packages"]);
+        toast.success("Selected packages deleted successfully");
+        setOpen(false);
+      }
+    },
+    onError: (error) => {
+      console.log("error", error.message);
+      toast.error(error?.message);
+    },
+  });
 
   const table = useReactTable({
     data,
@@ -108,7 +145,9 @@ const TableContainer = ({ data, columns }) => {
       .getFilteredSelectedRowModel()
       .rows.map((item) => item.original._id);
 
-    console.log(selectedRowIds);
+    bulkDeleteMutation({
+      ids: selectedRowIds,
+    });
   };
 
   return (
@@ -132,9 +171,12 @@ const TableContainer = ({ data, columns }) => {
           <DataTableViewOptions table={table} />
           <BulkDeleteButton
             loading={
-              table.getFilteredSelectedRowModel().rows.length === 0 || false
+              table.getFilteredSelectedRowModel().rows.length === 0 || isPending
             }
             onDelete={onBulkDelete}
+            open={open}
+            setOpen={setOpen}
+            isPending={isPending}
           />
         </div>
       </div>
