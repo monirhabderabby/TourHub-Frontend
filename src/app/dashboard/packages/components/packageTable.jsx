@@ -18,6 +18,7 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
+import BulkDeleteButton from "./BulkDeleteButton";
 import { usePackageColumns } from "./columns";
 
 const PackageTable = () => {
@@ -101,6 +102,15 @@ const TableContainer = ({ data, columns }) => {
     return Array.from(uniqueCategories);
   }, [data]);
 
+  const onBulkDelete = () => {
+    // selected rows >> Arrays of Ids
+    const selectedRowIds = table
+      .getFilteredSelectedRowModel()
+      .rows.map((item) => item.original._id);
+
+    console.log(selectedRowIds);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center py-4">
@@ -120,6 +130,12 @@ const TableContainer = ({ data, columns }) => {
             options={categoriesOptions}
           />
           <DataTableViewOptions table={table} />
+          <BulkDeleteButton
+            loading={
+              table.getFilteredSelectedRowModel().rows.length === 0 || false
+            }
+            onDelete={onBulkDelete}
+          />
         </div>
       </div>
       <DataTable columns={columns} table={table} />
