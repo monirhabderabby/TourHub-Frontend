@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import moment from "moment";
 import MyBookingRowAction from "./MyBookingRowAction";
+import InvoiceTrigger from "./invoiceTrigger";
 
 export const MyBookingsColumn = [
   {
@@ -59,6 +60,13 @@ export const MyBookingsColumn = [
           {status}
         </div>
       );
+    },
+  },
+  {
+    id: "invoice",
+    header: "Invoice",
+    cell: ({ row }) => {
+      return <InvoiceTrigger data={row.original} />;
     },
   },
   {
