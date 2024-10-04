@@ -1,9 +1,9 @@
 import InvoiceContainer from "@/components/common/invoice/invoice";
 
 const Invoice = ({ params }) => {
-  const id = params?.bookingId;
+  const id = params?.invoiceId;
 
-  return <InvoiceContainer bookingId={id} />;
+  return <InvoiceContainer invoiceId={id} />;
 };
 
 export default Invoice;
