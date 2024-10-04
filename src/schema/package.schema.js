@@ -76,6 +76,9 @@ export const PackageSchema = z
     exclude: z.array(z.string().min(1)).min(1, {
       message: "Please add exclude features.",
     }),
+    guideName: z.string({ message: "Guide name is required." }),
+    guideContact: z.string({ message: "Guide contact is required." }),
+    pickUpLocation: z.string({ message: "Pickup location is required." }),
     itinerary: z
       .array(itineraryItemSchema)
       .min(1, "At least one itinerary item is required"),

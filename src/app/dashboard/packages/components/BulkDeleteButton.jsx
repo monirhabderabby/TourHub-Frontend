@@ -1,19 +1,21 @@
 "use client";
 import AlertModal from "@/components/ui/alert-modal";
 import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
-import { useState } from "react";
+import { Loader2, TrashIcon } from "lucide-react";
 
-export default function BulkDeleteButton({ onDelete, loading }) {
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
+export default function BulkDeleteButton({
+  onDelete,
+  loading,
+  open,
+  setOpen,
+  isPending,
+}) {
   return (
     <>
       <AlertModal
-        isOpen={showDeleteDialog}
-        onClose={() => setShowDeleteDialog(false)}
+        isOpen={open}
+        onClose={() => setOpen(false)}
         onConfirm={() => {
-          setShowDeleteDialog(false);
           onDelete();
         }}
         loading={loading}
@@ -23,11 +25,15 @@ export default function BulkDeleteButton({ onDelete, loading }) {
         size="sm"
         className="ml-auto h-8 lg:flex"
         onClick={() => {
-          setShowDeleteDialog((prev) => !prev);
+          setOpen((prev) => !prev);
         }}
         disabled={loading}
       >
-        <TrashIcon className="mr-2 h-4 w-4" />
+        {isPending ? (
+          <Loader2 className="h-4 w-4 animate-spin mr-2" />
+        ) : (
+          <TrashIcon className="mr-2 h-4 w-4" />
+        )}
         Delete All
       </Button>
     </>
