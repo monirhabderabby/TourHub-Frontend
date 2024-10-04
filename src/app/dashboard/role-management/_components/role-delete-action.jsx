@@ -62,6 +62,7 @@ const RoleDeleteAction = ({ clerkId }) => {
         size="icon"
         variant="outline"
         onClick={() => setOpen((prev) => !prev)}
+        className="md:hidden"
       >
         <Trash2 className="h-4 w-4" />
       </Button>

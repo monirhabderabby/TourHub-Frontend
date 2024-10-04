@@ -56,6 +56,7 @@ const MyBookingsTable = () => {
         packageId,
         amount,
         _id,
+        invoiceId,
       }) => ({
         createdAt,
         transactionId,
@@ -64,6 +65,7 @@ const MyBookingsTable = () => {
         name: packageId?.name,
         amount,
         _id,
+        invoiceId,
       })
     );
 
