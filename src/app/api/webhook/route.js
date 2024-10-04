@@ -51,7 +51,7 @@ export async function POST(req) {
 
       if (!res.ok) {
         console.log("Failed to create booking on stripe webhook");
-        console.log(bookingData); // Log the raw response for debugging
+        // Log the raw response for debugging
       }
 
       // Send email
