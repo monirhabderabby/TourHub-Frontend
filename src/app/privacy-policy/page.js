@@ -5,7 +5,7 @@ export default function PrivacyPolicyPage() {
         <div>
             {/* page banner */}
             <div
-                className="mt-[60px] h-[200px] md:h-[400px] flex justify-center items-center bg-cover bg-center bg-fixed"
+                className="mt-[60px] h-[200px] md:h-[300px] xl:h-[400px] flex justify-center items-center bg-cover bg-center bg-fixed"
                 style={{ backgroundImage: `url(${privacyImg.src})` }}
             >
                 <h4 className="text-2xl md:text-4xl lg:text-5xl text-white font-bold">
