@@ -31,11 +31,12 @@ export const TourReminderTemplete = ({
           </Container>
 
           <Container className="shadow-md font-inter rounded-b-[8px]">
-            <Text className="font-inter font-medium px-5">Dear Abdullah,</Text>
+            <Text className="font-inter font-medium px-5">
+              Dear {customerName},
+            </Text>
             <Text className="text-tourHub-title px-5">
               I hope this email finds you well. This is a friendly reminder that
-              your <strong>Cox's Bazar – Dhaka Tour Package</strong> is
-              scheduled for tomorrow!
+              your <strong>{packageName}</strong> is scheduled for tomorrow!
             </Text>
             <Text className="px-5">
               <strong className="text-tourHub-green-dark">
@@ -47,15 +48,15 @@ export const TourReminderTemplete = ({
               <strong className="text-tourHub-green-dark ">
                 Pickup Location:
               </strong>{" "}
-              Tongi, Gazipur <br />-{" "}
+              {pickupLocation} <br />-{" "}
               <strong className="text-tourHub-green-dark">Pickup Time:</strong>{" "}
-              [Insert Time] <br />-{" "}
+              {pickupTime} <br />-{" "}
               <strong className="text-tourHub-green-dark">Tour Package:</strong>{" "}
-              Cox's Bazar – Dhaka Tour Package <br />-{" "}
+              {packageName} <br />-{" "}
               <strong className="text-tourHub-green-dark">
                 Contact Number:
               </strong>{" "}
-              01961275391
+              {guideNumber}
             </Text>
             <Text className="text-tourHub-title px-5">
               To ensure a smooth and enjoyable experience, here are a few

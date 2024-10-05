@@ -1,5 +1,7 @@
+import { scheduleTourReminderEmail } from "@/lib/scheduleReminderEmail";
 import { sendPaymentSuccessEmail } from "@/lib/sendPaymentSuccessEmail";
 import { stripe } from "@/lib/stripe";
+import { convertToISO } from "@/lib/utils";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -67,6 +69,14 @@ export async function POST(req) {
           console.log("Email Sent Successfully!");
         }
       }
+
+      console.log(bookingData?.data);
+
+      const scheduleEmailRes = await scheduleEmaiilForTourReminder({
+        packageId: packageId,
+        customerName: bookingData?.data?.name,
+        customerEmail: customerEmail,
+      });
     } catch (error) {
       console.error(
         "An error occurred while creating a booking:",
@@ -77,3 +87,41 @@ export async function POST(req) {
 
   return NextResponse.json({ success: true });
 }
+
+const scheduleEmaiilForTourReminder = async ({
+  packageId,
+  customerName,
+  customerEmail,
+}) => {
+  try {
+    const packageRes = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${packageId}`
+    ).then((res) => res.json());
+
+    const {
+      guideName,
+      guideContact,
+      pickUpLocation,
+      pickUpTime,
+      name,
+      startDate,
+    } = packageRes?.data || {};
+
+    const scheduledAt = convertToISO(startDate);
+
+    if (scheduledAt) {
+      const res = await scheduleTourReminderEmail({
+        customerName: customerName,
+        guideNumber: guideContact,
+        packageName: name,
+        pickupLocation: pickUpLocation,
+        pickupTime: pickUpTime,
+        to: customerEmail,
+        scheduledAt,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return;
+  }
+};
