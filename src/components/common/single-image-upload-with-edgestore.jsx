@@ -21,12 +21,10 @@ const ImageUpload = ({
   const { edgestore } = useEdgeStore();
 
   useEffect(() => {
-    if (Array.isArray(value)) {
-      console.log("@@value", value);
-      setUploadedImages(value);
+    if (value[0] === "") {
+      setUploadedImages([]);
     } else {
-      console.error("value is not an array", value);
-      setUploadedImages([]); // Fallback to an empty array if value is not an array
+      setUploadedImages(value);
     }
   }, [value]);
 
