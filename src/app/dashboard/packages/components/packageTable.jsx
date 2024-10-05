@@ -72,7 +72,10 @@ export default PackageTable;
 
 const TableContainer = ({ data, columns }) => {
   const [columnFilters, setColumnFilters] = useState([]); // State for column filters
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState({
+    category: false,
+    description: false,
+  });
   const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState([]); // State for sorting
   const queryClient = useQueryClient();
@@ -115,10 +118,7 @@ const TableContainer = ({ data, columns }) => {
     state: {
       columnFilters,
       sorting,
-      columnVisibility: {
-        category: false,
-        description: false,
-      },
+      columnVisibility,
     },
   });
 
