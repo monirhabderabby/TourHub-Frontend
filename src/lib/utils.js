@@ -16,11 +16,19 @@ export const fileToBase64 = (file) => {
   });
 };
 
-export function generateInvoiceId() {
-  const prefix = "Inv";
-  const randomPart = Math.floor(Math.random() * 1000000) // Generate a random number
-    .toString() // Convert number to string
-    .padStart(6, "0"); // Pad with leading zeros if necessary
+export function convertToISO(dateString) {
+  // Convert the input date (e.g., "2024-10-16") to a Date object
+  const dateObj = new Date(dateString);
 
-  return `${prefix}-${randomPart}`;
+  // Get the current UTC time (hours, minutes, seconds, milliseconds)
+  const currentUTC = new Date();
+  dateObj.setUTCHours(
+    currentUTC.getUTCHours(),
+    currentUTC.getUTCMinutes(),
+    currentUTC.getUTCSeconds(),
+    currentUTC.getUTCMilliseconds()
+  );
+
+  // Convert the updated Date object to ISO 8601 format
+  return dateObj.toISOString();
 }
