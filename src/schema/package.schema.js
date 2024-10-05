@@ -79,6 +79,7 @@ export const PackageSchema = z
     guideName: z.string({ message: "Guide name is required." }),
     guideContact: z.string({ message: "Guide contact is required." }),
     pickUpLocation: z.string({ message: "Pickup location is required." }),
+    pickUpTime: z.string({ message: "Pickup Time is required" }),
     itinerary: z
       .array(itineraryItemSchema)
       .min(1, "At least one itinerary item is required"),
