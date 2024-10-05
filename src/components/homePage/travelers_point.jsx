@@ -2,28 +2,31 @@
 // Packagess
 import { motion } from "framer-motion";
 import Image from "next/image";
+import CountUp from "react-countup";
 
 // Data for displaying key statistics
 const data = [
   {
     id: 1,
     title: "Holiday Package",
-    value: "100+",
+    value: 100,
+    suffex: "+",
   },
   {
     id: 2,
     title: "Hotels",
-    value: "172",
+    value: 172,
   },
   {
     id: 3,
     title: "Elite Transportation",
-    value: "68",
+    value: 68,
   },
   {
     id: 4,
     title: "we help to find your dream place",
-    value: "32M+",
+    value: 32,
+    suffex: "M+",
   },
 ];
 
@@ -109,7 +112,18 @@ const TravelersPoint = () => {
             {data.map((item) => (
               <div key={item.id}>
                 <h1 className="text-tourHub-green-dark text-27px leading-33px font-bold">
-                  {item.value}
+                  <CountUp
+                    preserveValue
+                    redraw={false}
+                    end={item.value}
+                    className="text-2xl"
+                    suffix={item.suffex}
+                    enableScrollSpy={true}
+                    scrollSpyOnce={true}
+                  />
+                  {/* <span className="text-[24px]">
+                    {item.suffex && item.suffex}
+                  </span> */}
                 </h1>
                 <p className="text-16px leading-28px font-normal text-tourHub-title">
                   {item.title}
