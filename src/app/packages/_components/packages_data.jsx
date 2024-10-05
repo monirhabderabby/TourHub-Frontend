@@ -5,6 +5,7 @@ import { CircleAlert, CircleOff, Loader2 } from "lucide-react";
 
 // Component
 import SkeletonWrapper from "@/components/common/SkeletonWrapper";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -16,8 +17,8 @@ import {
 import { TextEffect } from "@/components/ui/text-effect";
 import { useFilterStore } from "@/store/packageFilter";
 import { AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { useEffect } from "react";
-import MobileDialogFilter from "./MobileDialogFilter";
 import PackageFilterCard from "./package-filter-card";
 import PackagesSorting from "./packages_sorting";
 
@@ -158,7 +159,9 @@ const PackagesData = () => {
         <div className="flex items-center flex-1 ">
           <PackagesSorting />
           <div className="lg:hidden flex-1">
-            <MobileDialogFilter />
+            <Link href="/packages/filter">
+              <Button>Filter</Button>
+            </Link>
           </div>
         </div>
       </div>

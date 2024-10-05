@@ -90,7 +90,7 @@ const PackageForm = ({ singlePackage }) => {
       totalPeople: singlePackage ? singlePackage?.totalPeople : "",
       description: singlePackage ? singlePackage?.description : "",
       country: singlePackage ? singlePackage?.country : "",
-      cardImage: singlePackage ? singlePackage?.cardImage : [],
+      cardImage: singlePackage ? singlePackage?.cardImage : "",
       bannerImage: singlePackage ? singlePackage?.bannerImage : [],
       category: singlePackage ? singlePackage?.category : [],
       include: singlePackage ? singlePackage?.features?.include : [],
@@ -174,6 +174,7 @@ const PackageForm = ({ singlePackage }) => {
     };
     data.price = Number(data.price);
 
+    // mutate(data);
     mutate(data);
   }
 
@@ -559,6 +560,13 @@ const PackageForm = ({ singlePackage }) => {
                 label={"Pickup Location"}
                 placeholder={"Pickup location"}
               />
+              <TextField
+                control={form.control}
+                fieldName={"pickUpTime"}
+                type={"text"}
+                label={"Pickup Time"}
+                placeholder={"Example:  12:00 PM"}
+              />
             </div>
           </div>
 
@@ -594,10 +602,11 @@ const PackageForm = ({ singlePackage }) => {
                   <FormLabel>Package Image</FormLabel>
                   <FormControl>
                     <SingleImageUpload
+                      multiUpload={false}
                       onChange={(imageUrls) => {
                         field.onChange(imageUrls[0]);
                       }}
-                      value={[field.value]}
+                      value={field.value === "" && [field.value]} // Check if field.value is an empty string
                       // isForClerk={false}
                       // disabled={isPending}
                     />
