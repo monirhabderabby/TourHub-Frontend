@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import RangeSlider from "react-range-slider-input";
 
 // Components
@@ -44,6 +45,7 @@ const DatePicker = () => {
     },
     [setDateRange]
   );
+
   return (
     <div className="bg-tourHub-green-dark rounded-t-12px py-8 px-6">
       <h5 className="text-white font-inter font-medium text-14px leading-28px">
@@ -376,7 +378,7 @@ const ResetButton = () => {
         className="bg-tourHub-green-dark hover:text-tourHub-green-hover w-full py-2 rounded-8px text-white hover:text-white/80 transition-all duration-300"
         onClick={() => reset()}
       >
-        Reset Filter
+        {isMobile ? "Filter" : "Reset Filter"}
       </button>
     </div>
   );

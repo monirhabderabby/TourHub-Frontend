@@ -16,13 +16,17 @@ const ImageUpload = ({
   multiUpload = false,
 }) => {
   const [loading, setLoading] = useState(false); // Track loading state
-  const [uploadedImages, setUploadedImages] = useState(value); // Store images (can be single or multiple)
+  const [uploadedImages, setUploadedImages] = useState(value || []); // Store images (can be single or multiple)
 
   const { edgestore } = useEdgeStore();
 
   useEffect(() => {
-    if (value) {
+    if (Array.isArray(value)) {
+      console.log("@@value", value);
       setUploadedImages(value);
+    } else {
+      console.error("value is not an array", value);
+      setUploadedImages([]); // Fallback to an empty array if value is not an array
     }
   }, [value]);
 
@@ -72,7 +76,7 @@ const ImageUpload = ({
   return (
     <div>
       <AnimatePresence>
-        {uploadedImages.length > 0 ? (
+        {Array.isArray(uploadedImages) && uploadedImages.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }} // Initial opacity for fade-in
             animate={{
@@ -86,7 +90,7 @@ const ImageUpload = ({
             className="w-full bg-muted/50 border-dashed border-[1px] rounded-12px min-h-[100px] p-4 flex justify-center items-center"
           >
             <div className="relative flex gap-x-2">
-              {uploadedImages.map((image, index) => (
+              {uploadedImages?.map((image, index) => (
                 <motion.div
                   key={image}
                   initial={{ filter: "blur(1px)" }} // Initial blur for subtle image effect

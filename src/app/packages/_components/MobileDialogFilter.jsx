@@ -4,29 +4,21 @@
 import { useState } from "react";
 
 // Components
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalTrigger,
-} from "@/components/ui/animated-modal";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import PackageFilter from "./package_filter";
 
 const MobileDialogFilter = () => {
   const [open, setOpen] = useState(false);
   return (
-    <Modal open={open} setOpen={setOpen}>
-      <ModalTrigger>
-        <div className="px-8 py-2 bg-tourHub-green-dark text-white rounded-8px">
-          Filter
-        </div>
-      </ModalTrigger>
-      <ModalBody>
-        <ModalContent>
-          <PackageFilter />
-        </ModalContent>
-      </ModalBody>
-    </Modal>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Edit Profile</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <PackageFilter />
+      </DialogContent>
+    </Dialog>
   );
 };
 
