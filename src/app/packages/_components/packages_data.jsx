@@ -151,7 +151,7 @@ const PackagesData = () => {
   return (
     <div className="p-2">
       <div className="flex flex-col md:flex-row  justify-around md:justify-between md:items-center items-end">
-        {response?.data?.length !== 0 && (
+        {response?.data?.length > 0 && (
           <p className="font-inter font-normal text-[14.18px] leading-28px text-tourHub-gray order-2 mt-1">
             {response?.data?.length + " " + "results"}
           </p>

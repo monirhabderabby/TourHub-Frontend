@@ -7,7 +7,6 @@ import Link from "next/link";
 const PackageFilterCard = ({ data }) => {
     const {
         price,
-        description,
         name,
         country,
         location,
