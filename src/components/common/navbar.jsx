@@ -100,7 +100,7 @@ const Navbar = () => {
 
           {/* Mobile Responsive */}
           <div className="md:hidden flex items-center gap-x-4">
-            <div className="">
+            <div>
               <SignedOut>
                 <SignInButton
                   fallbackRedirectUrl="/"
