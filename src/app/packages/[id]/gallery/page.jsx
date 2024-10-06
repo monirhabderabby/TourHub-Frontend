@@ -1,4 +1,11 @@
-import GalleryContainer from "./_components/gallery-container";
+import dynamic from "next/dynamic";
+
+const GalleryContainer = dynamic(
+  () => import("./_components/gallery-container"),
+  {
+    ssr: false,
+  }
+);
 
 const Page = ({ params }) => {
   // here the dynamic id
