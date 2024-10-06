@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="container font-poppins grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-12 mx-auto">
                 {/* ft part one */}
                 <div className="space-y-5">
-                    <h3 className="text-2xl font-bold">travelaja</h3>
+                    <h3 className="text-2xl font-bold">TourHub</h3>
                     <p className="font-normal">
                         The TourHub footer serves as a hub for essential
                         information, featuring our mission statement, contact
@@ -18,7 +18,6 @@ const Footer = () => {
                         ensuring easy access to support. Stay connected with us
                         and discover your next adventure!
                     </p>
-                    <h4 className="font-bold text-xl">Ikuti Kami</h4>
                     <ul className="flex items-center gap-6">
                         <a href="#">
                             <FaFacebook className="text-2xl" />
@@ -38,19 +37,13 @@ const Footer = () => {
                 <div className="lg:ml-12">
                     <h3 className="text-2xl font-bold">Links</h3>
                     <ul className="flex flex-col pt-5 gap-3">
-                        <Link className="hover:underline" href="">
+                        <Link className="hover:underline" href="/">
+                            Home
+                        </Link>
+                        <Link className="hover:underline" href="/packages">
                             Discover
                         </Link>
-                        <Link className="hover:underline" href="#">
-                            Special Deals
-                        </Link>
-                        <Link className="hover:underline" href="#">
-                            Services
-                        </Link>
-                        <Link className="hover:underline" href="#">
-                            Community
-                        </Link>
-                        <Link className="hover:underline" href="#">
+                        <Link className="hover:underline" href="/about">
                             About Us
                         </Link>
                     </ul>
@@ -59,10 +52,7 @@ const Footer = () => {
                 <div>
                     <h3 className="text-2xl font-bold">Services</h3>
                     <ul className="flex flex-col pt-5 gap-3">
-                        <Link className="hover:underline" href="#">
-                            About Us
-                        </Link>
-                        <Link className="hover:underline" href="#">
+                        <Link className="hover:underline" href="/news">
                             Blog & Articles
                         </Link>
                         <Link
@@ -77,7 +67,7 @@ const Footer = () => {
                         >
                             Privacy Policy
                         </Link>
-                        <Link className="hover:underline" href="#">
+                        <Link className="hover:underline" href="/Contact">
                             Contact Us
                         </Link>
                     </ul>
