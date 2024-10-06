@@ -7,10 +7,11 @@ import { AnimatePresence, motion } from "framer-motion"; // Import Framer Motion
 // Components
 import SingleNewsCard from "@/components/card/singleNewsCard";
 import AllPageBanner from "@/components/common/AllPageBanner";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs } from "@/components/ui/tabs";
 import { TextEffect } from "@/components/ui/text-effect";
 import { newsCategory } from "@/lib/newsCategory";
-import { CircleAlert, CircleOff, Loader2Icon } from "lucide-react";
+import { CircleAlert, CircleOff } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -45,8 +46,16 @@ const NewsPage = () => {
 
     if (isLoading) {
         content = (
-            <div className="flex justify-center items-center h-[calc(100vh-280px)]">
-                <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
+            <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[30px] lg:mt-[50px] gap-10">
+                {[1, 2, 3, 4].map((item) => (
+                    <div className="flex flex-col space-y-3" key={item}>
+                        <Skeleton className="h-[180px] rounded-xl" />
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[250px]" />
+                            <Skeleton className="h-4 w-[200px]" />
+                        </div>
+                    </div>
+                ))}
             </div>
         );
     } else if (isError) {

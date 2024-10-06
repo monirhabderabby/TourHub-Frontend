@@ -8,7 +8,7 @@ const AllPageBanner = ({ img, title }) => {
                 alt="About-Img"
                 width={100}
                 height={200}
-                className="h-[200px] md:h-[270px] bg-cover bg-no-repeat"
+                className="h-[200px] md:h-[270px] bg-cover bg-no-repeat bg-gray-100"
                 sizes="(min-height: 808px) 50vw, 100vw"
                 style={{
                     width: "100%",
