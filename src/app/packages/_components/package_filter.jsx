@@ -6,7 +6,6 @@ import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
 import RangeSlider from "react-range-slider-input";
 
 // Components
@@ -19,6 +18,8 @@ const LocationPicker = dynamic(
 );
 
 // CSS
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { useRouter } from "next/navigation";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
@@ -371,15 +372,38 @@ const FilterLocation = () => {
 };
 
 const ResetButton = () => {
+  const isMobile = useIsMobile();
   const { reset } = useFilterStore();
+  const router = useRouter();
+
   return (
     <div className="py-8 px-6">
-      <button
-        className="bg-tourHub-green-dark hover:text-tourHub-green-hover w-full py-2 rounded-8px text-white hover:text-white/80 transition-all duration-300"
-        onClick={() => reset()}
-      >
-        {isMobile ? "Filter" : "Reset Filter"}
-      </button>
+      {isMobile ? (
+        <div className="space-y-3">
+          <button
+            className="bg-tourHub-green-dark hover:text-tourHub-green-hover w-full py-2 rounded-8px text-white hover:text-white/80 transition-all duration-300"
+            onClick={() => router.back()}
+          >
+            Filter
+          </button>
+          <button
+            className="bg-transparent border-[1px] border-tourHub-green-dark/50 w-full py-2 rounded-8px text-tourHub-green-dark transition-all duration-300"
+            onClick={() => {
+              reset();
+              router.back();
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      ) : (
+        <button
+          className="bg-tourHub-green-dark hover:text-tourHub-green-hover w-full py-2 rounded-8px text-white hover:text-white/80 transition-all duration-300"
+          onClick={() => reset()}
+        >
+          Reset Filter
+        </button>
+      )}
     </div>
   );
 };
