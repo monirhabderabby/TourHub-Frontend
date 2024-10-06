@@ -47,7 +47,7 @@ const Navbar = () => {
     <div
       className={`py-3 fixed top-0 z-50 text-white w-full h-[60px] ${
         scrolling && "bg-tourHub-green-dark" // Add background when scrolling
-      } ${
+      }  ${
         pathname === "/"
           ? !scrolling && "md:mt-7" // Add margin on homepage when not scrolling
           : "bg-tourHub-green-dark mt-0" // Default background for other pages
