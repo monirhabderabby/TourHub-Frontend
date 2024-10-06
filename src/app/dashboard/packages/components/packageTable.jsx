@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { CircleOff, Loader2Icon } from "lucide-react";
+import { CircleOff } from "lucide-react";
 import { useMemo, useState } from "react";
 
 // Components
@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import LoaderState from "../../(components)/loader-state";
 import BulkDeleteButton from "./BulkDeleteButton";
 import { usePackageColumns } from "./columns";
 
@@ -42,12 +43,7 @@ const PackageTable = () => {
   });
 
   // Show loading spinner while data is being fetched
-  if (isLoading || isFetching)
-    return (
-      <div className="flex justify-center items-center h-[400px]">
-        <Loader2Icon className="h-6 w-6 animate-spin text-tourHub-green-dark" />
-      </div>
-    );
+  if (isLoading || isFetching) return <LoaderState />;
   // Handle error state and display message with animation effect
   else if (isError)
     return (

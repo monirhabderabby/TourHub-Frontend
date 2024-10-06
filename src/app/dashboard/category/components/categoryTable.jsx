@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { CircleOff, Loader2Icon } from "lucide-react";
+import { CircleOff } from "lucide-react";
 import { useState } from "react";
 
 // Components
@@ -18,6 +18,7 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
+import LoaderState from "../../(components)/loader-state";
 import { CategoryColumns } from "./columns";
 
 const CategoryTable = () => {
@@ -30,12 +31,7 @@ const CategoryTable = () => {
   });
 
   // Show loading spinner while data is being fetched
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-[calc(100vh-280px)]">
-        <Loader2Icon className="h-7 w-7 animate-spin text-tourHub-green-dark" />
-      </div>
-    );
+  if (isLoading) return <LoaderState />;
 
   // Handle error state and display message with animation effect
   if (isError)
