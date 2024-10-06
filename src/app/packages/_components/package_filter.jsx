@@ -23,7 +23,7 @@ import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
   return (
-    <div className="w-full rounded-12px border-[1px] border-[#E7E6E6]">
+    <div className="w-full rounded-12px border-[1px] border-[#E7E6E6] h-auto">
       <DatePicker />
       <TourType />
       <FilterLocation />
@@ -360,7 +360,7 @@ const FilterLocation = () => {
                 const location = arr[0];
                 const country = arr[1];
                 setLocation(location); // Update store with location
-                setCountry(country); // Update store with country
+                setCountry(country);
               }}
             />
           </motion.div>

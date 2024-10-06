@@ -152,13 +152,13 @@ const PackagesData = () => {
     <div className="p-2">
       <div className="flex flex-col md:flex-row  justify-around md:justify-between md:items-center items-end">
         {response?.data?.length !== 0 && (
-          <p className="font-inter font-normal text-[14.18px] leading-28px text-tourHub-title2 order-2">
-            {response?.data?.length} results
+          <p className="font-inter font-normal text-[14.18px] leading-28px text-tourHub-gray order-2 mt-1">
+            {response?.data?.length + " " + "results"}
           </p>
         )}
-        <div className="flex items-center flex-1 ">
+        <div className="flex items-center justify-between flex-1  w-full  ">
           <PackagesSorting />
-          <div className="lg:hidden flex-1">
+          <div className="lg:hidden ">
             <Link href="/packages/filter">
               <Button>Filter</Button>
             </Link>
