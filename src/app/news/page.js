@@ -140,7 +140,7 @@ const NewsPage = () => {
                     defaultValue="Adventure Travel"
                     className="my-5 text-white container "
                 >
-                    <div className="space-x-2 md:space-x-4 grid grid-cols-2 md:grid-cols-6 items-center justify-center mx-auto gap-y-2">
+                    <div className="grid grid-cols-2 md:grid-cols-6 gap-2 lg:gap-4">
                         {newsCategory.map((tab) => (
                             <button
                                 key={tab.categoryName}
@@ -149,12 +149,12 @@ const NewsPage = () => {
                                     activeTab === tab.categoryName
                                         ? " text-white bg-tourHub-green-light"
                                         : "text-tourHub-green-light bg-gray-100"
-                                } relative rounded-full px-3 py-1.5 text-sm font-medium   transition focus-visible:outline-2`}
+                                } relative rounded-full  py-1.5 text-sm font-medium transition focus-visible:outline-2`}
                                 style={{
                                     WebkitTapHighlightColor: "transparent",
                                 }}
                             >
-                                {activeTab == tab.categoryName && (
+                                {activeTab === tab.categoryName && (
                                     <motion.span
                                         layoutId="bubble"
                                         className="absolute inset-0 -z-20 "
