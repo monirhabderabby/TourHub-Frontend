@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { debounce } from "lodash";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import RangeSlider from "react-range-slider-input";
 
@@ -19,7 +20,6 @@ const LocationPicker = dynamic(
 
 // CSS
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useRouter } from "next/navigation";
 import "react-range-slider-input/dist/style.css";
 
 const PackageFilter = () => {
@@ -80,6 +80,8 @@ const TourType = () => {
       fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/category`).then(
         (res) => res.json()
       ),
+    staleTime: 300000,
+    cacheTime: 300000,
   });
 
   const { category, setCategory } = useFilterStore(); // Zustand store for category state
