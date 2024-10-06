@@ -46,7 +46,7 @@ const PackageFilterCard = ({ data }) => {
                     src={cardImage}
                     alt="imag"
                     fill
-                    className="object-cover rounded-12px"
+                    className="object-cover rounded-12px bg-gray-100"
                     priority
                 />
             </motion.div>
