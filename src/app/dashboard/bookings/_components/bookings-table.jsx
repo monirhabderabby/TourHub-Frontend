@@ -9,7 +9,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 // Components
@@ -18,6 +17,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableViewOptions } from "@/components/ui/data-table-view-options";
 import { Input } from "@/components/ui/input";
+import LoaderState from "../../(components)/loader-state";
 import { BookingsColumn } from "./bookings-column";
 
 const BookingsTable = () => {
@@ -38,11 +38,7 @@ const BookingsTable = () => {
 
   // Show loading spinner while data is being fetched
   if (isLoading) {
-    content = (
-      <div className="h-[80vh] md:h-[calc(100vh-25vh)]  w-full flex justify-center gap-x-2 items-center">
-        <Loader2 className="animate-spin text-tourHub-green-dark h-5 w-5" />
-      </div>
-    );
+    content = <LoaderState />;
   }
   // Handle error state and display message with animation effect
   else if (isError) {
