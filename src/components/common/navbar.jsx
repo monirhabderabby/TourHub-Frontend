@@ -139,19 +139,23 @@ const Navbar = () => {
                                                 fallbackRedirectUrl="/"
                                                 signUpFallbackRedirectUrl="/wizard"
                                             >
-                                                <Button
-                                                    className={cn(
-                                                        scrolling &&
-                                                            "border-[1px] border-white/10", // Add border when scrolling
-                                                        "bg-tourHub-green-dark hover:bg-[#3a6f54]" // Change hover color for button
-                                                    )}
-                                                >
-                                                    Sign In
-                                                </Button>
+                                                <SheetClose>
+                                                    <Button
+                                                        className={cn(
+                                                            scrolling &&
+                                                                "border-[1px] border-white/10",
+                                                            "bg-tourHub-green-dark hover:bg-[#3a6f54]"
+                                                        )}
+                                                    >
+                                                        Sign In
+                                                    </Button>
+                                                </SheetClose>
                                             </SignInButton>
                                         </SignedOut>
                                         <SignedIn>
-                                            <UserButton />
+                                            <div className="z-50">
+                                                <UserButton />
+                                            </div>
                                         </SignedIn>
                                     </div>
                                 </div>
