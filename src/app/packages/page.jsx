@@ -3,12 +3,12 @@ import PackagesData from "./_components/packages_data";
 
 const Packages = () => {
   return (
-    <section className="container my-[100px] relative ">
-      <h1 className="text-[40px] font-inter font-bold text-tourHub-title2 leading-[60px]">
+    <section className="container my-[80px] relative ">
+      <h1 className="text-[27px] lg:text-[40px] font-inter font-bold text-tourHub-title2 leading-[60px]">
         Explore all packages
       </h1>
 
-      <div className="flex  items-start justify-start mt-6 gap-x-6 w-full">
+      <div className="flex  items-start justify-start mt-3 md:mt-6  w-full gap-x-6">
         <div className=" hidden lg:block w-[300px]  rounded-12px  min-h-[500px] sticky top-[80px]">
           <PackageFilter />
         </div>

@@ -41,7 +41,7 @@ const PackageFilterCard = ({ data }) => {
             duration: 0.5,
           },
         }}
-        className=" relative h-[263px] w-full md:w-[220px] xl:w-[280px]"
+        className=" relative bg-gray-100 h-[263px] w-full md:w-[220px] xl:w-[280px] rounded-12px"
       >
         <Image
           src={cardImage}
@@ -51,7 +51,7 @@ const PackageFilterCard = ({ data }) => {
           priority
         />
       </motion.div>
-      <div className="flex flex-1 flex-col gap-y-2 max-w-[473px]">
+      <div className="flex flex-1 flex-col gap-y-2 max-w-[473px]  items-start w-full">
         <p className="text-14px leading-28px text-tourHub-title2 font-normal ">
           {location}, {country}
         </p>
@@ -65,18 +65,18 @@ const PackageFilterCard = ({ data }) => {
           <span className="font-medium">{averageRating?.toFixed(1)}</span> (
           {comments.length})
         </p>
-        <div className="font-inter font-normal text-tourHub-green-dark text-14px flex items-center justify-evenly">
+        <div className="font-inter font-normal text-tourHub-green-dark text-14px flex items-center justify-evenly gap-x-6">
           <p>Best Price Gurantee</p>
           <p>Free Cancellation</p>
         </div>
       </div>
       {/* pricing */}
-      <div className="w-fit px-6 lg:w-[200px] h-auto md:h-[263px] md:border-l-[1px] md:border-[#E7E6E6] flex flex-row md:flex-col justify-between items-center mt-6 md:mt-0">
+      <div className=" px-6 w-full lg:w-[200px] h-auto md:h-[263px] md:border-l-[1px] md:border-[#E7E6E6] flex flex-row md:flex-col justify-between items-center mt-6 md:mt-0">
         <div>
           <p className="text-14px font-inter leading-27px text-tourHub-title2">
             {tourDuration} /
           </p>
-          <p className="text-14px font-medium font-inter leading-27px text-tourHub-title2 text-center">
+          <p className="text-14px  font-medium font-inter leading-27px text-tourHub-title2 text-center">
             {totalPeople} person
           </p>
         </div>
