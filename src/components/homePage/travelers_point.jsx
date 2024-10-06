@@ -102,10 +102,11 @@ const TravelersPoint = () => {
               We help to find your dream place
             </h1>
             <p className="text-16px font-normal leading-28px text-tourHub-title">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna, porttitor rhoncus dolor purus non enim praesent elementum
-              facilisis leo, vel fringilla est ullamcorper eget nulla facilisi
+              At Travelers Point, we strive to guide you in finding the perfect
+              destination for your next adventure. Whether it's a serene beach,
+              a bustling city, or a historic landmark, we provide expert
+              recommendations and tips to ensure your trip is unforgettable. Let
+              us help turn your travel dreams into reality.
             </p>
           </div>
           <div className="w-full grid grid-cols-2 gap-y-8">
