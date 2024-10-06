@@ -103,8 +103,8 @@ const TravelersPoint = () => {
             </h1>
             <p className="text-16px font-normal leading-28px text-tourHub-title">
               At Travelers Point, we strive to guide you in finding the perfect
-              destination for your next adventure. Whether it's a serene beach,
-              a bustling city, or a historic landmark, we provide expert
+              destination for your next adventure. Whether it&apos;s a serene
+              beach, a bustling city, or a historic landmark, we provide expert
               recommendations and tips to ensure your trip is unforgettable. Let
               us help turn your travel dreams into reality.
             </p>
