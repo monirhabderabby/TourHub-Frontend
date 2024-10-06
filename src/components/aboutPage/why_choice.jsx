@@ -50,7 +50,6 @@ const WhyChoiceSection = () => {
                             width={128}
                             height={128}
                             alt="choice about img"
-                            className="bg-gray-100"
                         />
                         <h3 className="text-23px leading-27px font-bold ">
                             Best price guarantee
@@ -78,7 +77,6 @@ const WhyChoiceSection = () => {
                             width={128}
                             height={128}
                             alt="choice about img"
-                            className="bg-gray-100"
                         />
                         <h3 className="text-2xl font-bold text-[#3D3E48]">
                             Easy Booking
@@ -106,7 +104,6 @@ const WhyChoiceSection = () => {
                             width={128}
                             height={128}
                             alt="choice about img"
-                            className="bg-gray-100"
                         />
                         <h3 className="text-2xl font-bold text-[#3D3E48]">
                             Customer Service 24h

@@ -85,7 +85,7 @@ const TrendingDestinations = () => {
                                         height={130}
                                         alt="image for destination"
                                         priority
-                                        className="bg-gray-100"
+                                        className="bg-gray-100 rounded-full"
                                     />
                                     <h3 className="text-16px font-inter pt-5 pb-1 font-medium leading-24px">
                                         {item.country}
