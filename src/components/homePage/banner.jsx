@@ -12,6 +12,9 @@ import { Button } from "../ui/button";
 import DateRangePicker from "../ui/date-range-picker";
 import LocationPicker from "../ui/location-picker";
 
+const description =
+  " Discover breathtaking destinations, immerse yourself in diverse cultures, and embark on unforgettable journeys. Whether you're seeking adventure, relaxation, or new experiences, we make every moment of your travels truly remarkable.";
+
 const Banner = () => {
   // Destructure necessary state and setter functions from the filter store
   const {
@@ -57,10 +60,7 @@ const Banner = () => {
               Explore the world with a smile
             </h1>
             <p className="text-sm md:text-base font-light md:leading-[28px] text-white text-center mb-4 md:mb-16 max-w-2xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna, porttitor rhoncus dolor purus non enim praesent elementum
-              facilisis leo
+              {description}
             </p>
           </div>
 
