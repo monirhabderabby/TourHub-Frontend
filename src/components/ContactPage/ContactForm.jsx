@@ -1,7 +1,13 @@
 "use client";
+// Packages
+import emailjs from "@emailjs/browser";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
+
+// Components
 import { Button } from "../ui/button";
 import {
   Form,
@@ -22,16 +28,35 @@ const formSchema = z.object({
   message: z.string(),
 });
 const ContactForm = () => {
+  const [loading, setLoading] = useState(false);
+  const formRef = useRef();
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templeteId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLETE_ID;
+    const publishKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLISH_KEY;
+    setLoading(true);
+    emailjs
+      .sendForm(serviceId, templeteId, formRef.current, {
+        publicKey: publishKey,
+      })
+      .then(() => toast.success("Email sent successfully"))
+      .catch((error) => toast.error("Failed to sent email"))
+      .finally(() => {
+        setLoading(false);
+        form.reset();
+      });
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+      <form
+        ref={formRef}
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-7"
+      >
         <FormField
           control={form.control}
           name="name"
@@ -75,8 +100,12 @@ const ContactForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">
-          Send
+        <Button
+          className="w-full bg-tourHub-green-dark hover:bg-tourHub-green-hover"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Sending..." : "Send"}
         </Button>
       </form>
     </Form>
