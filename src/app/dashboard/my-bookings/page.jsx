@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import dynamic from "next/dynamic";
+import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
-const MyBookingsTable = dynamic(
-  () => import("./_components/my-booking-table"),
-  {
-    ssr: false,
-  }
-);
+import { redirect } from "next/navigation";
+import MyBookingTable from "./_components/my-booking-table";
 
-const Page = () => {
+const Page = async () => {
+  const auth = await currentUser();
+
+  if (!auth) redirect("/sign-in");
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -28,7 +27,7 @@ const Page = () => {
         </Link>
       </div>
       <Separator className="mb-4" />
-      <MyBookingsTable />
+      <MyBookingTable userId={auth?.id} />
     </div>
   );
 };
