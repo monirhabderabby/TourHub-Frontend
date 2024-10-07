@@ -105,6 +105,9 @@ module.exports = {
         poppins: ["var(--font-poppins)"],
         inter: ["var(--font-inter)"],
       },
+      boxShadow: {
+        contactFormShadow: "0px 10px 20px 0px rgba(92, 115, 160, 0.07)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
