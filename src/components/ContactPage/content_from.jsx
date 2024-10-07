@@ -55,8 +55,8 @@ const ContentSection = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
-              <div className=" rounded-lg bg-white px-8 py-10 shadow-testimonial dark:bg-dark-2 dark:shadow-none sm:px-10 sm:py-12 md:p-[60px] lg:p-10 lg:px-10 lg:py-12 2xl:p-[60px]">
+            <div className="w-full px-3 lg:w-5/12 xl:w-4/12">
+              <div className=" rounded-lg bg-white px-4 py-10 shadow-[0px_10px_20px_0px_rgba(92,115,160,0.07)]  dark:shadow-none sm:px-10 sm:py-12 md:p-[60px] lg:p-10 lg:px-10 lg:py-12 2xl:p-[60px]">
                 <h3 className="mb-8 text-2xl font-semibold text-dark dark:text-white md:text-[28px] md:leading-[1.42]">
                   Send us a Message
                 </h3>
