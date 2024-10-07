@@ -65,8 +65,11 @@ const LocationPicker = ({ value, setValue }) => {
   } else if (response?.data?.length === 0) {
     content = (
       <Popover>
-        <PopoverTrigger>
-          <Button variant="outline" className="w-full min-w-[200px] font-inter">
+        <PopoverTrigger className="w-full">
+          <Button
+            variant="outline"
+            className="w-full min-w-[200px]  font-inter"
+          >
             No location found!
           </Button>
         </PopoverTrigger>
