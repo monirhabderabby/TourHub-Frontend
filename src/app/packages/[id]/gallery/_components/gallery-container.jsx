@@ -17,7 +17,7 @@ const GalleryContainer = ({ packageId }) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["package", packageId],
+    queryKey: ["gallery", packageId],
     queryFn: () =>
       fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/package/${packageId}?fields=bannerImage,name`
@@ -51,7 +51,15 @@ const GalleryContainer = ({ packageId }) => {
         </div>
       </div>
     );
-  } else if (response?.data) {
+  } else if (response?.data?.length === 0) {
+    content = (
+      <div className="h-[400px] w-full flex justify-center items-center">
+        <TextEffect per="word" preset="blur">
+          No Images found at the moment
+        </TextEffect>
+      </div>
+    );
+  } else if (response?.data?.length > 0) {
     const { bannerImage } = response?.data || {};
     content = (
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
