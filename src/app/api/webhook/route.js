@@ -70,13 +70,15 @@ export async function POST(req) {
         }
       }
 
-      console.log(bookingData?.data);
-
       const scheduleEmailRes = await scheduleEmaiilForTourReminder({
         packageId: packageId,
         customerName: bookingData?.data?.name,
         customerEmail: customerEmail,
       });
+
+      if (scheduleEmailRes) {
+        console.log("Email schedule Successfully!");
+      }
     } catch (error) {
       console.error(
         "An error occurred while creating a booking:",
