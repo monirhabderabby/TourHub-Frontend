@@ -3,9 +3,11 @@
 // Packages
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // Components
 import ImageUpload from "@/components/common/single-image-upload-with-edgestore";
@@ -19,8 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { commentSchema } from "../../../../schema/comment.schema";
 import PackageSectionTitle from "./package_section_title";
 const FeedbackModalForm = dynamic(() => import("./package_ratings_modal"), {
@@ -32,6 +32,7 @@ const PackageCommentBox = ({ packageId }) => {
 
   // Initialize form with validation schema and default values
   const { user, isLoaded } = useUser();
+  const queryClient = useQueryClient();
 
   const form = useForm({
     resolver: zodResolver(commentSchema),
@@ -71,6 +72,7 @@ const PackageCommentBox = ({ packageId }) => {
         images: [],
       });
       setOpen(true); // Open modal on success
+      queryClient.invalidateQueries(["comments"]);
     },
   });
 

@@ -60,9 +60,6 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
     },
     onSuccess: () => {
       setStep(7);
-      // toast.success(
-      //   "Thank you for sharing your feedback and rating! We appreciate your input."
-      // );
     },
   });
 
@@ -172,9 +169,12 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
         ))}
       </div>
 
-      <section className="mt-8">
+      <section className="mt-2 md:mt-8 w-full">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-[500px]">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full md:w-[500px]"
+          >
             {/* Render the rating fields based on the current step */}
             {step === 1 && (
               <CustomFormField
@@ -225,7 +225,7 @@ const FeedbackModalForm = ({ isOpen, setIsOpen, packageId }) => {
                 Close within {closeTimer} seconds
               </div>
             ) : (
-              <div className="w-full flex justify-end col-span-2 lg:col-span-3">
+              <div className="w-full flex justify-end col-span-2 lg:col-span-3 mt-4">
                 <Button
                   className="py-3 px-4 gap-x-2 w-full md:w-fit bg-tourHub-green-dark hover:bg-tourHub-green-hover"
                   type={step === 6 ? "submit" : "button"}

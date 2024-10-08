@@ -45,7 +45,7 @@ const PackageDetailsContainer = ({ packageId }) => {
   } else if (response) {
     const {
       name,
-      averageRating,
+      totalAverageRating,
       comments,
       location,
       country,
@@ -59,7 +59,7 @@ const PackageDetailsContainer = ({ packageId }) => {
       <div className="container mt-[80px] pb-[130px]">
         <PackageHeader
           packageName={name}
-          averageRating={averageRating}
+          averageRating={totalAverageRating}
           comments={comments}
           location={location}
           country={country}
@@ -81,7 +81,7 @@ const PackageDetailsContainer = ({ packageId }) => {
           </div>
         </div>
         {/* suggest packages */}
-        <SuggestedPackages />
+        {/* <SuggestedPackages /> */}
       </div>
     );
   }
