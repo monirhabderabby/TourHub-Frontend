@@ -77,14 +77,12 @@ const StatsSection = ({
       ).then((res) => res.json()),
   });
 
-  console.log();
-
   let content;
 
   if (isLoading || isError) {
-    return;
-  } else if (response?.data?.totalBookings <= 0) {
-    return;
+    content = <></>;
+  } else if (response?.data?.totalBookings === 0) {
+    content = <></>;
   } else {
     content = (
       <p className="font-normal font-inter text-[14.53px] leading-28px">
