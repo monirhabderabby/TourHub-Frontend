@@ -66,7 +66,11 @@ const ImageUpload = ({
 
   // Remove image at a given index (for multi-upload scenarios)
   const removeImage = (index) => {
+    console.log("updatedImages", uploadedImages);
     const updatedImages = uploadedImages.filter((_, i) => i !== index);
+
+    console.log("filtererd", updatedImages);
+
     setUploadedImages(updatedImages);
     onChange(updatedImages);
   };
