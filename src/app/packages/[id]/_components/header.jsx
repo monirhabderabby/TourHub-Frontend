@@ -3,6 +3,7 @@ import SocialShare from "@/components/common/Social-Share";
 import { useQuery } from "@tanstack/react-query";
 // Packages
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 // Components
 const BannerImages = dynamic(() => import("./bannerImages"), { ssr: false });
@@ -65,6 +66,7 @@ const StatsSection = ({
   packageName,
   packageId,
 }) => {
+  const [href, setHref] = useState(null);
   const {
     isLoading,
     data: response,
@@ -76,6 +78,12 @@ const StatsSection = ({
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/booking/stats/total-booking/${packageId}`
       ).then((res) => res.json()),
   });
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setHref(window.location.href);
+    }
+  }, []);
 
   let content;
 
@@ -101,11 +109,13 @@ const StatsSection = ({
       {content}
 
       <div className="pl-8">
-        <SocialShare
-          url={`https://github.com/monirhabderabby`}
-          hashTag="#Travel #CoxBazar #Dhaka"
-          quote={`Explore the beauty of ${packageName} with this amazing tour package!`}
-        />
+        {href && (
+          <SocialShare
+            url={href}
+            hashTag="#Travel #CoxBazar #Dhaka"
+            quote={`Explore the beauty of ${packageName} with this amazing tour package!`}
+          />
+        )}
       </div>
     </div>
   );
