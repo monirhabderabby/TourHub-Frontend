@@ -51,11 +51,15 @@ const GalleryContainer = ({ packageId }) => {
         </div>
       </div>
     );
-  } else if (response?.data?.length === 0) {
+  } else if (!response?.success) {
+    const message =
+      response?.message === "Data not found"
+        ? "No Images found at the moment"
+        : "Something went wrong!";
     content = (
       <div className="h-[400px] w-full flex justify-center items-center">
         <TextEffect per="word" preset="blur">
-          No Images found at the moment
+          {message}
         </TextEffect>
       </div>
     );
