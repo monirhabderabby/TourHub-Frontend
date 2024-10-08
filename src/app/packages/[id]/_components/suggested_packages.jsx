@@ -45,7 +45,7 @@ const SuggestedPackages = ({ category, packageId }) => {
     content = (
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10  mt-[30px] lg:mt-[50px]">
         {[1, 2, 3, 4].map((item) => (
-          <SkeletonWrapper isLoading={isLoading}>
+          <SkeletonWrapper isLoading={isLoading} key={item}>
             <PackageCard />
           </SkeletonWrapper>
         ))}
