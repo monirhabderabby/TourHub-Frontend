@@ -26,6 +26,8 @@ const GalleryContainer = ({ packageId }) => {
 
   const loading = isLoading || isFetching || isRefetching;
 
+  console.log(response);
+
   let content;
 
   if (loading) {
@@ -63,7 +65,7 @@ const GalleryContainer = ({ packageId }) => {
         </TextEffect>
       </div>
     );
-  } else if (response?.data?.length > 0) {
+  } else if (response?.data?.bannerImage?.length > 0) {
     const { bannerImage } = response?.data || {};
     content = (
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
