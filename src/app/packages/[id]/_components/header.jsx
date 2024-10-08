@@ -1,5 +1,6 @@
 "use client";
 import SocialShare from "@/components/common/Social-Share";
+import { useQuery } from "@tanstack/react-query";
 // Packages
 import dynamic from "next/dynamic";
 
@@ -33,6 +34,7 @@ const PackageHeader = ({
           location={location}
           country={country}
           packageName={packageName}
+          packageId={packageId}
         />
 
         {/* Images */}
@@ -61,7 +63,33 @@ const StatsSection = ({
   location,
   country,
   packageName,
+  packageId,
 }) => {
+  const {
+    isLoading,
+    data: response,
+    isError,
+  } = useQuery({
+    queryKey: ["total-booked"],
+    queryFn: () =>
+      fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/booking/stats/total-booking/${packageId}`
+      ).then((res) => res.json()),
+  });
+
+  let content;
+
+  if (isLoading || isError) {
+    content = <></>;
+  } else if (response?.data?.totalBookings === 0) {
+    content = <></>;
+  } else {
+    content = (
+      <p className="font-normal font-inter text-[14.53px] leading-28px">
+        {response?.data?.totalBookings} booked
+      </p>
+    );
+  }
   return (
     <div className="flex items-center gap-x-4">
       <p className="font-normal font-inter text-[14.53px] leading-28px">
@@ -70,9 +98,7 @@ const StatsSection = ({
       <p className="font-normal font-inter text-[14.53px] leading-28px">
         {location}, {country}
       </p>
-      <p className="font-normal font-inter text-[14.53px] leading-28px">
-        30k+ booked
-      </p>
+      {content}
 
       <div className="pl-8">
         <SocialShare
