@@ -70,6 +70,9 @@ const PackageForm = ({ singlePackage }) => {
     { value: "Personal Expenses", label: "Personal Expenses" },
   ];
 
+  const selectedCategory =
+    singlePackage && singlePackage?.category.map((item) => item?._id);
+
   let thumbnail;
 
   thumbnail = (singlePackage && singlePackage?.cardImage) || "";
@@ -96,7 +99,7 @@ const PackageForm = ({ singlePackage }) => {
       country: singlePackage ? singlePackage?.country : "",
       cardImage: thumbnail || "",
       bannerImage: singlePackage ? singlePackage?.bannerImage : [],
-      category: singlePackage ? singlePackage?.category : [],
+      category: singlePackage ? selectedCategory : [],
       include: singlePackage ? singlePackage?.features?.include : [],
       exclude: singlePackage ? singlePackage?.features?.exclude : [],
       itinerary: singlePackage
@@ -104,6 +107,10 @@ const PackageForm = ({ singlePackage }) => {
         : [{ day: "", title: "", description: "" }],
       tourDuration: singlePackage ? singlePackage?.tourDuration : "",
       mapLocation: singlePackage ? singlePackage?.mapLocation : "",
+      guideName: singlePackage ? singlePackage?.guideName : "",
+      guideContact: singlePackage ? singlePackage?.guideContact : "",
+      pickUpLocation: singlePackage ? singlePackage?.pickUpLocation : "",
+      pickUpTime: singlePackage ? singlePackage?.pickUpTime : "",
     },
   });
 
@@ -646,16 +653,18 @@ const PackageForm = ({ singlePackage }) => {
             />
           </div>
 
-          <Button type="submit" disabled={isPending}>
-            {isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {singlePackage ? "Saving..." : "Please wait"}
-              </>
-            ) : (
-              btnText
-            )}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {singlePackage ? "Saving..." : "Please wait"}
+                </>
+              ) : (
+                btnText
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

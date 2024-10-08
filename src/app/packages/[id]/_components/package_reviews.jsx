@@ -34,7 +34,7 @@ const PackageReviews = ({
     queryKey: ["comments", packageId], // Query key, unique to the package ID
     queryFn: ({ pageParam = 1 }) =>
       fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/comment/${packageId}?sortBy=averageRating&page=${pageParam}&limit=5`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/comment/${packageId}?page=${pageParam}&limit=5`
       ).then((res) => res.json()), // Fetching the comments with pagination
     getNextPageParam: (lastPage) => {
       // Check if there are more pages
