@@ -14,7 +14,7 @@ const FramerModal = ({ setIsOpen, isOpen, children }) => {
           exit="containerExit"
         >
           <motion.div
-            className="relative flex flex-col py-10 px-14 items-center justify-center h-auto w-fit   bg-white rounded-lg p-4 shadow-lg"
+            className="relative flex flex-col py-10 md:px-14 items-center justify-center h-auto w-full md:w-fit   bg-white rounded-lg p-4 shadow-lg"
             style={{ zIndex: 20 }}
             variants={modalVariant}
             initial="initial"
