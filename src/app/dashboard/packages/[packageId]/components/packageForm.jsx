@@ -70,6 +70,10 @@ const PackageForm = ({ singlePackage }) => {
     { value: "Personal Expenses", label: "Personal Expenses" },
   ];
 
+  let thumbnail;
+
+  thumbnail = (singlePackage && singlePackage?.cardImage) || "";
+
   const formTitle = singlePackage ? "Update Package" : "Create Package";
   const description = singlePackage
     ? "Update the package"
@@ -90,7 +94,7 @@ const PackageForm = ({ singlePackage }) => {
       totalPeople: singlePackage ? singlePackage?.totalPeople : "",
       description: singlePackage ? singlePackage?.description : "",
       country: singlePackage ? singlePackage?.country : "",
-      cardImage: singlePackage ? singlePackage?.cardImage : "",
+      cardImage: thumbnail || "",
       bannerImage: singlePackage ? singlePackage?.bannerImage : [],
       category: singlePackage ? singlePackage?.category : [],
       include: singlePackage ? singlePackage?.features?.include : [],
@@ -599,16 +603,17 @@ const PackageForm = ({ singlePackage }) => {
               name="cardImage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Package Image</FormLabel>
+                  <FormLabel>Thumbnail</FormLabel>
                   <FormControl>
                     <SingleImageUpload
-                      multiUpload={false}
                       onChange={(imageUrls) => {
-                        field.onChange(imageUrls[0]);
+                        if (imageUrls?.length === 0) {
+                          field.onChange(""); // Set empty string when no image is uploaded
+                        } else {
+                          field.onChange(imageUrls[0]); // Set the first image URL
+                        }
                       }}
-                      value={field.value === "" && [field.value]} // Check if field.value is an empty string
-                      // isForClerk={false}
-                      // disabled={isPending}
+                      value={field.value ? [field.value] : []} // Ensure value is always an array
                     />
                   </FormControl>
                   <FormMessage />
