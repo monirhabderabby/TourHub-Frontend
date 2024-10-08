@@ -31,8 +31,6 @@ export default function MultiSelectCombobox({
   const [open, setOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  console.log(selectedValues);
-
   const filteredData = React.useMemo(() => {
     return data.filter((d) =>
       d.label.toLowerCase().includes(searchQuery.toLowerCase())

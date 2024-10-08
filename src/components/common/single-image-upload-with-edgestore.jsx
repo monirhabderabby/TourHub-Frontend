@@ -21,12 +21,11 @@ const ImageUpload = ({
   const { edgestore } = useEdgeStore();
 
   useEffect(() => {
-    if (value[0] === "") {
-      setUploadedImages([]);
-    } else {
+    // Avoid setting state if value hasn't changed
+    if (JSON.stringify(value) !== JSON.stringify(uploadedImages)) {
       setUploadedImages(value);
     }
-  }, [value]);
+  }, [value, uploadedImages]);
 
   // Handle file drop and image upload
   const onDrop = useCallback(
