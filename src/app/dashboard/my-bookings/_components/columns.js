@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import moment from "moment";
-import InvoiceTrigger from "./invoiceTrigger";
 import MyBookingRowAction from "./MyBookingRowAction";
+import InvoiceTrigger from "./invoiceTrigger";
 
 export const MyBookingsColumn = [
   {

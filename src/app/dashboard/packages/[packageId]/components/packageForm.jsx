@@ -41,7 +41,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import MultiSelectComboboxCreate from "@/components/ui/multi-select-combobox-create";
 import MultiSelectCombobox from "@/components/ui/multi-select-component";
 import {
   Popover,
@@ -56,19 +55,13 @@ import { PackageSchema } from "@/schema/package.schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import IncludesExcludePicker from "./IncludesExcludePicker";
 
 const PackageForm = ({ singlePackage }) => {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const featuresData = [
-    { value: "Guided Tours", label: "Guided Tours" },
-    { value: "Meals", label: "Meals" },
-    { value: "Accommodation", label: "Accommodation" },
-    { value: "Flights", label: "Flights" },
-    { value: "Personal Expenses", label: "Personal Expenses" },
-  ];
 
   const selectedCategory =
     singlePackage && singlePackage?.category.map((item) => item?._id);
@@ -420,49 +413,23 @@ const PackageForm = ({ singlePackage }) => {
 
             {/* Included features */}
             <div>
-              <FormField
-                control={form.control}
-                name="include"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Included features</FormLabel>
-                    <FormControl>
-                      <MultiSelectComboboxCreate
-                        selectedValues={field.value}
-                        onChange={field.onChange}
-                        data={featuresData}
-                        placeholder="Select features"
-                        searchPlaceholder="Search feature..."
-                        emptyMessage={"No feature found."}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <IncludesExcludePicker
+                form={form}
+                fieldName="include"
+                selectedValues={
+                  singlePackage && singlePackage?.features?.include
+                }
               />
             </div>
 
             {/* Excluded features */}
             <div>
-              <FormField
-                control={form.control}
-                name="exclude"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Excluded features</FormLabel>
-                    <FormControl>
-                      <MultiSelectComboboxCreate
-                        selectedValues={field.value}
-                        onChange={field.onChange}
-                        data={featuresData}
-                        placeholder="Select features"
-                        searchPlaceholder="Search feature..."
-                        emptyMessage={"No feature found."}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <IncludesExcludePicker
+                form={form}
+                fieldName="exclude"
+                selectedValues={
+                  singlePackage && singlePackage?.features?.exclude
+                }
               />
             </div>
           </div>
