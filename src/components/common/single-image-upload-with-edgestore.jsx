@@ -90,7 +90,7 @@ const ImageUpload = ({
             }}
             className="w-full bg-muted/50 border-dashed border-[1px] rounded-12px min-h-[100px] p-4 flex justify-center items-center"
           >
-            <div className="relative flex gap-x-2">
+            <div className="relative flex gap-x-2 flex-wrap">
               {uploadedImages?.map((image, index) => (
                 <motion.div
                   key={image}
@@ -104,7 +104,7 @@ const ImageUpload = ({
                     scale: 0.8,
                     transition: { duration: 0.5 },
                   }}
-                  className="h-[150px] w-[150px] relative mb-2"
+                  className="h-[100px] md:h-[150px] w-[100px] md:w-[150px] relative mb-2"
                 >
                   <Image
                     src={image}

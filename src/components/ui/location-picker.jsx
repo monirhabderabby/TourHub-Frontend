@@ -124,7 +124,7 @@ const RenderLocation = ({ value, setValue, data }) => {
             <CommandGroup>
               {data?.map((city, index) => (
                 <CommandItem
-                  key={index}
+                  key={city.value || `city-${index}`}
                   value={city.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);

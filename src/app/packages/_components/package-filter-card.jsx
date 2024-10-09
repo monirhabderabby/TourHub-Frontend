@@ -10,7 +10,7 @@ const PackageFilterCard = ({ data }) => {
     name,
     country,
     location,
-    averageRating,
+    totalAverageRating,
     cardImage,
     _id,
     tourDuration,
@@ -60,8 +60,10 @@ const PackageFilterCard = ({ data }) => {
             {name}
           </h3>
           <p className="text-14px leading-28px text-tourHub-title2 font-normal">
-            <span className="font-medium">{averageRating?.toFixed(1)}</span> (
-            {comments.length})
+            <span className="font-medium">
+              {totalAverageRating?.toFixed(1)}
+            </span>{" "}
+            ({comments.length})
           </p>
         </div>
         <div className="font-inter font-normal text-tourHub-green-dark text-14px flex items-center justify-evenly flex-1 space-x-4">
