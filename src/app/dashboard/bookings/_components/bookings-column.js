@@ -4,6 +4,7 @@ import moment from "moment";
 // Components
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { cn } from "@/lib/utils";
+import InvoiceTrigger from "../../my-bookings/_components/invoiceTrigger";
 import BookingsRowAction from "./BookingsRowAction";
 
 export const BookingsColumn = [
@@ -67,11 +68,11 @@ export const BookingsColumn = [
       );
     },
   },
-  // {
-  //   id: "invoice",
-  //   header: "Invoice",
-  //   cell: ({ row }) => <InvoiceTrigger data={row.original} />,
-  // },
+  {
+    id: "invoice",
+    header: "Invoice",
+    cell: ({ row }) => <InvoiceTrigger data={row.original} />,
+  },
   {
     id: "actions",
     cell: ({ row }) => {
