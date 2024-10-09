@@ -1,27 +1,30 @@
 export const newsCategory = [
     {
         id: 1,
-      categoryName: "Adventure Travel",
+        categoryName: "All News",
     },
     {
         id: 2,
-        categoryName: "Beach",
+        categoryName: "Adventure Travel",
     },
     {
         id: 3,
-        categoryName: "Explore World",
+        categoryName: "Beach",
     },
     {
         id: 4,
-        categoryName: "Family Holidays",
+        categoryName: "Explore World",
     },
     {
         id: 5,
-        categoryName: "Art and culture",
+        categoryName: "Family Holidays",
     },
     {
         id: 6,
+        categoryName: "Art and culture",
+    },
+    {
+        id: 7,
         categoryName: "Hill Travel",
     },
-  
 ];
