@@ -72,13 +72,9 @@ const AlsoLikeSection = ({ data, newsId }) => {
                 <div className="grid grid-cols-3 xl:grid-cols-4">
                     <div className="col-span-3">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            {!isPending &&
-                                newsByCategory?.data.map((news) => (
-                                    <SingleNewsCard
-                                        key={news?._id}
-                                        news={news}
-                                    />
-                                ))}
+                            {data?.slice(0, 3).map((news) => (
+                                <SingleNewsCard key={news?._id} news={news} />
+                            ))}
                         </div>
                     </div>
                 </div>
