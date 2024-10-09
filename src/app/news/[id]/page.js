@@ -113,7 +113,7 @@ const newsDetailspage = ({ params }) => {
                     </div>
                 </div>
                 {/* Suggestions */}
-                <AlsoLikeSection data={data} />
+                <AlsoLikeSection data={data} newsId={newsId} />
             </div>
         </div>
     );
