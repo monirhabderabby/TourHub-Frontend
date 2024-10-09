@@ -68,6 +68,10 @@ const SuggestedPackages = ({ category, packageId }) => {
   } else if (response?.success) {
     const data = response?.data?.filter((item) => item._id !== packageId);
 
+    if (data.length === 0) {
+      return;
+    }
+
     content = (
       <div className="mt-[100px]">
         <PackageSectionTitle title="You might also like..." />
@@ -91,7 +95,7 @@ const SuggestedPackages = ({ category, packageId }) => {
       </div>
     );
   }
-  return content;
+  return;
 };
 
 export default memo(SuggestedPackages);
