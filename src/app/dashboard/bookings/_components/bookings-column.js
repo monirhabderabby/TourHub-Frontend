@@ -3,9 +3,9 @@ import moment from "moment";
 
 // Components
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
-import { cn } from "@/lib/utils";
 import InvoiceTrigger from "../../my-bookings/_components/invoiceTrigger";
 import BookingsRowAction from "./BookingsRowAction";
+import PaymentStatusAction from "./PaymentStatusAction";
 
 export const BookingsColumn = [
   {
@@ -52,21 +52,7 @@ export const BookingsColumn = [
   {
     accessorKey: "paymentStatus",
     header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("paymentStatus");
-      const isPaid = status.toLowerCase() === "paid";
-
-      return (
-        <div
-          className={cn(
-            isPaid ? "bg-[#28a745] " : "bg-[#dc3545]",
-            "w-fit text-[10px] px-3  rounded-md  text-white"
-          )}
-        >
-          {status}
-        </div>
-      );
-    },
+    cell: ({ row }) => <PaymentStatusAction initialData={row.original} />,
   },
   {
     id: "invoice",
