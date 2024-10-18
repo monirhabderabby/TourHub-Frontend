@@ -3,8 +3,8 @@
 // Packages
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AnimatePresence, motion } from "framer-motion";
-import { redirect } from "next/navigation";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 // Components
@@ -23,32 +23,76 @@ import { Input } from "@/components/ui/input";
 import { TextEffect } from "@/components/ui/text-effect";
 import { Textarea } from "@/components/ui/textarea";
 import { FeedbackSchema } from "@/schema/feedback.schema";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const FeedbackForm = () => {
     const { user, isLoaded, isSignedIn } = useUser(); // Destructure user authentication state
+    const router = useRouter();
 
     // Check if user authentication data has loaded
     if (!isLoaded) {
         return null; // Return nothing while loading
     }
 
-    // Redirect to sign-in page if the user is not signed in
-    if (!isSignedIn) {
-        redirect("/sign-in");
-    }
+    const { mutate, isPending, error, isSuccess, data } = useMutation({
+        mutationKey: ["user"],
+        mutationFn: (data) =>
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/feedback`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }).then((res) => res.json()),
+    });
 
     const form = useForm({
         resolver: zodResolver(FeedbackSchema),
         defaultValues: {
-            name: user.fullName || "",
-            email: user.emailAddresses[0].emailAddress || "",
-            image: user.imageUrl.toString() || "",
-            feedbackMsg: "",
+            name: user?.fullName || "",
+            email: user?.emailAddresses?.[0]?.emailAddress || "",
+            image: user?.imageUrl?.toString() || "",
+            feedback: "",
         },
     });
 
+    useEffect(() => {
+        if (isLoaded && !isSignedIn) {
+            router.push("/sign-in");
+        }
+
+        if (error) {
+            toast.error(error.message, {
+                className: "text-red-600",
+            });
+        }
+
+        if (isSuccess && data) {
+            toast.success(data.message);
+        }
+    }, [error, isSuccess, data, isLoaded, isSignedIn, router]);
+
     async function onSubmit(data) {
-        console.log(data);
+        mutate(data);
+    }
+
+    if (data?.success) {
+        return (
+            <div className="w-full max-w-xl mx-auto text-center mt-10">
+                <h1 className="text-2xl md:text-3xl font-bold mb-5">
+                    Thank You! <br /> {data?.data?.name}
+                </h1>
+                <p>Your feedback has been submitted successfully.</p>
+                <p>We appreciate your time and effort in helping us improve.</p>
+
+                <Button onClick={() => router.push("/")} className="mt-5">
+                    Return Home
+                </Button>
+            </div>
+        );
     }
 
     return (
@@ -98,7 +142,7 @@ const FeedbackForm = () => {
                                                     className="w-full"
                                                     placeholder="Your name"
                                                     {...field}
-                                                    // disabled={isPending}
+                                                    disabled={isPending}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -128,7 +172,7 @@ const FeedbackForm = () => {
                             <div>
                                 <FormField
                                     control={form.control}
-                                    name="feedbackMsg"
+                                    name="feedback"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Feedback</FormLabel>
@@ -161,7 +205,7 @@ const FeedbackForm = () => {
                                                     }}
                                                     value={[field.value]}
                                                     isForClerk={true}
-                                                    // disabled={isPending}
+                                                    disabled={isPending}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -170,17 +214,20 @@ const FeedbackForm = () => {
                                 ></FormField>
                             </div>
                             <div className="w-full flex justify-end">
-                                <AnimatePresence>
-                                    <Button
-                                        type="submit"
-                                        className="bg-tourHub-green-dark hover:bg-[#3a6f54] group "
-                                        // disabled={isPending}
-                                    >
-                                        <span className="mr-2">
-                                            Share Experience
-                                        </span>
-                                    </Button>
-                                </AnimatePresence>
+                                <Button
+                                    type="submit"
+                                    className="bg-tourHub-green-dark hover:bg-[#3a6f54] group "
+                                    disabled={isPending}
+                                >
+                                    <span className="mr-2">
+                                        Share Experience
+                                    </span>
+                                    {isPending ? (
+                                        <Loader2 className="animate-spin h-4 w-4" />
+                                    ) : (
+                                        ""
+                                    )}
+                                </Button>
                             </div>
                         </form>
                     </Form>

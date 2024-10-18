@@ -7,7 +7,7 @@ export const FeedbackSchema = z.object({
         message: "Please provide a valid email.",
     }),
     image: z.string().min(1, { message: "Please upload a profile image" }),
-    feedbackMsg: z.string().min(3, {
+    feedback: z.string().min(3, {
         message: "Please provide a valid feedback",
     }),
 });
