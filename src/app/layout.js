@@ -5,7 +5,6 @@ import { Inter, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 // CSS
-import FeedbackButton from "@/components/common/FeedbackButton";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/navbar";
 import AppProvider from "@/provider/app-provider";
@@ -50,7 +49,6 @@ export default function RootLayout({ children }) {
                         <NProgress />
                         {children}
                         <Footer />
-                        <FeedbackButton />
                     </AppProvider>
                 </body>
             </html>
