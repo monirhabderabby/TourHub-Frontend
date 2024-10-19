@@ -112,7 +112,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 For support or inquiries, please reach out to:
-- **Email**: `your_support_email`
+- **Email**: `monirhrabby.personal@gmail.com`
 
 ---
 
