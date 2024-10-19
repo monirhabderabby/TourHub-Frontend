@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+To incorporate the provided environment variables and administrator credentials into your TourHub project, here's how you can structure the README for setting up the environment configuration and admin login details.
 
-## Getting Started
+---
 
-First, run the development server:
+# TourHub Project
+
+## Environment Configuration
+
+To set up the TourHub project, you need to configure the environment variables correctly. Below is the list of necessary environment variables for the project to function properly.
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory and copy the following variables into it:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# EDGE STORE (https://edgestore.dev/)
+EDGE_STORE_ACCESS_KEY=pYrrrf0TN2AROAhA7KsPuPsEUn31Np5i
+EDGE_STORE_SECRET_KEY=L93xnoHsPgskbths0WEf6Gkbo613vJO5nHzXCPkWYYkGwPSS
+
+# CLERK ([Authentication Service](https://clerk.com/))
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your clerk publishable key>
+CLERK_SECRET_KEY=<your clerk secret key>
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/wizard
+
+# Backend Server URL
+NEXT_PUBLIC_SERVER_URL=https://tour-hub-backend.vercel.app
+
+# Frontend App URL
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Stripe (https://dashboard.stripe.com/login)
+STRIPE_API_KEY=<your stripe api key>
+STRIPE_WEBHOOK_SECRET=<your stripe webhook secret>
+
+# Resend (Email Service)
+RESEND_SECRET_KEY=<your resend secret key>
+
+# Crisp Chat (Live Chat Service)
+CRISP_WEBSITE_ID=<crisp chat id>
+
+# Super Admin
+NEXT_PUBLIC_SUPER_ADMIN=<your clerk user id>
+
+# EmailJS (For Email Notifications)
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
+NEXT_PUBLIC_EMAILJS_PUBLISH_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Admin Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To access the admin panel in TourHub, use the following credentials:
 
-## Learn More
+- **Admin Email**: `farukfmd1999@gmail.com`
+- **Admin Password**: `@admin.9090`
 
-To learn more about Next.js, take a look at the following resources:
+These credentials will allow you to log in as an admin to manage tour packages, bookings, and customer reviews within the platform.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Setup Instructions
 
-## Deploy on Vercel
+Once you've configured the environment variables and admin credentials, follow these steps to run the project:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the Repository:**
+   ```bash
+   https://github.com/monirhabderabby/TourHub-Frontend.git
+   cd tourhub
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the Application:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the App:**
+   Open your browser and navigate to `http://localhost:3000`.
+
+---
+
+Make sure the above environment variables are kept private and never shared publicly.
