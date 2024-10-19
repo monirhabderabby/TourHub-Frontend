@@ -115,5 +115,3 @@ For support or inquiries, please reach out to:
 - **Email**: `monirhrabby.personal@gmail.com`
 
 ---
-
-This README provides an overview of the TourHub project, including its features, technology stack, setup instructions, and admin credentials. Remember to keep your environment variables secure when deploying the project!
