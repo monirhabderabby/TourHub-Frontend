@@ -1,7 +1,3 @@
-To incorporate the provided environment variables and administrator credentials into your TourHub project, here's how you can structure the README for setting up the environment configuration and admin login details.
-
----
-
 # TourHub Project
 
 ## Environment Configuration
@@ -85,6 +81,3 @@ Once you've configured the environment variables and admin credentials, follow t
 4. **Access the App:**
    Open your browser and navigate to `http://localhost:3000`.
 
----
-
-Make sure the above environment variables are kept private and never shared publicly.
