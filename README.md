@@ -65,7 +65,7 @@ Once you've configured the environment variables and admin credentials, follow t
 1. **Clone the Repository:**
    ```bash
    https://github.com/monirhabderabby/TourHub-Frontend.git
-   cd tourhub
+
    ```
 
 2. **Install Dependencies:**
