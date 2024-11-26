@@ -98,6 +98,8 @@ const NewsPage = () => {
                                 return n.newsCategory == "Art and culture";
                             } else if (activeTab == "Hill Travel") {
                                 return n.newsCategory == "Hill Travel";
+                            } else if (activeTab === "All News") {
+                                return n;
                             }
                         })
                         .map((news) => (
@@ -149,7 +151,7 @@ const NewsPage = () => {
                     defaultValue="Adventure Travel"
                     className="my-5 text-white container "
                 >
-                    <div className="grid grid-cols-2 md:grid-cols-6 gap-2 lg:gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 lg:gap-4">
                         {newsCategory.map((tab) => (
                             <button
                                 key={tab.categoryName}

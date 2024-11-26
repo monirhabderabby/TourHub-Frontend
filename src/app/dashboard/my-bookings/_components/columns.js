@@ -5,34 +5,17 @@ import InvoiceTrigger from "./invoiceTrigger";
 
 export const MyBookingsColumn = [
   {
-    accessorKey: "name",
+    accessorKey: "packageName",
     header: "Package",
-    cell: ({ row }) => (
-      <p className="font-inter text-14px text-tourHub-green-dark font-medium">
-        {row.getValue("name")}
-      </p>
-    ),
   },
   {
     accessorKey: "createdAt",
     header: "Payment Time",
-    cell: ({ row }) => {
-      return (
-        <p className="text-14px font-normal text-tourHub-gray">
-          {moment(row.getValue("createdAt")).format("lll")}
-        </p>
-      );
-    },
+    cell: ({ row }) => <p>{moment(row.getValue("createdAt")).format("lll")}</p>,
   },
   {
     accessorKey: "transactionId",
     header: "Transaction ID",
-    cell: ({ row }) => (
-      <p className="font-inter text-14px text-tourHub-green-dark font-medium">
-        {" "}
-        {row.getValue("transactionId")}
-      </p>
-    ),
   },
   {
     accessorKey: "amount",

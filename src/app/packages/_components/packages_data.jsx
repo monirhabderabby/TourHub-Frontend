@@ -166,38 +166,40 @@ const PackagesData = () => {
         </div>
       </div>
       {content}
-      <div className="mt-5">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={() => handlePageClick(page - 1)}
-                disabled={page === 1}
-              />
-            </PaginationItem>
-            {/* Dynamically render pagination numbers */}
-            {Array.from({ length: totalPage }, (_, index) => (
-              <PaginationItem key={index + 1}>
-                <PaginationLink
+      {response?.data?.length > 10 && (
+        <div className="mt-5">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
                   href="#"
-                  onClick={() => handlePageClick(index + 1)}
-                  isActive={page === index + 1}
-                >
-                  {index + 1}
-                </PaginationLink>
+                  onClick={() => handlePageClick(page - 1)}
+                  disabled={page === 1}
+                />
               </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={() => handlePageClick(page + 1)}
-                disabled={page === totalPage}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+              {/* Dynamically render pagination numbers */}
+              {Array.from({ length: totalPage }, (_, index) => (
+                <PaginationItem key={index + 1}>
+                  <PaginationLink
+                    href="#"
+                    onClick={() => handlePageClick(index + 1)}
+                    isActive={page === index + 1}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={() => handlePageClick(page + 1)}
+                  disabled={page === totalPage}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 };

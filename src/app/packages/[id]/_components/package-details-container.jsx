@@ -5,13 +5,12 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 
 // Components
-import { demoPackageData } from "@/components/homePage/populer_tours";
 import { TextEffect } from "@/components/ui/text-effect";
 import { memo } from "react";
 import PackageHeader from "./header";
 import PackageBooking from "./package_booking";
 import PackageDetails from "./package_details";
-import PackageSectionTitle from "./package_section_title";
+import SuggestedPackages from "./suggested_packages";
 const PackageCard = dynamic(() => import("@/components/common/package_card"));
 
 const PackageDetailsContainer = ({ packageId }) => {
@@ -45,7 +44,7 @@ const PackageDetailsContainer = ({ packageId }) => {
   } else if (response) {
     const {
       name,
-      averageRating,
+      totalAverageRating,
       comments,
       location,
       country,
@@ -54,12 +53,13 @@ const PackageDetailsContainer = ({ packageId }) => {
       price,
       startDate,
       endDate,
+      category,
     } = response?.data || {};
     content = (
       <div className="container mt-[80px] pb-[130px]">
         <PackageHeader
           packageName={name}
-          averageRating={averageRating}
+          averageRating={totalAverageRating}
           comments={comments}
           location={location}
           country={country}
@@ -81,7 +81,7 @@ const PackageDetailsContainer = ({ packageId }) => {
           </div>
         </div>
         {/* suggest packages */}
-        <SuggestedPackages />
+        <SuggestedPackages category={category} packageId={packageId} />
       </div>
     );
   }
@@ -115,22 +115,3 @@ export const ErrorState = memo(({ message }) => (
 ));
 
 ErrorState.displayName = "ErrorState";
-
-// Suggested Packages Component
-const SuggestedPackages = memo(() => (
-  <div className="mt-[100px]">
-    <PackageSectionTitle title="You might also like..." />
-    <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10  mt-[30px] lg:mt-[50px]">
-      {demoPackageData.slice(0, 4).map((item) => (
-        <PackageCard
-          key={item.id}
-          bannerImage={item.bannerImage}
-          price={item.price}
-          name={item.name}
-        />
-      ))}
-    </div>
-  </div>
-));
-
-SuggestedPackages.displayName = "SuggestedPackages";

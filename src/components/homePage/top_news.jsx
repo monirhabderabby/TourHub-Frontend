@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff } from "lucide-react";
+import Link from "next/link";
 import SingleNewsCard from "../card/singleNewsCard";
 import { Skeleton } from "../ui/skeleton";
 import { TextEffect } from "../ui/text-effect";
@@ -81,6 +82,15 @@ const TopNews = () => {
             </div>
 
             <div>{content}</div>
+
+            <div className="flex justify-center items-center mt-[30px] lg:mt-[50px]">
+                <Link
+                    href={"/news"}
+                    className="text-sm border border-tourHub-green-light text-tourHub-green-light rounded-md px-3 py-2 hover:bg-tourHub-green-light hover:text-white duration-300"
+                >
+                    Explore News
+                </Link>
+            </div>
         </div>
     );
 };

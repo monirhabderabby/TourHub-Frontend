@@ -40,6 +40,7 @@ const PackageTable = () => {
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ["packages"],
     queryFn: fetchData,
+    refetchOnWindowFocus: false,
   });
 
   // Show loading spinner while data is being fetched
@@ -148,7 +149,7 @@ const TableContainer = ({ data, columns }) => {
 
   return (
     <div>
-      <div className="flex justify-between items-center py-4">
+      <div className="flex flex-col md:flex-row items-start justify-between md:items-center gap-3 py-4">
         <Input
           placeholder="Filter by name"
           value={table.getColumn("name")?.getFilterValue() ?? ""}
