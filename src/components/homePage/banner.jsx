@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 // Components
 import { useFilterStore } from "@/store/packageFilter";
-import bgImg from "../../assets/bg.png";
+
 import { Button } from "../ui/button";
 import DateRangePicker from "../ui/date-range-picker";
 import LocationPicker from "../ui/location-picker";
@@ -50,7 +50,7 @@ const Banner = () => {
   return (
     <div
       className="h-[100vh] bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${bgImg.src})` }}
+      style={{ backgroundImage: `url(/bg.png)` }}
     >
       <div className="container flex justify-center items-center h-full">
         <div className="max-w-3xl">
