@@ -3,8 +3,8 @@
   "version": "0.0.34",
   "private": true,
   "scripts": {
-    "build": "email build",
-    "dev": "email dev",
+    "build": "node init && email build",
+    "dev": "node init && email dev",
     "export": "email export"
   },
   "dependencies": {
