@@ -49,7 +49,7 @@ const Banner = () => {
 
   return (
     <div
-      className="h-[100vh] bg-cover bg-center bg-no-repeat"
+      className="h-[100vh] bg-cover bg-center bg-no-repeat bg-[#295943]"
       style={{ backgroundImage: `url(/bg.png)` }}
     >
       <div className="container flex justify-center items-center h-full">
