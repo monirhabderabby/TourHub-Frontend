@@ -109,8 +109,8 @@ I’m **Monir Hossain Rabby**, a Full Stack Developer with nearly 3 years of han
 I specialize in **Next.js, Tailwind CSS, Express.js, Prisma, MongoDB**, and have a passion for turning **complex problems into simple, elegant solutions**.
 
 📧 **Email:** monirhrabby.personal@gmail.com  
-💼 **Portfolio:** [My Portfolio Website](#)  
-🔗 **LinkedIn:** [LinkedIn Profile](#)  
+💼 **Portfolio:** [My Portfolio Website](https://www.monirhrabby.info)  
+🔗 **LinkedIn:** [LinkedIn Profile](https://www.linkedin.com/in/monirhabderabby)  
 
 ---
 
