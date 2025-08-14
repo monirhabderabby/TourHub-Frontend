@@ -1,117 +1,118 @@
-# TourHub Project
+# 🌍 TourHub — Full-Stack Travel Booking Platform
 
-## Overview
+[![Watch the Demo](https://img.shields.io/badge/🎥%20Watch-Demo-red)](https://www.youtube.com/watch?v=FVL3qcqqm8g)
+[![Frontend Repo](https://img.shields.io/badge/💻-Frontend-blue)](https://github.com/monirhabderabby/TourHub-Frontend)
+[![Backend Repo](https://img.shields.io/badge/⚙️-Backend-green)](https://github.com/monirhabderabby/TourHub-Backend/tree/main)
 
-**TourHub** is a comprehensive travel booking platform that enables users to explore, book, and manage tour packages. The project is built using modern web technologies, providing a seamless and interactive experience for both travelers and administrators. It includes features like package booking, payment processing, user authentication, and a responsive chat system to handle user queries. TourHub is designed to cater to users on both desktop and mobile devices, ensuring a smooth and efficient experience.
+**TourHub** is a complete travel booking platform built with **Next.js, Tailwind CSS, Prisma, MongoDB, and Stripe**.  
+It empowers users to explore, book, and manage tour packages while giving administrators powerful tools for package management, booking oversight, and real-time customer support.
 
-## Features
-
-- **User Authentication**: Integrated with Clerk for user sign-up, sign-in, and session management.
-- **Stripe Payments**: Secure and seamless payment processing using Stripe API.
-- **Package Management**: Browse and book travel packages with a user-friendly interface.
-- **Admin Dashboard**: Administrators can manage tour packages, track bookings, and monitor user activity.
-- **Crisp Chat**: Integrated live chat support for user queries.
-- **Email Notifications**: Automated email notifications for bookings, confirmations, and updates using EmailJS.
-- **Edge Store**: Secure file storage for images, documents, and other resources.
-
-## Technologies Used
-
-- **Frontend**: Next.js, React, Tailwind CSS for a fast and responsive user interface.
-- **Backend**: REST API hosted on Vercel, integrated with Clerk for user management and Stripe for payment handling.
-- **Database**: Prisma with MongoDB for handling data and transactions.
-- **Authentication**: Clerk provides a secure authentication system.
-- **Payment Gateway**: Stripe API for processing payments.
-- **Email Services**: EmailJS for sending automated emails.
-- **Live Chat**: Crisp chat for real-time communication between users and support staff.
-
-## Environment Variables
-
-To run this project, ensure the following environment variables are properly configured:
-
-```bash
-# EDGE STORE
-EDGE_STORE_ACCESS_KEY=
-EDGE_STORE_SECRET_KEY=
-
-# CLERK
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/wizard
-
-# SERVER BASE URL
-NEXT_PUBLIC_SERVER_URL=
-
-# APP URL
-NEXT_PUBLIC_APP_URL=
-
-# STRIPE
-STRIPE_API_KEY=
-STRIPE_WEBHOOK_SECRET=
-
-# RESEND
-RESEND_SECRET_KEY=
-
-# CRISP CHAT
-CRISP_WEBSITE_ID=
-
-# SUPER ADMIN
-NEXT_PUBLIC_SUPER_ADMIN=
-
-# EmailJS
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
-NEXT_PUBLIC_EMAILJS_PUBLISH_KEY=
-```
-
-Make sure to add these variables to your `.env.local` file for local development. These values will ensure the smooth functioning of various services like authentication, payment processing, chat support, and email notifications.
-
-## Admin Credentials
-
-You can log into the admin dashboard with the following credentials:
-- **Email**: `farukfmd1999@gmail.com`
-- **Password**: `@admin.9090.`
-
-## Installation and Setup
-
-1. Clone the repository:
-   ```bash
-   https://github.com/monirhabderabby/TourHub-Frontend.git
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Set up the environment variables by creating a `.env.local` file in the root directory and adding your variables.
-
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
-
-## Contributing
-
-We welcome contributions to improve TourHub! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/new-feature`).
-3. Commit your changes (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature/new-feature`).
-5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. 
-
-## Contact
-
-For support or inquiries, please reach out to:
-- **Email**: `monirhrabby.personal@gmail.com`
+This project is a **showcase of modern full-stack development** — from authentication and payments to real-time communication and file storage — designed with scalability, performance, and user experience in mind.
 
 ---
+
+## 📽 Demo Video
+▶ **[Watch Full Demo on YouTube](https://www.youtube.com/watch?v=FVL3qcqqm8g)**
+
+---
+
+## 🚀 Why I Built TourHub
+The travel industry thrives on **trust, speed, and convenience**.  
+My goal with TourHub was to create a **feature-rich platform** that not only allows smooth tour bookings but also demonstrates **my ability to build production-grade applications**.
+
+Key goals:
+- Create a **seamless booking experience** for users on any device.
+- Implement **secure payments** using Stripe.
+- Build a **scalable backend** capable of managing hundreds of packages and bookings.
+- Offer **real-time communication** between travelers and admins.
+- Showcase **best practices** in full-stack development.
+
+---
+
+## ✨ Core Features
+
+| Feature | Description |
+|---------|-------------|
+| **User Authentication** | Powered by **Clerk** for sign-up, sign-in, and session management. |
+| **Secure Payments** | Stripe API integration for hassle-free payment processing. |
+| **Package Browsing & Booking** | User-friendly interface to search and book tours. |
+| **Admin Dashboard** | Manage tour packages, track bookings, and monitor activity. |
+| **Real-Time Chat** | **Crisp Chat** integration for instant customer support. |
+| **Automated Emails** | Booking confirmations & updates via **EmailJS**. |
+| **Cloud Storage** | Images & documents stored securely via **Edge Store**. |
+
+---
+
+## 🛠 Tech Stack
+
+**Frontend**
+- Next.js (App Router)
+- React.js
+- Tailwind CSS
+- Framer Motion (Animations)
+- TanStack Query (Data fetching)
+
+**Backend**
+- Node.js
+- Express.js (REST API)
+- Prisma ORM
+- MongoDB
+- Hosted on Vercel (Edge Functions)
+
+**Integrations**
+- Clerk (Authentication)
+- Stripe (Payments)
+- EmailJS (Emails)
+- Crisp (Live Chat)
+- Edge Store (File Storage)
+
+---
+
+## 🖼 Screenshots
+
+| Home Page | Booking Page | Admin Dashboard |
+|-----------|--------------|-----------------|
+| ![Home](assets/home.png) | ![Booking](assets/booking.png) | ![Admin](assets/admin.png) |
+
+---
+
+## 📂 Repositories
+
+- **Frontend:** [TourHub-Frontend](https://github.com/monirhabderabby/TourHub-Frontend)  
+- **Backend:** [TourHub-Backend](https://github.com/monirhabderabby/TourHub-Backend/tree/main)
+
+---
+
+## 📊 Development Highlights
+
+- **Performance Optimized**: Images are optimized with Next.js image component and Edge Store CDN delivery.
+- **Secure Transactions**: End-to-end encryption via Stripe & Clerk’s secure authentication flows.
+- **Scalable Backend**: Prisma with MongoDB ensures flexible and scalable data handling.
+- **Responsive UI**: Fully responsive with mobile-first design.
+- **Real-Time Interaction**: Crisp chat keeps user engagement high.
+
+---
+
+## 📈 Impact & Learnings
+
+Through TourHub, I strengthened:
+- My **full-stack problem-solving skills**.
+- Deep **API integration experience** (payments, authentication, storage).
+- UI/UX thinking for **conversion-focused design**.
+- Building **production-ready applications** from scratch.
+
+---
+
+## 👨‍💻 About Me
+
+I’m **Monir Hossain Rabby**, a Full Stack Developer with nearly 3 years of hands-on experience building web applications that are **fast, scalable, and user-focused**.  
+I specialize in **Next.js, Tailwind CSS, Express.js, Prisma, MongoDB**, and have a passion for turning **complex problems into simple, elegant solutions**.
+
+📧 **Email:** monirhrabby.personal@gmail.com  
+💼 **Portfolio:** [My Portfolio Website](#)  
+🔗 **LinkedIn:** [LinkedIn Profile](#)  
+
+---
+
+## 📜 License
+This project is licensed under the MIT License.
