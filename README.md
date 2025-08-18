@@ -70,9 +70,9 @@ Key goals:
 
 ## 🖼 Screenshots
 
-| Home Page | Packages Page  | Why Choose | Admin Dashboard |
-|-----------|--------------|-----------------|
-| ![Home]([assets/home.png](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/home%20page.png)) | ![Packages]([assets/booking.png](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/Packages.png)) | ![why choose](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/why%20choose.png) | ![Admin Dashboard](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/dashboard.png) | ![Invoice](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/invoice.png) |
+| Home Page | Packages Page | Why Choose | Admin Dashboard | Invoice |
+|-----------|---------------|------------|-----------------|---------|
+| ![Home](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/home%20page.png) | ![Packages](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/Packages.png) | ![Why Choose](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/why%20choose.png) | ![Admin Dashboard](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/dashboard.png) | ![Invoice](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/invoice.png) |
 
 ---
 
