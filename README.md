@@ -70,9 +70,9 @@ Key goals:
 
 ## 🖼 Screenshots
 
-| Home Page | Booking Page | Admin Dashboard |
+| Home Page | Packages Page  | Why Choose | Admin Dashboard |
 |-----------|--------------|-----------------|
-| ![Home](assets/home.png) | ![Booking](assets/booking.png) | ![Admin](assets/admin.png) |
+| ![Home]([assets/home.png](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/home%20page.png)) | ![Packages]([assets/booking.png](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/Packages.png)) | ![why choose](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/why%20choose.png) | ![Admin Dashboard](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/dashboard.png) | ![Invoice](https://files.edgestore.dev/w83fbai02qyxofbq/promotional/_public/invoice.png) |
 
 ---
 
