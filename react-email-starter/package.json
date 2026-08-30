@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "email build",
-    "dev": "email dev",
+    "dev": "node api.js && email dev",
     "export": "email export"
   },
   "dependencies": {
